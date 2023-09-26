@@ -19,9 +19,7 @@ export default function Footer() {
       >
         <Flex alignItems="center" gap="10px">
           <Image w="24px" h="24px" src="./govstack-logo.svg" />
-          <Text variant="label" size="sm">
-            © Digital Island 2023
-          </Text>
+          <Text size="sm">© Digital Island 2023</Text>
         </Flex>
         <Flex gap="10px" alignItems="center">
           <Link>
@@ -42,7 +40,7 @@ export default function Footer() {
         </Flex>
       </Flex>
       <Flex gap="10px" flexWrap="wrap" alignItems="center">
-        <Text as={Link} variant="label" size="sm">
+        <Text as={Link} size="sm">
           Contact Us
         </Text>
         <Divider
@@ -51,7 +49,7 @@ export default function Footer() {
           borderColor={colors.theme.dark}
           orientation="vertical"
         />
-        <Text as={Link} variant="label" size="sm">
+        <Text as={Link} size="sm">
           Give Feedback
         </Text>
         <Divider
@@ -60,7 +58,7 @@ export default function Footer() {
           borderColor={colors.theme.dark}
           orientation="vertical"
         />
-        <Text as={Link} variant="label" size="sm">
+        <Text as={Link} size="sm">
           Data Protection
         </Text>
       </Flex>
