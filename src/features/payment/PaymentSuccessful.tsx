@@ -13,6 +13,7 @@ export default function PaymentSuccessful() {
         paddingBottom="20px"
         paddingX="20px"
         height="100%"
+        flexGrow={1}
       >
         <Heading as="h1" size="md" variant="display" alignSelf="center">
           Your Payment was Successful!
@@ -26,7 +27,7 @@ export default function PaymentSuccessful() {
           Download Invoice
         </Button>
 
-        <ButtonGroup padding="10px" colorScheme="newAdmin">
+        <ButtonGroup padding="10px" colorScheme="newAdmin" marginTop="auto">
           <VStack w="100%">
             <Button variant="solid" w="100%">
               Home
