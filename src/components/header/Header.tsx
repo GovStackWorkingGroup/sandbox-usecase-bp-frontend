@@ -19,7 +19,7 @@ export default function Header() {
       justifyContent="space-between"
     >
       <Flex gap="12px" alignItems="center">
-        <Image h="32px" w="32px" src="./govstack-logo.svg" />
+        <Image h="32px" w="32px" src="/govstack-logo.svg" />
         <Box>
           <Text variant="caps" size="md">
             DIGITAL ISLAND

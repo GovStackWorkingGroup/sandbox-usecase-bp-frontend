@@ -8,7 +8,6 @@ export default function Footer() {
       backgroundColor={`${colors.secondary[50]}`}
       padding="10px 20px"
       gap="10px"
-      mt="20px"
       direction="column"
     >
       <Flex
@@ -18,24 +17,24 @@ export default function Footer() {
         justifyContent="space-between"
       >
         <Flex alignItems="center" gap="10px">
-          <Image w="24px" h="24px" src="./govstack-logo.svg" />
+          <Image w="24px" h="24px" src="/govstack-logo.svg" />
           <Text size="xs">© Digital Island 2023</Text>
         </Flex>
         <Flex gap="10px" alignItems="center">
           <Link>
-            <Image h="16px" w="16px" src="./icons/facebook.svg" />
+            <Image h="16px" w="16px" src="/icons/facebook.svg" />
           </Link>
           <Link>
-            <Image h="16px" w="16px" src="./icons/x.svg" />
+            <Image h="16px" w="16px" src="/icons/x.svg" />
           </Link>
           <Link>
-            <Image h="16px" w="16px" src="./icons/instagram.svg" />
+            <Image h="16px" w="16px" src="/icons/instagram.svg" />
           </Link>
           <Link>
-            <Image h="16px" w="16px" src="./icons/youtube.svg" />
+            <Image h="16px" w="16px" src="/icons/youtube.svg" />
           </Link>
           <Link>
-            <Image h="16px" w="16px" src="./icons/github.svg" />
+            <Image h="16px" w="16px" src="/icons/github.svg" />
           </Link>
         </Flex>
       </Flex>
