@@ -27,7 +27,7 @@ export default function Header() {
         </Box>
       </Flex>
       <Flex alignItems="center" gap="20px">
-        <Link>
+        <Link href="/login">
           <Text size="sm" fontWeight={600}>
             Log In
           </Text>
