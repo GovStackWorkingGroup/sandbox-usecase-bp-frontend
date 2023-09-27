@@ -24,6 +24,9 @@ export const Heading = defineStyleConfig({
     },
   },
   sizes: {
+    xl: {
+      fontSize: "2.58rem",
+    },
     lg: {
       fontSize: "2.25rem",
       lineHeight: "3rem",

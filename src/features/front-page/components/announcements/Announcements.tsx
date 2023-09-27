@@ -49,7 +49,7 @@ export default function Announcements() {
             <ListIcon as={ArrowForwardIcon} />
             <Link>
               <Box>
-                <Text variant="label" size="sm">
+                <Text variant="label" size="md">
                   {announcement.title}
                 </Text>
                 <Text size="xs">{announcement.date}</Text>

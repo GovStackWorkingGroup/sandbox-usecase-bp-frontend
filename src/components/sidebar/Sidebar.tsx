@@ -77,16 +77,16 @@ export default function Sidebar() {
             />
           </svg>
 
-          <Text color={colors.theme.primary} variant="title" size="sm">
+          <Text color={colors.theme.primary} variant="title" size="md">
             Eng
           </Text>
-          <Text variant="title" size="sm">
+          <Text variant="title" size="md">
             De
           </Text>
-          <Text variant="title" size="sm">
+          <Text variant="title" size="md">
             Fr
           </Text>
-          <Text variant="title" size="sm">
+          <Text variant="title" size="md">
             Est
           </Text>
         </Flex>
@@ -94,7 +94,7 @@ export default function Sidebar() {
           <Search colorScheme="black" />
         </Box>
         <Flex direction="column" gap="10px">
-          <Text variant="title" size="sm" color={colors.secondary[900]}>
+          <Text variant="title" size="md" color={colors.secondary[900]}>
             Self Service
           </Text>
           <List as="nav" ml="-20px" mr="-20px">
@@ -107,7 +107,7 @@ export default function Sidebar() {
                 w="100%"
               >
                 <MoonIcon />
-                <Text variant="title" size="sm">
+                <Text variant="title" size="md">
                   Home
                 </Text>
               </Link>
@@ -121,7 +121,7 @@ export default function Sidebar() {
                 w="100%"
               >
                 <MoonIcon />
-                <Text variant="title" size="sm">
+                <Text variant="title" size="md">
                   Accessibility Settings
                 </Text>
               </Link>
@@ -135,7 +135,7 @@ export default function Sidebar() {
                 w="100%"
               >
                 <MoonIcon />
-                <Text variant="title" size="sm">
+                <Text variant="title" size="md">
                   Settings
                 </Text>
               </Link>
@@ -149,7 +149,7 @@ export default function Sidebar() {
                 w="100%"
               >
                 <MoonIcon />
-                <Text variant="title" size="sm">
+                <Text variant="title" size="md">
                   Help
                 </Text>
               </Link>
@@ -163,7 +163,7 @@ export default function Sidebar() {
                 w="100%"
               >
                 <MoonIcon />
-                <Text variant="title" size="sm">
+                <Text variant="title" size="md">
                   Log In
                 </Text>
               </Link>
@@ -172,7 +172,7 @@ export default function Sidebar() {
         </Flex>
         <Divider w="auto" mr="-20px" ml="-20px" mt="10px" mb="20px" />
         <Flex direction="column" gap="20px">
-          <Text variant="title" size="sm" color={colors.secondary[900]}>
+          <Text variant="title" size="md" color={colors.secondary[900]}>
             Topics
           </Text>
           <List display="flex" flexDir="column">
@@ -188,7 +188,7 @@ export default function Sidebar() {
                       backgroundColor: colors.secondary[50],
                     }}
                   >
-                    <Text variant="label" size="sm">
+                    <Text variant="label" size="md">
                       {topic.title}
                     </Text>
                     <ChevronRightIcon />

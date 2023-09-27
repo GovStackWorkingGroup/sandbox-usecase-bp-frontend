@@ -6,6 +6,7 @@ import {
   List,
   ListIcon,
   ListItem,
+  Text,
 } from "@chakra-ui/react";
 import { colors } from "../../../../chakra-overrides/colors";
 
@@ -23,9 +24,11 @@ export default function PopularServices() {
       <Heading variant="headline">Popular Services</Heading>
       <List color={colors.theme.primary}>
         {popularServices.map((service) => (
-          <ListItem key={service}>
+          <ListItem key={service} display="flex" alignItems={"center"}>
             <ListIcon as={ArrowForwardIcon} />
-            <Link>{service}</Link>
+            <Link>
+              <Text>{service}</Text>
+            </Link>
           </ListItem>
         ))}
       </List>
