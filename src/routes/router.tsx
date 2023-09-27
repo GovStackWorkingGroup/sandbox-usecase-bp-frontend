@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "../components/layout/Layout";
 import FrontPage from "../features/front-page/FrontPage";
 import Login from "../features/login/Login";
+import PaymentSuccessful from "../features/payment/PaymentSuccessful";
 export const router = createBrowserRouter([
   {
     path: "",
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+      {
+        path: "/paymentSuccessful",
+        element: <PaymentSuccessful />
+      }
     ],
   },
 ]);
