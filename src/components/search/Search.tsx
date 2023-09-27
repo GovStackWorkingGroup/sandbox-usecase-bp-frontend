@@ -16,8 +16,9 @@ export default function Search({ colorScheme }: SearchProps) {
       <Input placeholder="Search Services" />
       <InputRightElement>
         <IconButton
-          w="40px"
-          h="40px"
+          w="auto"
+          aspectRatio="1/1"
+          h="100%"
           colorScheme={colorScheme}
           icon={<SearchIcon />}
           aria-label="search"

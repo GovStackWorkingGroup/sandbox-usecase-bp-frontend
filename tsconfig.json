@@ -17,7 +17,6 @@
     "jsx": "react-jsx",
     "paths": {
       "@assets/*": ["./src/assets/*"],
-      "@ui/*": ["./src/ui/*"]
     }
   },
   "include": ["src", "custom.d.ts"],

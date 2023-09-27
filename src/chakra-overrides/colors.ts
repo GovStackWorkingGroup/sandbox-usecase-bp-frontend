@@ -110,4 +110,9 @@ export const colors = {
     500: "#bdc4ca",
     600: "#bdc4ca",
   },
+  newAdmin: {
+    50: "#e6ebfc",
+    500: "#0539E3",
+    600: "#0539E3",
+  }
 };

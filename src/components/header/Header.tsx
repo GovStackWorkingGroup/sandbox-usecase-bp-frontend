@@ -1,6 +1,7 @@
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Box, Flex, IconButton, Image, Link, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import Sidebar from "../sidebar/Sidebar";
 
@@ -20,15 +21,15 @@ export default function Header() {
       <Flex gap="12px" alignItems="center">
         <Image h="32px" w="32px" src="./govstack-logo.svg" />
         <Box>
-          <Text variant="caps" size="sm">
+          <Text variant="caps" size="md">
             DIGITAL ISLAND
           </Text>
           <Text size="xs">E-GOV PORTAL</Text>
         </Box>
       </Flex>
       <Flex alignItems="center" gap="20px">
-        <Link>
-          <Text size="sm" fontWeight={600}>
+        <Link as={RouterLink} to="/login">
+          <Text size="md" fontWeight={600}>
             Log In
           </Text>
         </Link>

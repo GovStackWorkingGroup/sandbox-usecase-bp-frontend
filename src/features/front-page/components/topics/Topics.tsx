@@ -65,7 +65,7 @@ export default function Topics() {
         >
           <Flex>
             <Box>
-              <Text variant="title" size="sm">
+              <Text variant="title" size="md">
                 {topic.title}
               </Text>
               <Text variant="body" size="xs">
