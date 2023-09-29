@@ -32,6 +32,10 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "/paymentSuccessful",
+        element: <PaymentSuccessful />,
+      }
     ],
   },
 ]);
