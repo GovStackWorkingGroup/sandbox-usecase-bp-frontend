@@ -6,6 +6,7 @@ import ConstructionPermit from "../features/construction-permit/ConstructionPerm
 import FrontPage from "../features/front-page/FrontPage";
 import Login from "../features/login/Login";
 import PermitApproved from "../features/construction-permit-application/PermitApproved";
+import PaymentSuccessful from "../features/payment/PaymentSuccessful";
 export const router = createBrowserRouter([
   {
     path: "",
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
           }
         ],
       },
+      {
+        path: "/paymentSuccessful",
+        element: <PaymentSuccessful />,
+      }
     ],
   },
 ]);
