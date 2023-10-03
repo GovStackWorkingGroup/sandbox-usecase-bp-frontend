@@ -1,3 +1,4 @@
+import EyeOn from "@assets/icons/eye-on.svg?react";
 import EyeOff from "@assets/icons/eye-off.svg?react";
 import LockIcon from "@assets/icons/lock.svg?react";
 import UserIcon from "@assets/icons/user.svg?react";
@@ -17,8 +18,14 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePassword = () => {
+    setShowPassword(showPassword => !showPassword);
+  }
+
   return (
     <>
       <Flex
@@ -57,9 +64,9 @@ export default function Login() {
               <InputLeftElement>
                 <LockIcon />
               </InputLeftElement>
-              <Input type="password" placeholder="Password" />
-              <InputRightElement>
-                <EyeOff />
+              <Input type={showPassword?"text":"password"} placeholder="Password" />
+              <InputRightElement onClick={handleTogglePassword}>
+                {showPassword ? <EyeOn/> : <EyeOff/>}
               </InputRightElement>
             </InputGroup>
             <Link mt="4px" float="right">
