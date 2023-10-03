@@ -1,6 +1,7 @@
 import DownloadIcon from "@assets/icons/download.svg?react";
 import { Button, ButtonGroup, Flex, Heading, VStack, Text } from "@chakra-ui/react";
 import { colors } from "../../chakra-overrides/colors";
+import { Link as RouterLink } from "react-router-dom";
 
 export default function PaymentSuccessful() {
   return (
@@ -29,7 +30,11 @@ export default function PaymentSuccessful() {
 
         <ButtonGroup padding="10px" colorScheme="newAdmin" marginTop="auto">
           <VStack w="100%">
-            <Button variant="solid" w="100%">
+            <Button
+            as={RouterLink}
+            to="/"
+            variant="solid"
+            w="100%">
               Home
             </Button>
             <Button variant="outline" w="100%">
