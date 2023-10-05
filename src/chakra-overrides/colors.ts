@@ -114,5 +114,12 @@ export const colors = {
     50: "#e6ebfc",
     500: "#0539E3",
     600: "#0539E3",
+  },
+  status: {
+    red: "#D74A44",
+    green: "#1F8C5C",
+    blue: "#0539e3",
+    grey: "#7B8186",
+    yellow: "#E8B006",
   }
 };
