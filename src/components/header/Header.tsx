@@ -3,7 +3,7 @@ import { Box, Flex, IconButton, Image, Link, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
-import Authenticated from "../authenticated/Authenticated";
+import Protected from "../protected/Protected";
 import Sidebar from "../sidebar/Sidebar";
 
 export default function Header() {
@@ -33,13 +33,15 @@ export default function Header() {
         </Box>
       </Flex>
       <Flex alignItems="center" gap="20px">
-        <Authenticated reverse>
-          <Link as={RouterLink} to="/login">
-            <Text size="md" fontWeight={600}>
-              Log In
-            </Text>
-          </Link>
-        </Authenticated>
+        <Protected
+          unauthorized={
+            <Link as={RouterLink} to="/login">
+              <Text size="md" fontWeight={600}>
+                Log In
+              </Text>
+            </Link>
+          }
+        ></Protected>
         <IconButton
           backgroundColor="transparent"
           onClick={() => setIsOpen(!isOpen)}

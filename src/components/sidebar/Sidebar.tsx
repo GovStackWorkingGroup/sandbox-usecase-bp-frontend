@@ -13,7 +13,7 @@ import { NavLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import { topics } from "../../features/front-page/components/topics/Topics";
 import { logout } from "../../utilities/token";
-import Authenticated from "../authenticated/Authenticated";
+import Protected from "../protected/Protected";
 import Search from "../search/Search";
 
 export default function Sidebar() {
@@ -185,39 +185,43 @@ export default function Sidebar() {
               </Link>
             </ListItem>
             <ListItem>
-              <Authenticated>
-                <Link
-                  display="flex"
-                  alignItems="center"
-                  gap="20px"
-                  padding="10px 20px"
-                  w="100%"
-                  onClick={() => logout()}
-                >
-                  <MoonIcon />
-                  <Text variant="title" size="md">
-                    Log Out
-                  </Text>
-                </Link>
-                <Link
-                  display="flex"
-                  alignItems="center"
-                  gap="20px"
-                  padding="10px 20px"
-                  w="100%"
-                  as={NavLink}
-                  to="/login"
-                  _activeLink={{
-                    background: colors.secondary[50],
-                    color: colors.primary[500],
-                  }}
-                >
-                  <MoonIcon />
-                  <Text variant="title" size="md">
-                    Log In
-                  </Text>
-                </Link>
-              </Authenticated>
+              <Protected
+                authorized={
+                  <Link
+                    display="flex"
+                    alignItems="center"
+                    gap="20px"
+                    padding="10px 20px"
+                    w="100%"
+                    onClick={() => logout()}
+                  >
+                    <MoonIcon />
+                    <Text variant="title" size="md">
+                      Log Out
+                    </Text>
+                  </Link>
+                }
+                unauthorized={
+                  <Link
+                    display="flex"
+                    alignItems="center"
+                    gap="20px"
+                    padding="10px 20px"
+                    w="100%"
+                    as={NavLink}
+                    to="/login"
+                    _activeLink={{
+                      background: colors.secondary[50],
+                      color: colors.primary[500],
+                    }}
+                  >
+                    <MoonIcon />
+                    <Text variant="title" size="md">
+                      Log In
+                    </Text>
+                  </Link>
+                }
+              ></Protected>
             </ListItem>
           </List>
         </Flex>

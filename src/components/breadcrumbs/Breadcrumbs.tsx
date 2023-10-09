@@ -24,20 +24,21 @@ const getBreadcrumbLinkProps = (path: string | null) => {
 };
 
 export default function Breadcrumbs({ path = [] }: BreadcrumbsProps) {
-  console.log(path);
   return (
     <Box w="100%" mb="40px">
-      <Breadcrumb spacing="0px" separator={<ChevronRightIcon />}>
+      <Breadcrumb
+        listProps={{ flexWrap: "wrap" }}
+        spacing="0px"
+        w="100%"
+        separator={<ChevronRightIcon />}
+      >
         <BreadcrumbItem>
           <BreadcrumbLink padding="12px 6px" as={RouterLink} to="/">
             <HomeIcon />
           </BreadcrumbLink>
         </BreadcrumbItem>
         {path.map(([title, pathname], index) => (
-          <BreadcrumbItem
-            key={pathname}
-            isCurrentPage={index === path.length - 1 || !pathname}
-          >
+          <BreadcrumbItem key={title}>
             <BreadcrumbLink
               padding="12px 6px"
               {...getBreadcrumbLinkProps(pathname)}

@@ -12,10 +12,10 @@ import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import Accordion from "../../components/accordion/Accordion";
 import AccordionItem from "../../components/accordion/AccordionItem";
-import Authenticated from "../../components/authenticated/Authenticated";
 import Breadcrumbs, {
   BreadcrumbPaths,
 } from "../../components/breadcrumbs/Breadcrumbs";
+import Protected from "../../components/protected/Protected";
 
 export default function ConstructionPermit() {
   const breadcrumbs: BreadcrumbPaths = [
@@ -184,33 +184,48 @@ export default function ConstructionPermit() {
         gap="20px"
         direction="column"
       >
-        <Authenticated>
-          <>
-            <Box>
-              <Heading variant="title" size="sm" as="h3">
-                Apply Online
-              </Heading>
-              <Text size="sm">Log in to access the service.</Text>
-            </Box>
-            <Button as={RouterLink} to="/login" colorScheme="admin">
-              Log In
-            </Button>
-          </>
-          <>
-            <Box>
-              <Heading variant="title" size="sm" as="h3">
-                Apply Online
-              </Heading>
-              <Text size="sm">Log in to access the service.</Text>
-            </Box>
-            <Button as={RouterLink} to="/login" colorScheme="admin">
-              Create Application
-            </Button>
-            <Button as={RouterLink} to="/login" colorScheme="admin">
-              My Applications
-            </Button>
-          </>
-        </Authenticated>
+        <Protected
+          authorized={
+            <>
+              <Box>
+                <Heading variant="title" size="sm" as="h3">
+                  Apply Online
+                </Heading>
+                <Text size="sm">Log in to access the service.</Text>
+              </Box>
+              <Button
+                as={RouterLink}
+                to={`application/${
+                  Math.floor(Math.random() * (9999999 - 100000)) + 100000
+                }`}
+                colorScheme="admin"
+              >
+                Create Application
+              </Button>
+              <Button
+                variant="outline"
+                as={RouterLink}
+                to="my-applications"
+                colorScheme="admin"
+              >
+                My Applications
+              </Button>
+            </>
+          }
+          unauthorized={
+            <>
+              <Box>
+                <Heading variant="title" size="sm" as="h3">
+                  Apply Online
+                </Heading>
+                <Text size="sm">Log in to access the service.</Text>
+              </Box>
+              <Button as={RouterLink} to="/login" colorScheme="admin">
+                Log In
+              </Button>
+            </>
+          }
+        ></Protected>
       </Flex>
     </Flex>
   );

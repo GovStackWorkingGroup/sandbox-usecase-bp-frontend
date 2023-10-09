@@ -15,7 +15,9 @@ export const Button = defineStyleConfig({
   },
   variants: {
     ghost: {},
-    outline: {},
+    outline: (props) => ({
+      bg: `${props.colorScheme}.0`,
+    }),
     solid: {},
   },
 });

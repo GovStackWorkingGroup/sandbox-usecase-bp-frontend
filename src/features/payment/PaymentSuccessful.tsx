@@ -1,7 +1,14 @@
 import DownloadIcon from "@assets/icons/download.svg?react";
-import { Button, ButtonGroup, Flex, Heading, VStack, Text } from "@chakra-ui/react";
-import { colors } from "../../chakra-overrides/colors";
+import {
+  Button,
+  ButtonGroup,
+  Flex,
+  Heading,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
+import { colors } from "../../chakra-overrides/colors";
 
 export default function PaymentSuccessful() {
   return (
@@ -20,21 +27,31 @@ export default function PaymentSuccessful() {
           Your Payment was Successful!
         </Heading>
         <Text>
-          You will receive notifications regarding the final outcome of your application.<br/><br/>
-          Please allow <span style={{fontWeight: "bold", color: colors.theme.primary}}>3 to 10 working days</span> for the application review process to be completed.<br/><br/>
+          You will receive notifications regarding the final outcome of your
+          application.
+          <br />
+          <br />
+          Please allow{" "}
+          <span style={{ fontWeight: "bold", color: colors.theme.primary }}>
+            3 to 10 working days
+          </span>{" "}
+          for the application review process to be completed.
+          <br />
+          <br />
           Thank you for your patience.
         </Text>
-        <Button variant="link" colorScheme="newAdmin" justifyContent="start" leftIcon={<DownloadIcon />}>
+        <Button
+          variant="link"
+          colorScheme="admin"
+          justifyContent="start"
+          leftIcon={<DownloadIcon />}
+        >
           Download Invoice
         </Button>
 
-        <ButtonGroup padding="10px" colorScheme="newAdmin" marginTop="auto">
+        <ButtonGroup padding="10px" colorScheme="admin" marginTop="auto">
           <VStack w="100%">
-            <Button
-            as={RouterLink}
-            to="/"
-            variant="solid"
-            w="100%">
+            <Button as={RouterLink} to="/" variant="solid" w="100%">
               Home
             </Button>
             <Button variant="outline" w="100%">

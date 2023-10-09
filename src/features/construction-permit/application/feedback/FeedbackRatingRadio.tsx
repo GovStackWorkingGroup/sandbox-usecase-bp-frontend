@@ -1,22 +1,22 @@
 import {
   Box,
-  useRadio,
   Flex,
-  useRadioGroup,
   HStack,
+  Spacer,
   Text,
-  Spacer
+  useRadio,
+  useRadioGroup,
 } from "@chakra-ui/react";
-import { colors } from "../../chakra-overrides/colors";
+import { colors } from "../../../../chakra-overrides/colors";
 
 function RadioCard(props: any) {
-  const { getInputProps, getRadioProps } = useRadio(props)
+  const { getInputProps, getRadioProps } = useRadio(props);
 
-  const input = getInputProps()
-  const checkbox = getRadioProps()
+  const input = getInputProps();
+  const checkbox = getRadioProps();
 
   return (
-    <Box as='label'>
+    <Box as="label">
       <input {...input} />
       <Flex
         {...checkbox}
@@ -26,14 +26,14 @@ function RadioCard(props: any) {
         fontWeight="semibold"
         alignItems="center"
         justifyContent="center"
-        borderWidth='1px'
+        borderWidth="1px"
         borderColor={colors.theme.primary}
         textColor={colors.theme.primary}
-        borderRadius='md'
-        boxShadow='md'
+        borderRadius="md"
+        boxShadow="md"
         _checked={{
           bg: colors.theme.primary,
-          color: 'white',
+          color: "white",
           borderColor: colors.theme.primary,
         }}
         p="5px"
@@ -41,15 +41,15 @@ function RadioCard(props: any) {
         {props.children}
       </Flex>
     </Box>
-  )
+  );
 }
 
-export default function FeedbackRatingRadio () {
+export default function FeedbackRatingRadio() {
   const options = ["1", "2", "3", "4", "5"];
   const { getRootProps, getRadioProps } = useRadioGroup({
-    name: "feedbackRating"
+    name: "feedbackRating",
   });
-  
+
   const group = getRootProps();
 
   return (
@@ -62,12 +62,13 @@ export default function FeedbackRatingRadio () {
               <RadioCard key={value} {...radio}>
                 {value}
               </RadioCard>
-            )
+            );
           })}
         </HStack>
       </Flex>
       <Flex direction="row" px="10px">
-        <Text color="gray">Not Satisfied</Text><Spacer />
+        <Text color="gray">Not Satisfied</Text>
+        <Spacer />
         <Text color="gray">Very Satisfied</Text>
       </Flex>
     </Flex>

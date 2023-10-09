@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 
 export const topics = [
@@ -10,7 +11,7 @@ export const topics = [
       "Access quality healthcare services and resources to support your well-being and that of your loved ones.",
   },
   {
-    url: "/housing",
+    url: "/housing/construction-permit",
     title: "Housing",
     description:
       "Access government services for housing solutions, construction permits, regulations, and more, tailored to meet your needs.",
@@ -71,6 +72,8 @@ export default function Topics() {
           alignItems="center"
           gap="8px"
           justifyContent={"space-between"}
+          as={RouterLink}
+          to={topic.url}
         >
           <Flex>
             <Box>

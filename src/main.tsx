@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider } from "react-router-dom";
 import { Accordion } from "./chakra-overrides/Accordion";
+import { Button } from "./chakra-overrides/Button";
 import { colors } from "./chakra-overrides/colors";
 import { Heading } from "./chakra-overrides/Heading";
 import { Input } from "./chakra-overrides/Input";
@@ -17,6 +18,7 @@ import { router } from "./routes/router";
 const theme = extendTheme({
   colors,
   components: {
+    Button: Button,
     Heading: Heading,
     Text: Text,
     Progress: Progress,

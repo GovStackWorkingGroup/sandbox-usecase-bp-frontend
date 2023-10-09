@@ -22,21 +22,22 @@ export default function FeedbackSent() {
       >
         <Flex direction="column" gap="10px">
           <Heading as="h1" size="md" variant="display">
-          Thank You for Your Feedback!
+            Thank You for Your Feedback!
           </Heading>
-            <Text size="md">Your feedback is invaluable in helping us improve our services.<br /> <br /> 
-              We greatly appreciate your time and input. Your suggestions and comments contribute to making our processes better and more user-friendly.</Text>
+          <Text size="md">
+            Your feedback is invaluable in helping us improve our services.
+            <br /> <br />
+            We greatly appreciate your time and input. Your suggestions and
+            comments contribute to making our processes better and more
+            user-friendly.
+          </Text>
         </Flex>
-        <ButtonGroup padding="10px" colorScheme="newAdmin" marginTop="auto">
+        <ButtonGroup padding="10px" colorScheme="admin" marginTop="auto">
           <VStack w="100%">
             <Button variant="solid" w="100%">
               My Applicatons
             </Button>
-            <Button 
-            as={RouterLink} 
-            to="/" 
-            variant="outline" 
-            w="100%">
+            <Button as={RouterLink} to="/" variant="outline" w="100%">
               Home
             </Button>
           </VStack>

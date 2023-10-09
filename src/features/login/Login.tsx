@@ -14,7 +14,6 @@ import {
   InputLeftElement,
   InputRightElement,
   Link,
-  Select,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -42,25 +41,7 @@ export default function Login() {
       <Heading as="h1" variant="headline">
         Log In to e-Gov Portal
       </Heading>
-      <FormControl>
-        <FormLabel>Please choose a method</FormLabel>
-        <Select defaultValue="option3" border="1px">
-          <option value="option3">e-Gov Password</option>
-        </Select>
-      </FormControl>
-
-      <Text size="md">Secure authentication for e-gov services</Text>
       <Flex direction="column" gap="10px">
-        <FormControl>
-          <FormLabel>ID Number</FormLabel>
-          <InputGroup>
-            <InputLeftElement>
-              <UserIcon />
-            </InputLeftElement>
-            <Input type="text" placeholder="ID Number" />
-          </InputGroup>
-        </FormControl>
-
         <Text size="md">Secure authentication for e-gov services</Text>
         <Flex direction="column" gap="10px">
           <FormControl>
@@ -83,7 +64,10 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
               />
-              <InputRightElement onClick={handleTogglePassword}>
+              <InputRightElement
+                cursor="pointer"
+                onClick={handleTogglePassword}
+              >
                 {showPassword ? <EyeOn /> : <EyeOff />}
               </InputRightElement>
             </InputGroup>
@@ -94,29 +78,17 @@ export default function Login() {
             </Link>
           </FormControl>
         </Flex>
-
-        <ButtonGroup padding="10px" colorScheme="newAdmin">
+        <ButtonGroup padding="10px" colorScheme="admin">
           <VStack w="100%">
-            <Button variant="solid" w="100%">
+            <Button onClick={() => login()} variant="solid" w="100%">
               Enter
             </Button>
-            <Button variant="outline" w="100%">
+            <Button onClick={() => navigate(-1)} variant="outline" w="100%">
               Cancel
             </Button>
           </VStack>
         </ButtonGroup>
       </Flex>
-
-      <ButtonGroup padding="10px" colorScheme="newAdmin">
-        <VStack w="100%">
-          <Button onClick={() => login()} variant="solid" w="100%">
-            Enter
-          </Button>
-          <Button onClick={() => navigate(-1)} variant="outline" w="100%">
-            Cancel
-          </Button>
-        </VStack>
-      </ButtonGroup>
     </Flex>
   );
 }

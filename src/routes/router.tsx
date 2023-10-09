@@ -1,14 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "../components/layout/Layout";
-import ApplicationSent from "../features/construction-permit-application/ApplicationSent";
-import ConstructionPermitApplication from "../features/construction-permit-application/ConstructionPermitApplication";
-import PermitApproved from "../features/construction-permit-application/PermitApproved";
+import Application from "../features/construction-permit/application/Application";
+import Approved from "../features/construction-permit/application/approved/Approved";
+import Feedback from "../features/construction-permit/application/feedback/Feedback";
+import Identification from "../features/construction-permit/application/identification/Identification";
+import Overview from "../features/construction-permit/application/overview/Overview";
+import Parcel from "../features/construction-permit/application/parcel/Parcel";
+import ApplicationSent from "../features/construction-permit/application/sent/Sent";
 import ConstructionPermit from "../features/construction-permit/ConstructionPermit";
-import Feedback from "../features/feedback/Feedback";
-import FeedbackSent from "../features/feedback/FeedbackSent";
+import ConstructionPermitApplication from "../features/construction-permit/ConstructionPermitApplication";
 import FrontPage from "../features/front-page/FrontPage";
 import Login from "../features/login/Login";
-import PaymentSuccessful from "../features/payment/PaymentSuccessful";
 import { isAuthenticatedGuard, ProtectedRoute } from "./ProtectedRoute";
 export const router = createBrowserRouter([
   {
@@ -31,6 +33,10 @@ export const router = createBrowserRouter([
             element: <ConstructionPermit />,
           },
           {
+            path: "construction-permit/my-applications",
+            element: <>Imagination</>,
+          },
+          {
             path: "construction-permit/application",
             element: (
               <ProtectedRoute guard={isAuthenticatedGuard}>
@@ -39,36 +45,20 @@ export const router = createBrowserRouter([
             ),
             children: [
               {
-                path: "approved",
-                element: <PermitApproved />,
-              },
-              {
-                path: "payment",
-                element: <PaymentSuccessful />,
+                element: <Application />,
+                children: [
+                  { path: ":id", element: <Overview /> },
+                  { path: ":id/parcel", element: <Parcel /> },
+                  { path: ":id/identification", element: <Identification /> },
+                  { path: ":id/documents", element: <>Parcel</> },
+                  { path: ":id/feedback", element: <Feedback /> },
+                  { path: ":id/sent", element: <ApplicationSent /> },
+                  { path: ":id/approved", element: <Approved /> },
+                ],
               },
             ],
           },
-          {
-            path: "construction-permit/applicationSent",
-            element: <ApplicationSent />,
-          },
-          {
-            path: "construction-permit-approved",
-            element: <PermitApproved />,
-          },
         ],
-      },
-      {
-        path: "/paymentSuccessful",
-        element: <PaymentSuccessful />,
-      },
-      {
-        path: "/feedback",
-        element: <Feedback />,
-      },
-      {
-        path: "/feedbackSent",
-        element: <FeedbackSent />,
       },
     ],
   },
