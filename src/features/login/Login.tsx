@@ -1,4 +1,5 @@
 import EyeOff from "@assets/icons/eye-off.svg?react";
+import EyeOn from "@assets/icons/eye-on.svg?react";
 import LockIcon from "@assets/icons/lock.svg?react";
 import UserIcon from "@assets/icons/user.svg?react";
 import {
@@ -17,11 +18,18 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../utilities/token";
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePassword = () => {
+    setShowPassword((showPassword) => !showPassword);
+  };
+
   const navigate = useNavigate();
+
   return (
     <Flex
       gap="20px"
@@ -53,23 +61,50 @@ export default function Login() {
           </InputGroup>
         </FormControl>
 
-        <FormControl>
-          <FormLabel>e-Gov Password</FormLabel>
-          <InputGroup>
-            <InputLeftElement>
-              <LockIcon />
-            </InputLeftElement>
-            <Input type="password" placeholder="Password" />
-            <InputRightElement>
-              <EyeOff />
-            </InputRightElement>
-          </InputGroup>
-          <Link mt="4px" float="right">
-            <Text variant="label" size="sm">
-              Forgot Password?
-            </Text>
-          </Link>
-        </FormControl>
+        <Text size="md">Secure authentication for e-gov services</Text>
+        <Flex direction="column" gap="10px">
+          <FormControl>
+            <FormLabel>ID Number</FormLabel>
+            <InputGroup>
+              <InputLeftElement>
+                <UserIcon />
+              </InputLeftElement>
+              <Input type="text" placeholder="ID Number" />
+            </InputGroup>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel>e-Gov Password</FormLabel>
+            <InputGroup>
+              <InputLeftElement>
+                <LockIcon />
+              </InputLeftElement>
+              <Input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+              />
+              <InputRightElement onClick={handleTogglePassword}>
+                {showPassword ? <EyeOn /> : <EyeOff />}
+              </InputRightElement>
+            </InputGroup>
+            <Link mt="4px" float="right">
+              <Text variant="label" size="sm">
+                Forgot Password?
+              </Text>
+            </Link>
+          </FormControl>
+        </Flex>
+
+        <ButtonGroup padding="10px" colorScheme="newAdmin">
+          <VStack w="100%">
+            <Button variant="solid" w="100%">
+              Enter
+            </Button>
+            <Button variant="outline" w="100%">
+              Cancel
+            </Button>
+          </VStack>
+        </ButtonGroup>
       </Flex>
 
       <ButtonGroup padding="10px" colorScheme="newAdmin">
