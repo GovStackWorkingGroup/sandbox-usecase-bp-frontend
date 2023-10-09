@@ -1,26 +1,19 @@
-export enum Scope {
-  ROLE_PAYMENT_OFFICER = "ROLE_PAYMENT_OFFICER",
-  ROLE_ENROLLMENT_OFFICER = "ROLE_ENROLLMENT_OFFICER",
-  ROLE_REGISTRY_ADMINISTRATION = "ROLE_REGISTRY_ADMINISTRATION",
-}
+export interface Token {}
 
-export interface Token {
-  scope: Scope;
-}
-
-export const getToken = () => {
-  const token = sessionStorage.getItem("driver-token");
-  if (token) {
-    return token;
-  }
-  return null;
+export const login = () => {
+  sessionStorage.setItem("token", "true");
+  window.location.href = "/";
 };
 
-export const getRole = () => {
-  const token = getToken();
+export const logout = () => {
+  sessionStorage.removeItem("token");
+  window.location.href = "/";
+};
+
+export const getToken = () => {
+  const token = sessionStorage.getItem("token");
   if (token) {
-    const payload = token.split(".")[1];
-    return (JSON.parse(atob(payload)) as Token).scope;
+    return token;
   }
   return null;
 };

@@ -12,7 +12,7 @@ import React from "react";
 export default function AccordionItem({
   title,
   children,
-}: AccordionItemProps & { children: React.ReactNode }) {
+}: AccordionItemProps & { children: React.ReactNode | React.ReactNode[] }) {
   return (
     <ChakraAccordionItem>
       {({ isExpanded }) => (

@@ -9,8 +9,11 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import { topics } from "../../features/front-page/components/topics/Topics";
+import { logout } from "../../utilities/token";
+import Authenticated from "../authenticated/Authenticated";
 import Search from "../search/Search";
 
 export default function Sidebar() {
@@ -19,10 +22,13 @@ export default function Sidebar() {
       backgroundColor={colors.secondary[0]}
       position="absolute"
       right="0"
-      top="100%"
+      top="calc(100% + 1px)"
       padding="10px 20px 30px 20px"
       direction="column"
       width="100%"
+      height="100vh"
+      maxWidth="32rem"
+      boxShadow="5px 5px 10px 1px rgba(0,0,0,0.2)"
     >
       <Fade in={true}>
         <Flex mb="20px" gap="20px">
@@ -36,44 +42,44 @@ export default function Sidebar() {
             <path
               d="M5 8L11 14"
               stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M4 14L10 8L12 5"
               stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M2 5H14"
               stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M7 2H8"
               stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M22 22L17 12L12 22"
               stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
             <path
               d="M14 18H20"
               stroke="black"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
 
@@ -105,6 +111,12 @@ export default function Sidebar() {
                 gap="20px"
                 padding="10px 20px"
                 w="100%"
+                as={NavLink}
+                to="/"
+                _activeLink={{
+                  background: colors.secondary[50],
+                  color: colors.primary[500],
+                }}
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
@@ -119,6 +131,12 @@ export default function Sidebar() {
                 gap="20px"
                 padding="10px 20px"
                 w="100%"
+                as={NavLink}
+                to="/accessibility"
+                _activeLink={{
+                  background: colors.secondary[50],
+                  color: colors.primary[500],
+                }}
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
@@ -133,6 +151,12 @@ export default function Sidebar() {
                 gap="20px"
                 padding="10px 20px"
                 w="100%"
+                as={NavLink}
+                to="/settings"
+                _activeLink={{
+                  background: colors.secondary[50],
+                  color: colors.primary[500],
+                }}
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
@@ -147,6 +171,12 @@ export default function Sidebar() {
                 gap="20px"
                 padding="10px 20px"
                 w="100%"
+                as={NavLink}
+                to="/help"
+                _activeLink={{
+                  background: colors.secondary[50],
+                  color: colors.primary[500],
+                }}
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
@@ -155,18 +185,39 @@ export default function Sidebar() {
               </Link>
             </ListItem>
             <ListItem>
-              <Link
-                display="flex"
-                alignItems="center"
-                gap="20px"
-                padding="10px 20px"
-                w="100%"
-              >
-                <MoonIcon />
-                <Text variant="title" size="md">
-                  Log In
-                </Text>
-              </Link>
+              <Authenticated>
+                <Link
+                  display="flex"
+                  alignItems="center"
+                  gap="20px"
+                  padding="10px 20px"
+                  w="100%"
+                  onClick={() => logout()}
+                >
+                  <MoonIcon />
+                  <Text variant="title" size="md">
+                    Log Out
+                  </Text>
+                </Link>
+                <Link
+                  display="flex"
+                  alignItems="center"
+                  gap="20px"
+                  padding="10px 20px"
+                  w="100%"
+                  as={NavLink}
+                  to="/login"
+                  _activeLink={{
+                    background: colors.secondary[50],
+                    color: colors.primary[500],
+                  }}
+                >
+                  <MoonIcon />
+                  <Text variant="title" size="md">
+                    Log In
+                  </Text>
+                </Link>
+              </Authenticated>
             </ListItem>
           </List>
         </Flex>
@@ -187,6 +238,12 @@ export default function Sidebar() {
                     _hover={{
                       backgroundColor: colors.secondary[50],
                     }}
+                    as={NavLink}
+                    _activeLink={{
+                      background: colors.secondary[50],
+                      color: colors.primary[500],
+                    }}
+                    to={topic.url}
                   >
                     <Text variant="label" size="md">
                       {topic.title}

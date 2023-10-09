@@ -3,13 +3,16 @@ import {
   Button,
   Flex,
   Heading,
+  Link,
   ListItem,
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import Accordion from "../../components/accordion/Accordion";
 import AccordionItem from "../../components/accordion/AccordionItem";
+import Authenticated from "../../components/authenticated/Authenticated";
 import Breadcrumbs, {
   BreadcrumbPaths,
 } from "../../components/breadcrumbs/Breadcrumbs";
@@ -22,7 +25,7 @@ export default function ConstructionPermit() {
   return (
     <Flex direction="column" flexGrow={1}>
       <Breadcrumbs path={breadcrumbs} />
-      <Flex direction="column" gap="20px">
+      <Flex direction="column" gap="20px" mb="20px">
         <Heading variant="headline">Construction Permit</Heading>
         <Text>
           In compliance with building codes, Digital Island's Construction
@@ -31,7 +34,7 @@ export default function ConstructionPermit() {
           applications securely online, ensuring a seamless experience backed by
           our commitment to regulatory adherence.
         </Text>
-        <Accordion allowMultiple allowToggle>
+        <Accordion>
           <AccordionItem title="Required Documents">
             <>
               <Text>
@@ -71,10 +74,101 @@ export default function ConstructionPermit() {
             </>
           </AccordionItem>
           <AccordionItem title="Required Fees">
-            <></>
+            <>
+              <Text>
+                Upon successful scrutiny of your application, the system will
+                automatically calculate the required permit fee based on the
+                specifics of your construction project.
+              </Text>
+              <Text>
+                <strong>Estimated Fee: €120.20 - €1,301.50</strong>
+              </Text>
+              <Link href="#">How payment fee is calculated?</Link>
+            </>
           </AccordionItem>
           <AccordionItem title="Alternative Access and Support">
-            <></>
+            <>
+              <Text>
+                If it is not possible to use the e-Gov service or submit the
+                documents in a digital medium, the application can be done via
+                the city planning department.
+              </Text>
+              <Text>
+                Additionally, please feel free to use the provided contact
+                information for any questions or inquiries you may have.
+              </Text>
+
+              <Text>Service Providers:</Text>
+              <Text>
+                <strong>City Planning Department</strong>
+              </Text>
+              <UnorderedList>
+                <ListItem>
+                  <Text>Address: 456 Park Avenue, Metropolisville</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>Phone: (555) 987-6543</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>E-mail: planningdept@metropolisville.gov</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>Website URL: www.metropolisville.gov/planning</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>
+                    Service Area: East Metropolisville, West Metropolisville,
+                    and Green Meadows
+                  </Text>
+                </ListItem>
+              </UnorderedList>
+              <Text>
+                <strong>City Planning Department</strong>
+              </Text>
+              <UnorderedList>
+                <ListItem>
+                  <Text>Address: 456 Park Avenue, Metropolisville</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>Phone: (555) 987-6543</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>E-mail: planningdept@metropolisville.gov</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>Website URL: www.metropolisville.gov/planning</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>
+                    Service Area: East Metropolisville, West Metropolisville,
+                    and Green Meadows
+                  </Text>
+                </ListItem>
+              </UnorderedList>
+              <Text>
+                <strong>City Planning Department</strong>
+              </Text>
+              <UnorderedList>
+                <ListItem>
+                  <Text>Address: 456 Park Avenue, Metropolisville</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>Phone: (555) 987-6543</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>E-mail: planningdept@metropolisville.gov</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>Website URL: www.metropolisville.gov/planning</Text>
+                </ListItem>
+                <ListItem>
+                  <Text>
+                    Service Area: East Metropolisville, West Metropolisville,
+                    and Green Meadows
+                  </Text>
+                </ListItem>
+              </UnorderedList>
+            </>
           </AccordionItem>
           <AccordionItem title="Similar Services">
             <></>
@@ -90,13 +184,33 @@ export default function ConstructionPermit() {
         gap="20px"
         direction="column"
       >
-        <Box>
-          <Heading variant="title" size="sm" as="h3">
-            Apply Online
-          </Heading>
-          <Text size="sm">Log in to access the service.</Text>
-        </Box>
-        <Button colorScheme="admin">Log In</Button>
+        <Authenticated>
+          <>
+            <Box>
+              <Heading variant="title" size="sm" as="h3">
+                Apply Online
+              </Heading>
+              <Text size="sm">Log in to access the service.</Text>
+            </Box>
+            <Button as={RouterLink} to="/login" colorScheme="admin">
+              Log In
+            </Button>
+          </>
+          <>
+            <Box>
+              <Heading variant="title" size="sm" as="h3">
+                Apply Online
+              </Heading>
+              <Text size="sm">Log in to access the service.</Text>
+            </Box>
+            <Button as={RouterLink} to="/login" colorScheme="admin">
+              Create Application
+            </Button>
+            <Button as={RouterLink} to="/login" colorScheme="admin">
+              My Applications
+            </Button>
+          </>
+        </Authenticated>
       </Flex>
     </Flex>
   );

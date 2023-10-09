@@ -2,11 +2,12 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "../components/layout/Layout";
 import ConstructionPermitApplication from "../features/construction-permit-application/ConstructionPermitApplication";
+import PermitApproved from "../features/construction-permit-application/PermitApproved";
 import ConstructionPermit from "../features/construction-permit/ConstructionPermit";
 import FrontPage from "../features/front-page/FrontPage";
 import Login from "../features/login/Login";
-import PermitApproved from "../features/construction-permit-application/PermitApproved";
 import PaymentSuccessful from "../features/payment/PaymentSuccessful";
+import { isAuthenticatedGuard, ProtectedRoute } from "./ProtectedRoute";
 export const router = createBrowserRouter([
   {
     path: "",
@@ -29,18 +30,24 @@ export const router = createBrowserRouter([
           },
           {
             path: "construction-permit/application",
-            element: <ConstructionPermitApplication />,
+            element: (
+              <ProtectedRoute guard={isAuthenticatedGuard}>
+                <ConstructionPermitApplication />
+              </ProtectedRoute>
+            ),
+            children: [
+              {
+                path: "approved",
+                element: <PermitApproved />,
+              },
+              {
+                path: "payment",
+                element: <PaymentSuccessful />,
+              },
+            ],
           },
-          {
-            path: "construction-permit-approved",
-            element: <PermitApproved />,
-          }
         ],
       },
-      {
-        path: "/paymentSuccessful",
-        element: <PaymentSuccessful />,
-      }
     ],
   },
 ]);

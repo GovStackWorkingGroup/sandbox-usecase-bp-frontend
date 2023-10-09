@@ -1,12 +1,17 @@
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Box, Flex, IconButton, Image, Link, Text } from "@chakra-ui/react";
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
+import Authenticated from "../authenticated/Authenticated";
 import Sidebar from "../sidebar/Sidebar";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
   return (
     <Flex
       p="12px 20px"
@@ -28,11 +33,13 @@ export default function Header() {
         </Box>
       </Flex>
       <Flex alignItems="center" gap="20px">
-        <Link as={RouterLink} to="/login">
-          <Text size="md" fontWeight={600}>
-            Log In
-          </Text>
-        </Link>
+        <Authenticated reverse>
+          <Link as={RouterLink} to="/login">
+            <Text size="md" fontWeight={600}>
+              Log In
+            </Text>
+          </Link>
+        </Authenticated>
         <IconButton
           backgroundColor="transparent"
           onClick={() => setIsOpen(!isOpen)}

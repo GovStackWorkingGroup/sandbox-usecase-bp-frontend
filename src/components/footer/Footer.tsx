@@ -9,6 +9,7 @@ export default function Footer() {
       padding="10px 20px"
       gap="10px"
       direction="column"
+      zIndex="1"
     >
       <Flex
         flexWrap="wrap"
