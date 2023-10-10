@@ -9,6 +9,8 @@ import Parcel from "../features/construction-permit/application/parcel/Parcel";
 import ApplicationSent from "../features/construction-permit/application/sent/Sent";
 import ConstructionPermit from "../features/construction-permit/ConstructionPermit";
 import ConstructionPermitApplication from "../features/construction-permit/ConstructionPermitApplication";
+import FilesSent from "../features/documents/Sent";
+import FileUpload from "../features/documents/Upload";
 import FrontPage from "../features/front-page/FrontPage";
 import Login from "../features/login/Login";
 import { isAuthenticatedGuard, ProtectedRoute } from "./ProtectedRoute";
@@ -50,7 +52,8 @@ export const router = createBrowserRouter([
                   { path: ":id", element: <Overview /> },
                   { path: ":id/parcel", element: <Parcel /> },
                   { path: ":id/identification", element: <Identification /> },
-                  { path: ":id/documents", element: <>Parcel</> },
+                  { path: ":id/documents", element: <FileUpload /> },
+                  { path: ":id/documents/sent", element: <FilesSent /> },
                   { path: ":id/feedback", element: <Feedback /> },
                   { path: ":id/sent", element: <ApplicationSent /> },
                   { path: ":id/approved", element: <Approved /> },
