@@ -23,7 +23,7 @@ export default function Header() {
       zIndex="99999"
       justifyContent="space-between"
     >
-      <Flex gap="12px" alignItems="center">
+      <Flex gap="12px" alignItems="center" as={"a"} href="/">
         <Image h="32px" w="32px" src="/govstack-logo.svg" />
         <Box>
           <Text variant="caps" size="md">

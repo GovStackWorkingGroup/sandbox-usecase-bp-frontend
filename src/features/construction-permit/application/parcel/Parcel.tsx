@@ -9,10 +9,13 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import ListCard from "../../../../components/list-card/ListCard";
 
 export default function Parcel() {
+  const [mapOpened, setMapOpened] = useState(false);
+
   return (
     <>
       <Flex mb="30px" gap="20px" direction="column">
@@ -29,7 +32,11 @@ export default function Parcel() {
             <FormLabel>Parcel ID</FormLabel>
             <Input placeholder="What is the Parcel ID?" />
           </FormControl>
-          <Button variant="outline" colorScheme="admin">
+          <Button
+            onClick={() => setMapOpened(true)}
+            variant="outline"
+            colorScheme="admin"
+          >
             Select from the map
           </Button>
         </Flex>
