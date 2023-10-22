@@ -12,6 +12,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useContext } from "react";
+import { useQuery } from "react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 import Breadcrumbs, {
@@ -20,29 +22,11 @@ import Breadcrumbs, {
 import ApplicationStatus, {
   Status,
 } from "../../../../components/status/ApplicationStatus";
+import { RPCContext } from "../../../../rpc/rpc";
 
 const breadcrumbs: BreadcrumbPaths = [
   ["Construction Permit", "/housing/construction-permit"],
   [`My Applications`, `/housing/construction-permit/my-applications`],
-];
-
-const ongoingApplications = [
-  {
-    id: "547896",
-    status: Status.IN_REVIEW,
-  },
-  {
-    id: "006598",
-    status: Status.IN_REVIEW,
-  },
-  {
-    id: "987654",
-    status: Status.ACTION_NEEDED,
-  },
-  {
-    id: "396543",
-    status: Status.DRAFT,
-  },
 ];
 
 const completedApplications = [
@@ -65,6 +49,14 @@ const completedApplications = [
 ];
 
 export default function ApplicationList() {
+  const rpc = useContext(RPCContext);
+  const { data: ongoingApplications } = useQuery(
+    `ongoingApplications`,
+    rpc.getCandidateList,
+  );
+
+  console.log(ongoingApplications);
+
   return (
     <>
       <Breadcrumbs path={breadcrumbs} />
@@ -78,36 +70,41 @@ export default function ApplicationList() {
           <Text variant="title" size="lg">
             Ongoing Applications
           </Text>
-          <Table mr="-20px" ml="-24px">
-            <Thead>
-              <Tr>
-                <Th>Application ID</Th>
-                <Th>Status</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {ongoingApplications.map((application) => (
-                <Tr key={application.id}>
-                  <Td w="50%">
-                    <Flex alignItems="center" gap="8px">
-                      <ArrowRightIcon
-                        color={colors.theme.primary}
-                        boxSize="10px"
-                      />
-                      <Text color={colors.theme.primary} variant="label">
-                        <Link as={RouterLink} to={`./review/${application.id}`}>
-                          {application.id}
-                        </Link>
-                      </Text>
-                    </Flex>
-                  </Td>
-                  <Td w="50%">
-                    <ApplicationStatus status={application.status} />
-                  </Td>
+          {ongoingApplications && (
+            <Table mr="-20px" ml="-24px">
+              <Thead>
+                <Tr>
+                  <Th>Application ID</Th>
+                  <Th>Status</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {ongoingApplications?.map((application) => (
+                  <Tr key={application.id}>
+                    <Td w="50%">
+                      <Flex alignItems="center" gap="8px">
+                        <ArrowRightIcon
+                          color={colors.theme.primary}
+                          boxSize="10px"
+                        />
+                        <Text color={colors.theme.primary} variant="label">
+                          <Link
+                            as={RouterLink}
+                            to={`./review/${application.id}`}
+                          >
+                            {application.id}
+                          </Link>
+                        </Text>
+                      </Flex>
+                    </Td>
+                    <Td w="50%">
+                      <ApplicationStatus status={application.status} />
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          )}
           <Text size="sm" variant="label" fontWeight="500">
             <Link
               to={`./../application/${

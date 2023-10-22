@@ -7,7 +7,7 @@ import Identification from "../features/construction-permit/application/identifi
 import Overview from "../features/construction-permit/application/overview/Overview";
 import Parcel from "../features/construction-permit/application/parcel/Parcel";
 import ApplicationSent from "../features/construction-permit/application/sent/Sent";
-import ApplicationList from "../features/construction-permit/applications/ApplicationList/ApplicationList";
+import ApplicationList from "../features/construction-permit/applications/application-list/ApplicationList";
 import Applications from "../features/construction-permit/applications/Applications";
 import ReviewApplication from "../features/construction-permit/applications/review-application/ReviewApplication";
 import ScheduleInspection from "../features/construction-permit/applications/review-application/schedule-inspection/ScheduleInspection";

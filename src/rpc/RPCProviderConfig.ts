@@ -7,13 +7,13 @@ export default class RPCProviderConfig {
   providers = {
     MOCK: new MockProvider(),
     API: new APIProvider(),
-    STORAGE: new StorageProvider()
+    STORAGE: new StorageProvider(),
   };
   map: Record<string, BaseProvider> = {
-    getCandidateList: this.providers.API,
-    createCandidate: this.providers.API,
-    updateCandidate: this.providers.API,
-    deleteCandidate: this.providers.API,
+    getCandidateList: this.providers.MOCK,
+    createCandidate: this.providers.MOCK,
+    updateCandidate: this.providers.MOCK,
+    deleteCandidate: this.providers.MOCK,
   };
   addProvider = (key: string, provider: BaseProvider) => {
     this.providers = { ...this.providers, [key]: provider };
