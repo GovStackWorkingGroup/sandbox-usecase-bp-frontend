@@ -72,7 +72,6 @@ export default function Identification() {
     const role = Object.entries(state).find(
       ([key, val]) => !val.idNumber && !val.name,
     );
-    console.log(role);
     if (role) {
       return role[0] as ROLE;
     }
