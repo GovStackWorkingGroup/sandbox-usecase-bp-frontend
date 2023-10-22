@@ -7,6 +7,10 @@ import Identification from "../features/construction-permit/application/identifi
 import Overview from "../features/construction-permit/application/overview/Overview";
 import Parcel from "../features/construction-permit/application/parcel/Parcel";
 import ApplicationSent from "../features/construction-permit/application/sent/Sent";
+import ApplicationList from "../features/construction-permit/applications/ApplicationList/ApplicationList";
+import Applications from "../features/construction-permit/applications/Applications";
+import ReviewApplication from "../features/construction-permit/applications/review-application/ReviewApplication";
+import ScheduleInspection from "../features/construction-permit/applications/review-application/schedule-inspection/ScheduleInspection";
 import ConstructionPermit from "../features/construction-permit/ConstructionPermit";
 import ConstructionPermitApplication from "../features/construction-permit/ConstructionPermitApplication";
 import FilesSent from "../features/documents/Sent";
@@ -36,7 +40,19 @@ export const router = createBrowserRouter([
           },
           {
             path: "construction-permit/my-applications",
-            element: <>Imagination</>,
+            element: (
+              <ProtectedRoute guard={isAuthenticatedGuard}>
+                <Applications />
+              </ProtectedRoute>
+            ),
+            children: [
+              { index: true, element: <ApplicationList /> },
+              { path: "review/:id", element: <ReviewApplication /> },
+              {
+                path: "review/:id/schedule-inspection",
+                element: <ScheduleInspection />,
+              },
+            ],
           },
           {
             path: "construction-permit/application",
