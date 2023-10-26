@@ -1,9 +1,18 @@
+import { Status } from "../components/status/ApplicationStatus";
 import BaseProvider from "./BaseProvider";
+import { Application } from "./types";
 
 export default class APIProvider extends BaseProvider {
+  ongoingApplications: Application[] = [
+    {
+      id: "547896",
+      status: Status.IN_REVIEW,
+    }
+  ];
+
   async getCandidateList() {
-    return new Promise<string>((resolve) =>
-      resolve("Successfully fetched from api"));
+    return new Promise<Application[]>((resolve) =>
+      resolve(this.ongoingApplications));
     // try {
     // const req = await fetch(
     //   `/api/v1/candidates`, {
