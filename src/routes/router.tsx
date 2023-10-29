@@ -17,6 +17,7 @@ import FilesSent from "../features/documents/Sent";
 import FileUpload from "../features/documents/Upload";
 import FrontPage from "../features/front-page/FrontPage";
 import Login from "../features/login/Login";
+import Payment from "../features/payment/Payment";
 import { isAuthenticatedGuard, ProtectedRoute } from "./ProtectedRoute";
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,7 @@ export const router = createBrowserRouter([
                   { path: ":id/feedback", element: <Feedback /> },
                   { path: ":id/sent", element: <ApplicationSent /> },
                   { path: ":id/approved", element: <Approved /> },
+                  { path: ":id/payment", element: <Payment /> },
                 ],
               },
             ],
