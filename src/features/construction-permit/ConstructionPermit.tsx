@@ -191,7 +191,6 @@ export default function ConstructionPermit() {
                 <Heading variant="title" size="sm" as="h3">
                   Apply Online
                 </Heading>
-                <Text size="sm">Log in to access the service.</Text>
               </Box>
               <Button
                 as={RouterLink}

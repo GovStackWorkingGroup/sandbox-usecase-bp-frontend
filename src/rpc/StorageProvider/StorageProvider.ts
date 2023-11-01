@@ -1,45 +1,37 @@
-import { Status } from '../../components/status/ApplicationStatus';
 import BaseProvider from '../BaseProvider';
 import MockProvider from '../MockProvider';
-import { Application } from '../types';
 import ObjectToTree from './objectToTree';
 
 export default class StorageProvider extends BaseProvider {
   objectToTree = new ObjectToTree();
   mockProvider = new MockProvider();
-  ongoingApplications: Application[] = [
-    {
-      id: "547896",
-      status: Status.IN_REVIEW,
-    }
-  ];
 
-  getCandidateList() {
-    return new Promise<Application[]>((resolve) =>
-      resolve(this.ongoingApplications));
-    // return new Promise <string> ((resolve) =>
-    //     setTimeout(async () => {
-    //         const result = await this.getLocalStorageObject("candidates") as Promise<string>;
-    //         resolve(result);
-    //     }, 1000)
-    // );
+  async getApplications() {
+      return [];
   }
 
-  createCandidate() {
-    return new Promise<string>((resolve) =>
-      resolve("Successfully created in storage"));
+  async getData() {
+    return "";
   }
 
-  updateCandidate() {
-    return new Promise<string>((resolve) => {
-      resolve("Successfully updated in storage");
-    });
+  async setData() {
+    return "";
   }
 
-  deleteCandidate() {
-    return new Promise<string>((resolve) => {
-      resolve("Successfully deleted from storage");
-    });
+  async forceSetData() {
+    return "";
+  }
+
+  async invalidateSession() {
+    return "";
+  }
+
+  async getToken() {
+    return "";
+  }
+
+  async registerUser() {
+    return "";
   }
 
   getLocalStorageItem(key: string) {

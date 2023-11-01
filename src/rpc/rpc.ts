@@ -3,17 +3,28 @@ import RPCProviderFactory from "./RPCProviderFactory";
 
 export default class RPC {
   RPCProviderFactory: RPCProviderFactory = new RPCProviderFactory();
-  getCandidateList = () =>
-    this.RPCProviderFactory.getProvider("getCandidateList").getCandidateList();
 
-  createCandidate = () =>
-    this.RPCProviderFactory.getProvider("createCandidate").createCandidate();
+  getApplications = () =>
+    this.RPCProviderFactory.getProvider("getApplications").getApplications();
 
-  updateCandidate = () =>
-    this.RPCProviderFactory.getProvider("updateCandidate").updateCandidate();
+  getData = (key: string) =>
+    this.RPCProviderFactory.getProvider("getData").getData(key);
 
-  deleteCandidate = () =>
-    this.RPCProviderFactory.getProvider("deleteCandidate").deleteCandidate();
+  setData = (key: string, value: string) =>
+    this.RPCProviderFactory.getProvider("setData").setData(key, value);
+
+  forseSetData = (key:string, value: string) =>
+    this.RPCProviderFactory.getProvider("forseSetData").forceSetData(key, value);
+
+  invalidateSession = () =>
+    this.RPCProviderFactory.getProvider("invalidateSession").invalidateSession();
+
+  getToken = (username: string, password: string) =>
+    this.RPCProviderFactory.getProvider("getToken").getToken(username, password);
+
+  registerUser = (name: string, username: string, password: string) =>
+    this.RPCProviderFactory.getProvider("registerUser").registerUser(name, username, password);
+
 }
 
 export const RPCContext = createContext(new RPC());

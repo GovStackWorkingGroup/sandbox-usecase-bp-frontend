@@ -14,23 +14,29 @@ import {
   UnorderedList,
   VStack
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
+import { Link as RouterLink, useParams } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
+import { RPCContext } from "../../rpc/rpc";
+import { Application } from "../../rpc/types";
 
 export default function FileUpload() {
-  // Additional Documents Required / coming from rpc and replacing default ones
-  const additionalDocumentsRequired:{name: string, extensions: string}[] = [];
-  // const additionalDocumentsRequired: {name: string, extensions: string}[] = [
-  //   {
-  //     name: "Environmental Impact Assessment Report",
-  //     extensions: ".pdf"
-  //   },
-  //   {
-  //     name: "Utilities and Infrastructure Plans",
-  //     extensions: ".dwg, .dxf, .dgn, .rfa, .pln"
-  //   }
-  // ];
+  const { id } = useParams();
+  const rpc = useContext(RPCContext);
+
+  const [additionalDocumentsRequired, setAdditionalDocumentsRequired] = useState<{name: string, extensions: string}[]>([]);
+
+  useQuery(
+    `applications`,
+    rpc.getApplications,
+    {
+      onSuccess: (application) => {
+        const currentApplication = application.find((application: Application) => application.id === id);
+       if (currentApplication) setAdditionalDocumentsRequired(currentApplication.pendingDocuments);
+      }
+    }
+  );
 
   const [documents, setDocuments] =
   useState<{
@@ -51,7 +57,7 @@ export default function FileUpload() {
         ...documents,
         {
           name: documentName,
-          progress: 25,
+          progress: 50,
           url: ""
         }
       ]);
@@ -178,10 +184,10 @@ export default function FileUpload() {
                 </>
               ):(
                 <>
-                  <Button as={RouterLink} to="" variant="solid" w="100%">
+                  <Button as={RouterLink} to="./" variant="solid" w="100%">
                     Continue
                   </Button>
-                  <Button as={RouterLink} to="" variant="outline" w="100%">
+                  <Button as={RouterLink} to="./" variant="outline" w="100%">
                     Save for later
                   </Button>
                 </>

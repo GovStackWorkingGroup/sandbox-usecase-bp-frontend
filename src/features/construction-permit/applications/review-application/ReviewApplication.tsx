@@ -1,5 +1,7 @@
-import { Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Button, Flex, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import { useContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 import Accordion from "../../../../components/accordion/Accordion";
 import AccordionItem from "../../../../components/accordion/AccordionItem";
@@ -9,6 +11,8 @@ import Breadcrumbs, {
 import ApplicationStatus, {
   Status,
 } from "../../../../components/status/ApplicationStatus";
+import { RPCContext } from "../../../../rpc/rpc";
+import { Application } from "../../../../rpc/types";
 import { ROLE } from "../../application/identification/Identification";
 
 const application = {
@@ -32,6 +36,21 @@ const application = {
 
 export default function ReviewApplication() {
   const { id } = useParams();
+  const rpc = useContext(RPCContext);
+  const navigate = useNavigate();
+  const [application, setApplication] = useState<Application>();
+
+  useQuery(
+    `applications`,
+    rpc.getApplications,
+    {
+      onSuccess: (application) => {
+        const currentApplication = application.find((application: Application) => application.id === id);
+        setApplication(currentApplication);
+      }
+    }
+  );
+
   const breadcrumbs: BreadcrumbPaths = [
     ["Housing", null],
     ["Construction Permit", "/housing/construction-permit"],
@@ -43,6 +62,7 @@ export default function ReviewApplication() {
   ];
 
   return (
+    application?(
     <>
       <Breadcrumbs path={breadcrumbs} />
       <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
@@ -79,20 +99,55 @@ export default function ReviewApplication() {
           </Text>
           <Accordion>
             <AccordionItem title="Parcel ID">
-              <></>
+              <>
+                {application.parcelID}
+              </>
             </AccordionItem>
+
             <AccordionItem title="Identification">
-              <></>
+              <>
+                {application.identification}
+              </>
             </AccordionItem>
+
             <AccordionItem title="Documents">
-              <></>
+              {(application.documents.length > 0)?(
+                <>
+                  <UnorderedList gap="20px" p="10px">
+                  {application.documents.map((document) =>
+                  <>
+                    <ListItem>
+                      {document.name}
+                    </ListItem>
+                  </>
+                  )}
+                  </UnorderedList>
+                </>
+              ):("")}
             </AccordionItem>
+
+            {(application.pendingDocuments.length > 0)?(
+              <>
+                <AccordionItem title="Pending documents">
+                  <UnorderedList gap="20px" p="10px">
+                  {application.pendingDocuments.map((document) =>
+                  <>
+                    <ListItem>
+                      {document.name} ( {document.extensions} )
+                    </ListItem>
+                  </>
+                  )}
+                  </UnorderedList>
+                </AccordionItem>
+              </>
+            ):("")}
           </Accordion>
         </Flex>
-        <Button colorScheme="admin" mt="auto" variant="outline">
+        <Button colorScheme="admin" mt="auto" variant="outline" onClick={() => navigate(-1)}>
           Back
         </Button>
       </Flex>
     </>
+    ):("")
   );
 }

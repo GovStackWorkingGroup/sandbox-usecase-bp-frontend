@@ -19,16 +19,20 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../utilities/token";
+import { useAuthentication } from "../../utilities/useAuthentication";
 
 export default function Login() {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const {login} = useAuthentication();
+
   const handleTogglePassword = () => {
     setShowPassword((showPassword) => !showPassword);
   };
 
   const navigate = useNavigate();
-
   return (
     <Flex
       gap="20px"
@@ -50,7 +54,7 @@ export default function Login() {
               <InputLeftElement>
                 <UserIcon />
               </InputLeftElement>
-              <Input type="text" placeholder="ID Number" />
+              <Input onChange={(e) => setUsername(e.target.value)} type="text" placeholder="ID Number" />
             </InputGroup>
           </FormControl>
 
@@ -61,6 +65,7 @@ export default function Login() {
                 <LockIcon />
               </InputLeftElement>
               <Input
+                onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
               />
@@ -80,7 +85,7 @@ export default function Login() {
         </Flex>
         <ButtonGroup padding="10px" colorScheme="admin">
           <VStack w="100%">
-            <Button onClick={() => login()} variant="solid" w="100%">
+            <Button onClick={() => login(username, password)} variant="solid" w="100%">
               Enter
             </Button>
             <Button onClick={() => navigate(-1)} variant="outline" w="100%">
