@@ -1,6 +1,7 @@
 import { Button, ButtonGroup, Flex, Heading } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useMemo, useReducer, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Application } from "../../../../rpc/types";
 import InitialIdentification from "./InitialIdentification";
 import Overview from "./Overview";
 import RoleForm from "./RoleForm";
@@ -42,9 +43,10 @@ function rolesReducer(state = initialState, action: RoleAction) {
 }
 
 export default function Identification() {
+  const {id} = useParams();
   const navigate = useNavigate();
-  const [idNumber, setIdNumber] = useState<string>("Lewis Mumford");
-  const [name, setName] = useState<string>("123123123123");
+  const [idNumber, setIdNumber] = useState<string>("123123123123");
+  const [name, setName] = useState<string>("Lewis Mumford");
   const [selectedRole, setSelectedRole] = useState<ROLE>(ROLE.PROPERTY_OWNER);
   const [isFinished, setIsFinished] = useState(false);
   const [state, dispatch] = useReducer(rolesReducer, initialState);
@@ -62,6 +64,17 @@ export default function Identification() {
       setName("");
       roleToFill && setSelectedRole(roleToFill);
     } else {
+      const storage = localStorage.getItem("application");
+      if (storage) {
+        const application = JSON.parse(storage) as Application;
+        console.log(state);
+        Object.keys(state).map((key, index) => {
+          application.identification.push({role: key as ROLE, data: Object.values(state)[index]})
+      });
+        localStorage.setItem("application", JSON.stringify(application));
+      } else {
+        return navigate("../../construction-permit");
+      }
       navigate("./../");
     }
   };
@@ -77,6 +90,7 @@ export default function Identification() {
     }
     return null;
   }, [state]);
+
   useEffect(() => {
     if (roleToFill === ROLE.OTHER) {
       setIsFinished(true);
@@ -117,7 +131,7 @@ export default function Identification() {
           <Button onClick={() => handleContinue()} colorScheme="admin">
             Continue
           </Button>
-          <Button variant="outline" colorScheme="admin">
+          <Button onClick={() => navigate(`../${id}`)} variant="outline" colorScheme="admin">
             Save for later
           </Button>
         </ButtonGroup>

@@ -23,54 +23,90 @@ import ApplicationStatus, {
   Status,
 } from "../../../../components/status/ApplicationStatus";
 import { RPCContext } from "../../../../rpc/rpc";
+import { Application } from "../../../../rpc/types";
 
 const breadcrumbs: BreadcrumbPaths = [
   ["Construction Permit", "/housing/construction-permit"],
   [`My Applications`, `/housing/construction-permit/my-applications`],
 ];
 
-const completedApplications = [
-  {
-    id: "000326",
-    status: Status.APPROVED,
-  },
-  {
-    id: "007266",
-    status: Status.APPROVED,
-  },
-  {
-    id: "000983",
-    status: Status.REJECTED,
-  },
-  {
-    id: "003324",
-    status: Status.REJECTED,
-  },
-];
-
 export default function ApplicationList() {
   const rpc = useContext(RPCContext);
-  const { data: ongoingApplications } = useQuery(
-    `ongoingApplications`,
-    rpc.getCandidateList,
+
+  const { data: data} = useQuery(
+    `applications`,
+    rpc.getApplications,
   );
 
-  console.log(ongoingApplications);
-
-  return (
-    <>
-      <Breadcrumbs path={breadcrumbs} />
-      <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
-        <Heading variant="headline">My Applications</Heading>
-        <Text>
-          Here you can easily check the details and progress of all your
-          submitted construction permit applications.
-        </Text>
-        <Flex direction="column" gap="10px">
-          <Text variant="title" size="lg">
-            Ongoing Applications
+  if (data) {
+    const completed = data.filter((application: Application) => (application.status === Status.APPROVED || application.status === Status.COMPLETED || application.status === Status.REJECTED));
+    const inProgress = data.filter((application: Application) => (application.status !== Status.APPROVED && application.status !== Status.COMPLETED && application.status !== Status.REJECTED));
+    return (
+      <>
+        <Breadcrumbs path={breadcrumbs} />
+        <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
+          <Heading variant="headline">My Applications</Heading>
+          <Text>
+            Here you can easily check the details and progress of all your
+            submitted construction permit applications.
           </Text>
-          {ongoingApplications && (
+          <Flex direction="column" gap="10px">
+            <Text variant="title" size="lg">
+              Ongoing Applications
+            </Text>
+            {data && (
+              <Table mr="-20px" ml="-24px">
+                <Thead>
+                  <Tr>
+                    <Th>Application ID</Th>
+                    <Th>Status</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {
+                  inProgress.map((application: any) => (
+                    <Tr key={application.id}>
+                      <Td w="50%">
+                        <Flex alignItems="center" gap="8px">
+                          <ArrowRightIcon
+                            color={colors.theme.primary}
+                            boxSize="10px"
+                          />
+                          <Text color={colors.theme.primary} variant="label">
+                            <Link
+                              as={RouterLink}
+                              to={`./review/${application.id}`}
+                            >
+                              {application.id}
+                            </Link>
+                          </Text>
+                        </Flex>
+                      </Td>
+                      <Td w="50%">
+                        <ApplicationStatus status={application.status as Status} />
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            )}
+            <Text size="sm" variant="label" fontWeight="500">
+              <Link
+                to={`./../application/${
+                  Math.floor(Math.random() * (9999999 - 100000)) + 100000
+                }`}
+                as={RouterLink}
+                color={colors.theme.primary}
+                textDecoration="underline"
+              >
+                Start a new application
+              </Link>
+            </Text>
+          </Flex>
+          <Flex direction="column" gap="10px">
+            <Text variant="title" size="lg">
+              Completed Applications
+            </Text>
             <Table mr="-20px" ml="-24px">
               <Thead>
                 <Tr>
@@ -79,7 +115,7 @@ export default function ApplicationList() {
                 </Tr>
               </Thead>
               <Tbody>
-                {ongoingApplications?.map((application) => (
+                {completed.map((application: any) => (
                   <Tr key={application.id}>
                     <Td w="50%">
                       <Flex alignItems="center" gap="8px">
@@ -88,10 +124,7 @@ export default function ApplicationList() {
                           boxSize="10px"
                         />
                         <Text color={colors.theme.primary} variant="label">
-                          <Link
-                            as={RouterLink}
-                            to={`./review/${application.id}`}
-                          >
+                          <Link as={RouterLink} to={`./review/${application.id}`}>
                             {application.id}
                           </Link>
                         </Text>
@@ -104,59 +137,12 @@ export default function ApplicationList() {
                 ))}
               </Tbody>
             </Table>
-          )}
-          <Text size="sm" variant="label" fontWeight="500">
-            <Link
-              to={`./../application/${
-                Math.floor(Math.random() * (9999999 - 100000)) + 100000
-              }`}
-              as={RouterLink}
-              color={colors.theme.primary}
-              textDecoration="underline"
-            >
-              Start a new application
-            </Link>
-          </Text>
+          </Flex>
+          <Button mt="auto" variant="outline" colorScheme="admin">
+            Back
+          </Button>
         </Flex>
-        <Flex direction="column" gap="10px">
-          <Text variant="title" size="lg">
-            Completed Applications
-          </Text>
-          <Table mr="-20px" ml="-24px">
-            <Thead>
-              <Tr>
-                <Th>Application ID</Th>
-                <Th>Status</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {completedApplications.map((application) => (
-                <Tr key={application.id}>
-                  <Td w="50%">
-                    <Flex alignItems="center" gap="8px">
-                      <ArrowRightIcon
-                        color={colors.theme.primary}
-                        boxSize="10px"
-                      />
-                      <Text color={colors.theme.primary} variant="label">
-                        <Link as={RouterLink} to={`./review/${application.id}`}>
-                          {application.id}
-                        </Link>
-                      </Text>
-                    </Flex>
-                  </Td>
-                  <Td w="50%">
-                    <ApplicationStatus status={application.status} />
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Flex>
-        <Button mt="auto" variant="outline" colorScheme="admin">
-          Back
-        </Button>
-      </Flex>
-    </>
-  );
+      </>
+    );
+  }
 }

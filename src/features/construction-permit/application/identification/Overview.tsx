@@ -30,7 +30,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>ID</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>{state[ROLE.PROPERTY_OWNER].name}</Text>
+              <Text>{state[ROLE.PROPERTY_OWNER].idNumber}</Text>
             </dd>
           </HStack>
         </Stack>
@@ -51,7 +51,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>ID</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>{state[ROLE.PRINCIPAL_CONTRACTOR].name}</Text>
+              <Text>{state[ROLE.PRINCIPAL_CONTRACTOR].idNumber}</Text>
             </dd>
           </HStack>
         </Stack>
@@ -72,7 +72,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>ID</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>{state[ROLE.LEAD_ARCHITECT_OR_ENGINEER].name}</Text>
+              <Text>{state[ROLE.LEAD_ARCHITECT_OR_ENGINEER].idNumber}</Text>
             </dd>
           </HStack>
         </Stack>

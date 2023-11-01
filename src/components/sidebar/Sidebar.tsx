@@ -12,11 +12,12 @@ import {
 import { NavLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import { topics } from "../../features/front-page/components/topics/Topics";
-import { logout } from "../../utilities/token";
+import { useAuthentication } from "../../utilities/useAuthentication";
 import Protected from "../protected/Protected";
 import Search from "../search/Search";
 
 export default function Sidebar() {
+  const {logout} = useAuthentication();
   return (
     <Flex
       backgroundColor={colors.secondary[0]}

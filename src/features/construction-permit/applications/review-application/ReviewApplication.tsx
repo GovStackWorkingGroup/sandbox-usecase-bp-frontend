@@ -1,37 +1,34 @@
-import { Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Button, Flex, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 import Accordion from "../../../../components/accordion/Accordion";
 import AccordionItem from "../../../../components/accordion/AccordionItem";
 import Breadcrumbs, {
   BreadcrumbPaths,
 } from "../../../../components/breadcrumbs/Breadcrumbs";
-import ApplicationStatus, {
-  Status,
-} from "../../../../components/status/ApplicationStatus";
-import { ROLE } from "../../application/identification/Identification";
-
-const application = {
-  id: "987654",
-  status: Status.IN_REVIEW,
-  parcel: "124124",
-  identification: {
-    [ROLE.PROPERTY_OWNER]: { name: "Random Name", idNumber: 320592835 },
-    [ROLE.PRINCIPAL_CONTRACTOR]: {
-      name: "Contractor Name",
-      idNumber: 32680236,
-    },
-    [ROLE.LEAD_ARCHITECT_OR_ENGINEER]: {
-      name: "Engineer Name",
-      idNumber: 2352358,
-    },
-    [ROLE.OTHER]: { name: null, idNumber: null },
-  },
-  documents: [],
-};
+import ApplicationStatus from "../../../../components/status/ApplicationStatus";
+import { RPCContext } from "../../../../rpc/rpc";
+import { Application } from "../../../../rpc/types";
 
 export default function ReviewApplication() {
   const { id } = useParams();
+  const rpc = useContext(RPCContext);
+  const navigate = useNavigate();
+  const [application, setApplication] = useState<Application>();
+
+  useQuery(
+    `applications`,
+    rpc.getApplications,
+    {
+      onSuccess: (application) => {
+        const currentApplication = application.find((application: Application) => application.id === id);
+        setApplication(currentApplication);
+      }
+    }
+  );
+
   const breadcrumbs: BreadcrumbPaths = [
     ["Housing", null],
     ["Construction Permit", "/housing/construction-permit"],
@@ -43,6 +40,7 @@ export default function ReviewApplication() {
   ];
 
   return (
+    application?(
     <>
       <Breadcrumbs path={breadcrumbs} />
       <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
@@ -79,20 +77,70 @@ export default function ReviewApplication() {
           </Text>
           <Accordion>
             <AccordionItem title="Parcel ID">
-              <></>
+              <>
+                {application.parcelID}
+              </>
             </AccordionItem>
+
             <AccordionItem title="Identification">
-              <></>
+              <>
+              {(application.identification.length > 0)?(
+                <>
+                  <UnorderedList gap="20px" p="10px">
+                  {application.identification.map((role) =>
+                  <>
+                    <ListItem>
+                      <b>{role.role}</b>: <br />
+                      {role.data.idNumber} ({role.data.name})
+                      <br />< br />
+                    </ListItem>
+                  </>
+                  )}
+                  </UnorderedList>
+                </>
+              ):("")}
+              </>
             </AccordionItem>
+
             <AccordionItem title="Documents">
-              <></>
+              {(application.documents.length > 0)?(
+                <>
+                  <UnorderedList gap="20px" p="10px">
+                  {application.documents.map((document) =>
+                  <>
+                    <ListItem>
+                      {document.name}
+                    </ListItem>
+                  </>
+                  )}
+                  </UnorderedList>
+                </>
+              ):("")}
             </AccordionItem>
+
+            {(application.pendingDocuments.length > 0)?(
+              <>
+                <AccordionItem title="Pending documents">
+                  <UnorderedList gap="20px" p="10px">
+                  {application.pendingDocuments.map((document) =>
+                  <>
+                    <ListItem>
+                      {document.name} ( {document.extensions} )
+                    </ListItem>
+                  </>
+                  )}
+                  </UnorderedList>
+                  <Button onClick={() => navigate(`../../construction-permit/application/${application.id}/documents`)}>Upload Documents</Button>
+                </AccordionItem>
+              </>
+            ):("")}
           </Accordion>
         </Flex>
-        <Button colorScheme="admin" mt="auto" variant="outline">
+        <Button colorScheme="admin" mt="auto" variant="outline" onClick={() => navigate(-1)}>
           Back
         </Button>
       </Flex>
     </>
+    ):("")
   );
 }

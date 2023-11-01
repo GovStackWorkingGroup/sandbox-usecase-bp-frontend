@@ -5,13 +5,13 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider } from "react-router-dom";
 import { Accordion } from "./chakra-overrides/Accordion";
 import { Button } from "./chakra-overrides/Button";
-import { colors } from "./chakra-overrides/colors";
 import { Heading } from "./chakra-overrides/Heading";
 import { Input } from "./chakra-overrides/Input";
 import { List } from "./chakra-overrides/List";
 import { Progress } from "./chakra-overrides/Progress";
 import Tabs from "./chakra-overrides/Tabs";
 import { Text } from "./chakra-overrides/Text";
+import { colors } from "./chakra-overrides/colors";
 import "./index.css";
 import { router } from "./routes/router";
 
@@ -39,6 +39,27 @@ const theme = extendTheme({
 
 const queryClient = new QueryClient();
 
+
+// on (re)load, check signed-id status
+fetch(
+  `/api/v1/rpc-data/data`,
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+    },
+    body: JSON.stringify({
+      "tenant": "building-permit",
+      "key": "applications"
+    }),
+signal: AbortSignal.timeout(5000)})
+.then(response => {
+  if (!response.ok) {
+    sessionStorage.removeItem("token");
+  }
+})
+.finally(() => {
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
@@ -47,4 +68,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>,
-);
+)
+});
