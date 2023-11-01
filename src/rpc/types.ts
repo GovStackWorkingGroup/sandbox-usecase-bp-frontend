@@ -1,20 +1,15 @@
 import { Status } from "../components/status/ApplicationStatus";
-
-export interface Identification {
-  id?: string,
-  name: string,
-  email?: string,
-  phoneNumber?: string,
-  role: string
-}
+import { ROLE, RoleData } from "../features/construction-permit/application/identification/Identification";
 
 export interface Application {
   id: string;
   status: Status;
   parcelID: string;
-  identification: Identification[];
+  identification: {role: ROLE, data: RoleData}[]
   documents: {
-    name: string
+    name: string,
+    progress?:number,
+    url?: string
   }[];
   pendingDocuments:
     {

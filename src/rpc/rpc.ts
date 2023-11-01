@@ -13,8 +13,8 @@ export default class RPC {
   setData = (key: string, value: string) =>
     this.RPCProviderFactory.getProvider("setData").setData(key, value);
 
-  forseSetData = (key:string, value: string) =>
-    this.RPCProviderFactory.getProvider("forseSetData").forceSetData(key, value);
+  forceSetData = (key:string, value: string) =>
+    this.RPCProviderFactory.getProvider("forceSetData").forceSetData(key, value);
 
   invalidateSession = () =>
     this.RPCProviderFactory.getProvider("invalidateSession").invalidateSession();

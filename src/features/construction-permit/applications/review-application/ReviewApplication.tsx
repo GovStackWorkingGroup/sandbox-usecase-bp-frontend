@@ -1,5 +1,5 @@
 import { Button, Flex, Heading, ListItem, Text, UnorderedList } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
@@ -8,31 +8,9 @@ import AccordionItem from "../../../../components/accordion/AccordionItem";
 import Breadcrumbs, {
   BreadcrumbPaths,
 } from "../../../../components/breadcrumbs/Breadcrumbs";
-import ApplicationStatus, {
-  Status,
-} from "../../../../components/status/ApplicationStatus";
+import ApplicationStatus from "../../../../components/status/ApplicationStatus";
 import { RPCContext } from "../../../../rpc/rpc";
 import { Application } from "../../../../rpc/types";
-import { ROLE } from "../../application/identification/Identification";
-
-const application = {
-  id: "987654",
-  status: Status.IN_REVIEW,
-  parcel: "124124",
-  identification: {
-    [ROLE.PROPERTY_OWNER]: { name: "Random Name", idNumber: 320592835 },
-    [ROLE.PRINCIPAL_CONTRACTOR]: {
-      name: "Contractor Name",
-      idNumber: 32680236,
-    },
-    [ROLE.LEAD_ARCHITECT_OR_ENGINEER]: {
-      name: "Engineer Name",
-      idNumber: 2352358,
-    },
-    [ROLE.OTHER]: { name: null, idNumber: null },
-  },
-  documents: [],
-};
 
 export default function ReviewApplication() {
   const { id } = useParams();
@@ -106,7 +84,21 @@ export default function ReviewApplication() {
 
             <AccordionItem title="Identification">
               <>
-                {application.identification}
+              {(application.identification.length > 0)?(
+                <>
+                  <UnorderedList gap="20px" p="10px">
+                  {application.identification.map((role) =>
+                  <>
+                    <ListItem>
+                      <b>{role.role}</b>: <br />
+                      {role.data.idNumber} ({role.data.name})
+                      <br />< br />
+                    </ListItem>
+                  </>
+                  )}
+                  </UnorderedList>
+                </>
+              ):("")}
               </>
             </AccordionItem>
 
@@ -138,6 +130,7 @@ export default function ReviewApplication() {
                   </>
                   )}
                   </UnorderedList>
+                  <Button onClick={() => navigate(`../../construction-permit/application/${application.id}/documents`)}>Upload Documents</Button>
                 </AccordionItem>
               </>
             ):("")}

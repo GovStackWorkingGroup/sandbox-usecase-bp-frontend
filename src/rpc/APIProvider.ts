@@ -58,7 +58,8 @@ export default class APIProvider extends BaseProvider {
         })
       },
     );
-    return req.json() as Promise<string>;
+    if (req.ok) return req.json() as Promise<string>;
+    else throw req.status
   }
 
   async forceSetData(key: string, value: string) {

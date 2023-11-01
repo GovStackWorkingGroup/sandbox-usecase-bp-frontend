@@ -10,14 +10,51 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 import ListCard from "../../../../components/list-card/ListCard";
+import { Status } from "../../../../components/status/ApplicationStatus";
+import { Application } from "../../../../rpc/types";
 
 export default function Parcel() {
+  const { id } = useParams();
   const [mapOpened, setMapOpened] = useState(false);
   const [parcelId, setParcelId] = useState("");
+  const [application, setApplication] = useState<Application>({
+    id: `${id}`,
+    status: Status.DRAFT,
+    parcelID: "",
+    identification: [],
+    documents: [],
+    pendingDocuments: []
+  });
+  const navigate = useNavigate();
+
+  const storageApplication = localStorage.getItem("application");
+
+  useEffect(() => {
+    if (storageApplication) {
+      const application = JSON.parse(storageApplication) as Application;
+      setParcelId(application.parcelID);
+      setApplication(application);
+    } else {
+      navigate("../../construction-permit");
+    }
+  }, []);
+
+const handleContinue = () => {
+  if (application) application.parcelID = parcelId;
+    setApplication(application);
+    localStorage.setItem("application", JSON.stringify(application));
+    if (application.identification.length != 0 && application.parcelID.length != 0 && application.documents.length != 0){
+      navigate(`../${id}` );
+    }
+      else {
+        if (application.identification.length == 0) navigate(`../${id}/identification`)
+        else if(application.pendingDocuments.length > application.documents.length) navigate(`../${id}/documents`);
+      }
+}
 
   return (
     <>
@@ -35,6 +72,7 @@ export default function Parcel() {
             <FormLabel>Parcel ID</FormLabel>
             <Input
             maxLength={7}
+            defaultValue={parcelId}
             onChange={(e) => setParcelId(e.target.value)}
             placeholder="What is the Parcel ID?" />
           </FormControl>
@@ -127,10 +165,10 @@ export default function Parcel() {
       </Flex>
       <Flex marginTop="auto" mb="20px">
         <ButtonGroup flexDirection="column" w="100%" gap="10px">
-          <Button colorScheme="admin" as={RouterLink} to="./../">
+          <Button colorScheme={(parcelId.length === 7)?"admin":"disabled"} disabled={(parcelId.length !== 7)} onClick={() => (parcelId.length == 7)?handleContinue():""}>
             Continue
           </Button>
-          <Button variant="outline" colorScheme="admin">
+          <Button onClick={() => navigate(`../${id}`)} variant="outline" colorScheme="admin">
             Save for later
           </Button>
         </ButtonGroup>
