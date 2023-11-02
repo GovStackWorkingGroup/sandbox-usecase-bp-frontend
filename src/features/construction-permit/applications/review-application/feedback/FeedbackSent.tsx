@@ -13,11 +13,10 @@ export default function FeedbackSent() {
     <>
       <Flex
         gap="20px"
-        margin="0 -20px"
+        margin="80px -20px 0 -20px"
         direction="column"
-        paddingTop="40px"
-        paddingBottom="20px"
         paddingX="20px"
+        pb="20px"
         flexGrow={1}
       >
         <Flex direction="column" gap="10px">
@@ -32,7 +31,7 @@ export default function FeedbackSent() {
             user-friendly.
           </Text>
         </Flex>
-        <ButtonGroup padding="10px" colorScheme="admin" marginTop="auto">
+        <ButtonGroup colorScheme="admin" marginTop="auto">
           <VStack w="100%">
             <Button variant="solid" w="100%">
               My Applicatons

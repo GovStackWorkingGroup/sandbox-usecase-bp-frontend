@@ -9,13 +9,19 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import FeedbackRating from "./FeedbackRatingRadio";
+import FeedbackSent from "./FeedbackSent";
 
 export default function Feedback() {
+  const [feedbackSent, setFeedbackSent] = useState(false);
+  if (feedbackSent) {
+    return <FeedbackSent />;
+  }
   return (
     <>
-      <Flex gap="20px" paddingBottom="20px" flexGrow={1}>
+      <Flex mt="80px" gap="20px" paddingBottom="20px" flexGrow={1}>
         <Flex gap="10px" direction="column" w="100%">
           <Heading as="h1" size="md" variant="display">
             We need your Feedback!
@@ -40,8 +46,7 @@ export default function Feedback() {
             <ButtonGroup colorScheme="admin" w="100%">
               <VStack w="100%">
                 <Button
-                  as={RouterLink}
-                  to="/feedbackSent"
+                  onClick={() => setFeedbackSent(true)}
                   variant="solid"
                   width="100%"
                 >

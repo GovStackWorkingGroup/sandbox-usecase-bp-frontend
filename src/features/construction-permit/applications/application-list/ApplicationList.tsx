@@ -33,14 +33,21 @@ const breadcrumbs: BreadcrumbPaths = [
 export default function ApplicationList() {
   const rpc = useContext(RPCContext);
 
-  const { data: data} = useQuery(
-    `applications`,
-    rpc.getApplications,
-  );
+  const { data: data } = useQuery(`applications`, rpc.getApplications);
 
   if (data) {
-    const completed = data.filter((application: Application) => (application.status === Status.APPROVED || application.status === Status.COMPLETED || application.status === Status.REJECTED));
-    const inProgress = data.filter((application: Application) => (application.status !== Status.APPROVED && application.status !== Status.COMPLETED && application.status !== Status.REJECTED));
+    const completed = data.filter(
+      (application: Application) =>
+        application.status === Status.APPROVED ||
+        application.status === Status.COMPLETED ||
+        application.status === Status.REJECTED,
+    );
+    const inProgress = data.filter(
+      (application: Application) =>
+        application.status !== Status.APPROVED &&
+        application.status !== Status.COMPLETED &&
+        application.status !== Status.REJECTED,
+    );
     return (
       <>
         <Breadcrumbs path={breadcrumbs} />
@@ -63,8 +70,7 @@ export default function ApplicationList() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {
-                  inProgress.map((application: any) => (
+                  {inProgress.map((application: any) => (
                     <Tr key={application.id}>
                       <Td w="50%">
                         <Flex alignItems="center" gap="8px">
@@ -83,7 +89,9 @@ export default function ApplicationList() {
                         </Flex>
                       </Td>
                       <Td w="50%">
-                        <ApplicationStatus status={application.status as Status} />
+                        <ApplicationStatus
+                          status={application.status as Status}
+                        />
                       </Td>
                     </Tr>
                   ))}
@@ -124,7 +132,10 @@ export default function ApplicationList() {
                           boxSize="10px"
                         />
                         <Text color={colors.theme.primary} variant="label">
-                          <Link as={RouterLink} to={`./review/${application.id}`}>
+                          <Link
+                            as={RouterLink}
+                            to={`./review/${application.id}/approved`}
+                          >
                             {application.id}
                           </Link>
                         </Text>

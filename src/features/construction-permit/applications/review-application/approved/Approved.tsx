@@ -8,12 +8,28 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useParams } from "react-router-dom";
 import { colors } from "../../../../../chakra-overrides/colors";
+import Breadcrumbs, {
+  BreadcrumbPaths,
+} from "../../../../../components/breadcrumbs/Breadcrumbs";
 
 export default function Approved() {
+  const { id } = useParams();
+
+  const breadcrumbs: BreadcrumbPaths = [
+    ["Housing", null],
+    ["Construction Permit", "/housing/construction-permit"],
+    ["My Applications", `/housing/construction-permit/my-applications`],
+    [
+      `Permit application #${id}`,
+      `/housing/construction-permit/my-applications/review/${id}`,
+    ],
+  ];
   return (
     <>
+      <Breadcrumbs path={breadcrumbs} />
+
       <Flex
         gap="20px"
         direction="column"
@@ -58,7 +74,7 @@ export default function Approved() {
         </Text>
         <ButtonGroup colorScheme="admin" marginTop="auto">
           <VStack w="100%">
-            <Button variant="solid" w="100%">
+            <Button as={RouterLink} to="./../feedback" variant="solid" w="100%">
               Continue
             </Button>
             <Button variant="outline" w="100%">

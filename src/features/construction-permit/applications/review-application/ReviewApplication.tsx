@@ -34,8 +34,6 @@ export default function ReviewApplication() {
     },
   });
 
-  console.log(application);
-
   const breadcrumbs: BreadcrumbPaths = [
     ["Housing", null],
     ["Construction Permit", "/housing/construction-permit"],
