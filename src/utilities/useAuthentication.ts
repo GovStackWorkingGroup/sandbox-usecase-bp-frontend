@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { RPCContext } from "../rpc/rpc";
 import { useNavigate } from "react-router-dom";
+import { RPCContext } from "../rpc/rpc";
 import { getToken } from "./token";
 
 export const useAuthentication = () => {
@@ -9,18 +9,18 @@ export const useAuthentication = () => {
 
   const login = async (username: string, password: string) => {
     try {
-        const token = await rpc.getToken(username, password);
-        sessionStorage.setItem("token", token);
-        navigate("/");
+      const token = await rpc.getToken(username, password);
+      sessionStorage.setItem("token", token);
+      navigate("/");
     } catch (e) {
-        window.location.replace(`/login`);
+      window.location.replace(`/login`);
     }
   };
 
   const logout = () => {
     rpc.invalidateSession().then(() => {
       sessionStorage.removeItem("token");
-      navigate("/")
+      navigate("/");
     });
   };
 
@@ -29,4 +29,4 @@ export const useAuthentication = () => {
   };
 
   return { login, isAuthenticated, logout } as const;
-}
+};

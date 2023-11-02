@@ -1,3 +1,6 @@
+import CreditCard from "@assets/icons/credit-card.svg?react";
+import DigitalWallet from "@assets/icons/digital-wallet.svg?react";
+import MobilePayment from "@assets/icons/mobile-payment.svg?react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -8,14 +11,13 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import { colors } from "../../chakra-overrides/colors";
+import { Link as RouterLink, useParams } from "react-router-dom";
+import { colors } from "../../../../../chakra-overrides/colors";
 
-export default function Payment() {
+export default function PaymentOverview() {
   const { id } = useParams();
-
   return (
-    <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
+    <>
       <Heading variant="headline">Payment</Heading>
       <Text>Application #{id}</Text>
       <Text>
@@ -68,7 +70,11 @@ export default function Payment() {
           borderRadius="0"
           textAlign="left"
           backgroundColor={colors.secondary[0]}
+          gap="10px"
+          as={RouterLink}
+          to="bank-payment"
         >
+          <CreditCard stroke={colors.secondary[1000]} />
           <Flex w="100%" alignItems="center">
             <Box>
               <Text>Debit/Credit Card</Text>
@@ -83,7 +89,10 @@ export default function Payment() {
           borderRadius="0"
           textAlign="left"
           backgroundColor={colors.secondary[0]}
+          gap="10px"
         >
+          <MobilePayment stroke={colors.secondary[1000]} />
+
           <Flex w="100%" alignItems="center">
             <Box>
               <Text>Mobile Money</Text>
@@ -98,7 +107,10 @@ export default function Payment() {
           borderRadius="0"
           textAlign="left"
           backgroundColor={colors.secondary[0]}
+          gap="10px"
         >
+          <DigitalWallet stroke={colors.secondary[1000]} />
+
           <Flex w="100%" alignItems="center">
             <Box>
               <Text>Digital Wallet</Text>
@@ -127,6 +139,6 @@ export default function Payment() {
       <Button colorScheme="admin" mt="20px" variant="outline">
         Back
       </Button>
-    </Flex>
+    </>
   );
 }

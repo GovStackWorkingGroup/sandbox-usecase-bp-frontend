@@ -8,7 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { colors } from "../../chakra-overrides/colors";
+import { colors } from "../../../../../../chakra-overrides/colors";
 
 export default function PaymentSuccessful() {
   return (
@@ -23,7 +23,7 @@ export default function PaymentSuccessful() {
         height="100%"
         flexGrow={1}
       >
-        <Heading as="h1" size="md" variant="display" alignSelf="center">
+        <Heading as="h1" size="md" variant="display">
           Your Payment was Successful!
         </Heading>
         <Text>

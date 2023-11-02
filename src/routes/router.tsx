@@ -9,6 +9,9 @@ import Parcel from "../features/construction-permit/application/parcel/Parcel";
 import ApplicationSent from "../features/construction-permit/application/sent/Sent";
 import ApplicationList from "../features/construction-permit/applications/application-list/ApplicationList";
 import Applications from "../features/construction-permit/applications/Applications";
+import BankPayment from "../features/construction-permit/applications/review-application/payment/bank-payment/BankPayment";
+import PaymentOverview from "../features/construction-permit/applications/review-application/payment/Overview";
+import Payment from "../features/construction-permit/applications/review-application/payment/Payment";
 import ReviewApplication from "../features/construction-permit/applications/review-application/ReviewApplication";
 import ScheduleInspection from "../features/construction-permit/applications/review-application/schedule-inspection/ScheduleInspection";
 import ConstructionPermit from "../features/construction-permit/ConstructionPermit";
@@ -17,7 +20,6 @@ import FilesSent from "../features/documents/Sent";
 import FileUpload from "../features/documents/Upload";
 import FrontPage from "../features/front-page/FrontPage";
 import Login from "../features/login/Login";
-import Payment from "../features/payment/Payment";
 import { isAuthenticatedGuard, ProtectedRoute } from "./ProtectedRoute";
 export const router = createBrowserRouter([
   {
@@ -50,6 +52,14 @@ export const router = createBrowserRouter([
               { index: true, element: <ApplicationList /> },
               { path: "review/:id", element: <ReviewApplication /> },
               {
+                path: "review/:id/payment",
+                element: <Payment />,
+                children: [
+                  { index: true, element: <PaymentOverview /> },
+                  { path: "bank-payment", element: <BankPayment /> },
+                ],
+              },
+              {
                 path: "review/:id/schedule-inspection",
                 element: <ScheduleInspection />,
               },
@@ -74,7 +84,6 @@ export const router = createBrowserRouter([
                   { path: ":id/feedback", element: <Feedback /> },
                   { path: ":id/sent", element: <ApplicationSent /> },
                   { path: ":id/approved", element: <Approved /> },
-                  { path: ":id/payment", element: <Payment /> },
                 ],
               },
             ],
