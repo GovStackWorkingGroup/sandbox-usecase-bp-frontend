@@ -50,6 +50,7 @@ export default function Overview() {
   const [application, setApplication] = useState<Application>({
     id: `${id}`,
     status: Status.DRAFT,
+    action: "",
     parcelID: "",
     identification: [],
     documents: [],
@@ -70,6 +71,7 @@ const handleCreate = () => {
   if (applications) {
     const th = applications.find((app) => app.id == application.id);
     if (th) {
+      if (th.action == "documentsRequired") application.action = "inReview";
       rpc.forceSetData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
     } else {
       rpc.forceSetData("applications", JSON.stringify([...applications, application]));
@@ -77,7 +79,7 @@ const handleCreate = () => {
   } else {
     rpc.forceSetData("applications", JSON.stringify([application]));
   }
-  navigate("../../construction-permit")
+  navigate("../../construction-permit/my-applications")
 }
 
 const handleDelete = () => {

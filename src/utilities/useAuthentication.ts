@@ -9,9 +9,13 @@ export const useAuthentication = () => {
 
   const login = async (username: string, password: string) => {
     try {
-      const token = await rpc.getToken(username, password);
-      sessionStorage.setItem("token", token);
-      navigate("/");
+        const token = await rpc.getToken(username, password);
+        if (token) {
+          sessionStorage.setItem("token", token);
+          navigate("/");
+        } else {
+          window.location.replace(`/login`);
+        }
     } catch (e) {
       window.location.replace(`/login`);
     }

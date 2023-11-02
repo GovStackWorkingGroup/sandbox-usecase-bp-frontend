@@ -12,4 +12,12 @@ export default defineConfig({
       '@assets': resolve(__dirname, 'src/assets'),
     },
   },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       'target': 'http://localhost:12312',
+  //       'xfwd': true
+  //     }
+  //   }
+  // }
 })

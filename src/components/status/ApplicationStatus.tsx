@@ -19,42 +19,42 @@ export enum Status {
 
 const statusConfig = {
   [Status.COMPLETED]: {
-    icon: <CheckCircle fill={colors.status.green} />,
+    icon: <CheckCircle fill={colors.status.green} stroke="white"/>,
     title: "COMPLETED",
     color: colors.status.green,
   },
   [Status.NOT_STARTED]: {
-    icon: <AlertCircle fill={colors.status.grey} />,
+    icon: <AlertCircle fill={colors.status.grey} stroke="white"/>,
     title: "NOT STARTED",
     color: colors.status.grey,
   },
   [Status.IN_PROGRESS]: {
-    icon: <CircleEllipsis fill={colors.status.blue} />,
+    icon: <CircleEllipsis fill={colors.status.blue} stroke="white"/>,
     title: "IN PROGRESS",
     color: colors.status.blue,
   },
   [Status.REJECTED]: {
-    icon: <XCircle fill={colors.status.red} />,
+    icon: <XCircle fill={colors.status.red} stroke="white"/>,
     title: "REJECTED",
     color: colors.status.red,
   },
   [Status.IN_REVIEW]: {
-    icon: <CircleEllipsis fill={colors.status.yellow} />,
+    icon: <CircleEllipsis fill={colors.status.yellow} stroke="white"/>,
     title: "IN REVIEW",
     color: colors.status.yellow,
   },
   [Status.ACTION_NEEDED]: {
-    icon: <AlertCircle fill={colors.status.red} />,
+    icon: <AlertCircle fill={colors.status.red} stroke="white"/>,
     title: "ACTION NEEDED",
     color: colors.status.red,
   },
   [Status.DRAFT]: {
-    icon: <PauseCircle fill={colors.status.grey} />,
+    icon: <PauseCircle fill={colors.status.grey} stroke="white"/>,
     title: "DRAFT",
     color: colors.status.grey,
   },
   [Status.APPROVED]: {
-    icon: <CheckCircle fill={colors.status.green} />,
+    icon: <CheckCircle fill={colors.status.green} stroke="white"/>,
     title: "APPROVED",
     color: colors.status.green,
   },
