@@ -81,7 +81,7 @@ export default function ApplicationList() {
                           <Text color={colors.theme.primary} variant="label">
                             <Link
                               as={RouterLink}
-                              to={`./review/${application.id}`}
+                              to={(application.status !== Status.DRAFT)?(`./review/${application.id}`):(`../construction-permit/application/${application.id}`)}
                             >
                               {application.id}
                             </Link>
@@ -101,7 +101,7 @@ export default function ApplicationList() {
             <Text size="sm" variant="label" fontWeight="500">
               <Link
                 to={`./../application/${
-                  Math.floor(Math.random() * (9999999 - 100000)) + 100000
+                  Math.floor(Math.random() * (999999 - 100000)) + 100000
                 }`}
                 as={RouterLink}
                 color={colors.theme.primary}
