@@ -1,14 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "../components/layout/Layout";
 import Application from "../features/construction-permit/application/Application";
-import Approved from "../features/construction-permit/application/approved/Approved";
-import Feedback from "../features/construction-permit/application/feedback/Feedback";
 import Identification from "../features/construction-permit/application/identification/Identification";
 import Overview from "../features/construction-permit/application/overview/Overview";
 import Parcel from "../features/construction-permit/application/parcel/Parcel";
 import ApplicationSent from "../features/construction-permit/application/sent/Sent";
 import ApplicationList from "../features/construction-permit/applications/application-list/ApplicationList";
 import Applications from "../features/construction-permit/applications/Applications";
+import Approved from "../features/construction-permit/applications/review-application/approved/Approved";
+import Feedback from "../features/construction-permit/applications/review-application/feedback/Feedback";
 import BankPayment from "../features/construction-permit/applications/review-application/payment/bank-payment/BankPayment";
 import PaymentOverview from "../features/construction-permit/applications/review-application/payment/Overview";
 import Payment from "../features/construction-permit/applications/review-application/payment/Payment";
@@ -51,6 +51,9 @@ export const router = createBrowserRouter([
             children: [
               { index: true, element: <ApplicationList /> },
               { path: "review/:id", element: <ReviewApplication /> },
+              { path: "review/:id/feedback", element: <Feedback /> },
+              { path: "review/:id/approved", element: <Approved /> },
+
               {
                 path: "review/:id/payment",
                 element: <Payment />,
@@ -81,9 +84,7 @@ export const router = createBrowserRouter([
                   { path: ":id/identification", element: <Identification /> },
                   { path: ":id/documents", element: <FileUpload /> },
                   { path: ":id/documents/sent", element: <FilesSent /> },
-                  { path: ":id/feedback", element: <Feedback /> },
                   { path: ":id/sent", element: <ApplicationSent /> },
-                  { path: ":id/approved", element: <Approved /> },
                 ],
               },
             ],

@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-import { colors } from "../../../../chakra-overrides/colors";
+import { colors } from "../../../../../chakra-overrides/colors";
 
 export default function Approved() {
   return (

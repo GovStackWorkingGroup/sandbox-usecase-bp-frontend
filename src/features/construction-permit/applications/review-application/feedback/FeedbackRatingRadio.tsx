@@ -7,7 +7,7 @@ import {
   useRadio,
   useRadioGroup,
 } from "@chakra-ui/react";
-import { colors } from "../../../../chakra-overrides/colors";
+import { colors } from "../../../../../chakra-overrides/colors";
 
 function RadioCard(props: any) {
   const { getInputProps, getRadioProps } = useRadio(props);
