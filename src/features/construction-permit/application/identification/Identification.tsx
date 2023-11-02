@@ -45,7 +45,7 @@ function rolesReducer(state = initialState, action: RoleAction) {
 export default function Identification() {
   const {id} = useParams();
   const navigate = useNavigate();
-  const [idNumber, setIdNumber] = useState<string>("123123123123");
+  const [idNumber, setIdNumber] = useState<string>("9164993");
   const [name, setName] = useState<string>("Lewis Mumford");
   const [selectedRole, setSelectedRole] = useState<ROLE>(ROLE.PROPERTY_OWNER);
   const [isFinished, setIsFinished] = useState(false);
@@ -53,6 +53,19 @@ export default function Identification() {
   const handleRoleChange = (e: ChangeEvent) => {
     setSelectedRole((e.target as HTMLSelectElement).value as ROLE);
   };
+
+  const handleSave = () => {
+    const storage = localStorage.getItem("application");
+      if (storage) {
+        const application = JSON.parse(storage) as Application;
+        Object.keys(state).map((key, index) => {
+          application.identification.push({role: key as ROLE, data: Object.values(state)[index]})
+      });
+      localStorage.setItem("application", JSON.stringify(application));
+      navigate(`../${id}`);
+    }
+  }
+
   const handleContinue = () => {
     if (!isFinished) {
       dispatch({
@@ -67,15 +80,16 @@ export default function Identification() {
       const storage = localStorage.getItem("application");
       if (storage) {
         const application = JSON.parse(storage) as Application;
-        console.log(state);
         Object.keys(state).map((key, index) => {
-          application.identification.push({role: key as ROLE, data: Object.values(state)[index]})
+          application.identification = [...application.identification.filter((role) => role.role != key), {role: key as ROLE, data: Object.values(state)[index]}];
       });
         localStorage.setItem("application", JSON.stringify(application));
+        if (application.identification.length < 1) navigate(`../${id}/identification`)
+        else if (application.pendingDocuments.length > application.documents.length) navigate(`../${id}/documents`);
+        else navigate(`../${id}`);
       } else {
         return navigate("../../construction-permit");
       }
-      navigate("./../");
     }
   };
   const isFirstIdentification = useMemo(() => {
@@ -131,7 +145,7 @@ export default function Identification() {
           <Button onClick={() => handleContinue()} colorScheme="admin">
             Continue
           </Button>
-          <Button onClick={() => navigate(`../${id}`)} variant="outline" colorScheme="admin">
+          <Button onClick={() => handleSave()} variant="outline" colorScheme="admin">
             Save for later
           </Button>
         </ButtonGroup>

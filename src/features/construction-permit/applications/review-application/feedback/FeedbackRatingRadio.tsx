@@ -23,6 +23,7 @@ function RadioCard(props: any) {
         minW="3rem"
         minH="3rem"
         margin="10px"
+        cursor="pointer"
         fontWeight="semibold"
         alignItems="center"
         justifyContent="center"

@@ -91,7 +91,7 @@ export default class APIProvider extends BaseProvider {
         },
       },
     );
-    return req.json() as Promise<string>;
+    return req.text() as Promise<string>;
   }
 
   async getToken(username: string, password: string) {

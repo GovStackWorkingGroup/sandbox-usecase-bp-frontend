@@ -7,19 +7,35 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import { Link as RouterLink, useParams } from "react-router-dom";
+import { Status } from "../../../../../../components/status/ApplicationStatus";
+import { RPCContext } from "../../../../../../rpc/rpc";
+import { Application } from "../../../../../../rpc/types";
 import OngoingPayment from "../components/OngoingPayment";
 import PaymentSuccessful from "../components/PaymentSuccessful";
 export default function BankPayment() {
   const { id } = useParams();
+  const rpc = useContext(RPCContext);
 
   const [ongoingPayment, setOngoingPayment] = useState(false);
   const [successfulPayment, setSuccessfulPayment] = useState(false);
 
+  const {data: applications } = useQuery(
+    `applications`,
+    rpc.getApplications
+    );
+
   const handlePayment = () => {
     setOngoingPayment(true);
     setTimeout(() => {
+        const currentApplication = applications?.find((application) => application.id != id) as Application;
+        if (applications && currentApplication) {
+          currentApplication.action="inReview";
+          currentApplication.status=Status.IN_REVIEW;
+          rpc.forceSetData("applications", JSON.stringify([...applications.filter((application) => application.id != id), currentApplication]));
+        }
       setSuccessfulPayment(true);
     }, 4000);
   };

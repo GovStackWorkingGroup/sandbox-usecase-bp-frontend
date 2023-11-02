@@ -195,7 +195,7 @@ export default function ConstructionPermit() {
               <Button
                 as={RouterLink}
                 to={`application/${
-                  Math.floor(Math.random() * (9999999 - 100000)) + 100000
+                  Math.floor(Math.random() * (999999 - 100000)) + 100000
                 }`}
                 colorScheme="admin"
               >

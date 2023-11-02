@@ -30,6 +30,7 @@ export default function FileUpload() {
   const [application, setApplication] = useState<Application>({
     id: `${id}`,
     status: Status.DRAFT,
+    action: "inReview",
     parcelID: "",
     identification: [],
     documents: [],
@@ -86,20 +87,26 @@ export default function FileUpload() {
     }
   }
 
+  const handleSave = () => {
+    localStorage.setItem("application", JSON.stringify(application));
+    navigate(-1);
+  }
+  const handleRemove = (event: any) => {
+    setDocuments(documents.filter((document) => document.name != event.name));
+  }
+
   const handleUpload = () => {
-    if (documents.length  >= application.pendingDocuments.length) {
+    if (documents.length >= application.pendingDocuments.length) {
       if (application.pendingDocuments.length != 0) {
         application.status = Status.IN_REVIEW;
         application.pendingDocuments = [];
       }
       application.documents = documents;
       localStorage.setItem("application", JSON.stringify(application));
-      if (application.identification.length != 0 && application.parcelID != "" && application.documents.length != 0)
-      navigate(`../${id}`);
-      else {
-        if (application.identification.length == 0) navigate(`../${id}/identification`)
-        else if(application.parcelID.length == 0) navigate(`../${id}/parcel`);
-      }
+
+      if (application.identification.length < 1) navigate(`../${id}/identification`);
+      else if (application.parcelID.length < 1) navigate(`../${id}/parcel`);
+      else navigate(`../${id}`);
     } else {
       alert("Upload all required documents");
     }
@@ -178,7 +185,7 @@ export default function FileUpload() {
                       <>
                         <Flex direction="row" gap="15px" marginStart="auto">
                           <DownloadIcon onClick={undefined} />
-                          <DeleteIcon onClick={undefined} />
+                          <DeleteIcon onClick={() => handleRemove(document)} />
                         </Flex>
                       </>
                     )
@@ -198,7 +205,7 @@ export default function FileUpload() {
                   <Button onClick={() => handleUpload()} variant="solid" w="100%">
                     Save
                   </Button>
-                  <Button onClick={() => navigate(`../${id}`)} variant="outline" w="100%">
+                  <Button onClick={() =>  handleSave()} variant="outline" w="100%">
                     Back
                   </Button>
                 </>
@@ -207,7 +214,7 @@ export default function FileUpload() {
                   <Button onClick={() => handleUpload()} variant="solid" w="100%">
                     Continue
                   </Button>
-                  <Button onClick={() => navigate(`../${id}`)} variant="outline" w="100%">
+                  <Button onClick={() => handleSave()} variant="outline" w="100%">
                     Save for later
                   </Button>
                 </>

@@ -44,7 +44,7 @@ export const router = createBrowserRouter([
           {
             path: "construction-permit/my-applications",
             element: (
-              <ProtectedRoute guard={isAuthenticatedGuard}>
+              <ProtectedRoute guard={isAuthenticatedGuard} redirect="/login">
                 <Applications />
               </ProtectedRoute>
             ),

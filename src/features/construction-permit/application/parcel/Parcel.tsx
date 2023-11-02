@@ -25,6 +25,7 @@ export default function Parcel() {
     id: `${id}`,
     status: Status.DRAFT,
     parcelID: "",
+    action: "inReview",
     identification: [],
     documents: [],
     pendingDocuments: []
@@ -47,14 +48,11 @@ const handleContinue = () => {
   if (application) application.parcelID = parcelId;
     setApplication(application);
     localStorage.setItem("application", JSON.stringify(application));
-    if (application.identification.length != 0 && application.parcelID.length != 0 && application.documents.length != 0){
-      navigate(`../${id}` );
-    }
-      else {
-        if (application.identification.length == 0) navigate(`../${id}/identification`)
-        else if(application.pendingDocuments.length > application.documents.length) navigate(`../${id}/documents`);
-      }
-}
+
+    if (application.identification.length < 1) navigate(`../${id}/identification`)
+    else if(application.pendingDocuments.length > application.documents.length) navigate(`../${id}/documents`);
+    else navigate(`../${id}`);
+  }
 
   return (
     <>

@@ -9,7 +9,7 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
@@ -22,12 +22,6 @@ export default function Overview() {
   const { id } = useParams();
   const rpc = useContext(RPCContext);
   const navigate = useNavigate();
-  const [apps, setApps] = useState<Application[]>([]);
-
-  const {data: applications } = useQuery(
-    `applications`,
-    rpc.getApplications
-  );
 
   const documentsRequired = [
     {
@@ -57,35 +51,48 @@ export default function Overview() {
     pendingDocuments: documentsRequired
   });
 
-useEffect(() => {
-  const onGoingApplication = localStorage.getItem("application");
-  if (!onGoingApplication || JSON.parse(onGoingApplication).id !== id)
-    localStorage.setItem("application", JSON.stringify(application));
-  else {
-    const application = localStorage.getItem("application");
-    if (application) setApplication(JSON.parse(application));
-  }
-}, []);
+  const {data: applications } = useQuery(
+    `applications`,
+    rpc.getApplications, {
+      onSuccess: (applications) => {
+        const existingApplication = applications?.find((application) => application.id === id);
+        const storageApplication = localStorage.getItem("application");
 
-const handleCreate = () => {
-  if (applications) {
-    const th = applications.find((app) => app.id == application.id);
-    if (th) {
-      if (th.action == "documentsRequired") application.action = "inReview";
-      rpc.forceSetData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
-    } else {
-      rpc.forceSetData("applications", JSON.stringify([...applications, application]));
+        if (existingApplication && !storageApplication ||
+          existingApplication && storageApplication && JSON.parse(storageApplication).id !== existingApplication?.id) {
+          localStorage.setItem("application", JSON.stringify(existingApplication));
+          setApplication(existingApplication);
+        }
+        else if (!existingApplication && storageApplication && JSON.parse(storageApplication).id !== id ||
+        !existingApplication && !storageApplication){
+          localStorage.setItem("application", JSON.stringify(application));
+          setApplication(application);
+        } else {
+          if (storageApplication) setApplication(JSON.parse(storageApplication));
+        }
+      }
     }
-  } else {
-    rpc.forceSetData("applications", JSON.stringify([application]));
-  }
-  navigate("../../construction-permit/my-applications")
-}
+  );
 
-const handleDelete = () => {
-  localStorage.removeItem("application");
-  navigate("../../construction-permit");
-}
+  const handleCreate = () => {
+    if (applications) {
+      const th = applications.find((app) => app.id == application.id);
+      if (th) {
+        if (th.action == "documentsRequired") application.action = "inReview";
+        rpc.forceSetData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
+      } else {
+        rpc.forceSetData("applications", JSON.stringify([...applications, application]));
+      }
+    } else {
+      rpc.forceSetData("applications", JSON.stringify([application]));
+    }
+    navigate("../../construction-permit/my-applications")
+  }
+
+  const handleDelete = () => {
+    localStorage.removeItem("application");
+    navigate("../../construction-permit");
+  }
 
   return (
     <Flex direction="column" flexGrow={1}>
@@ -142,10 +149,9 @@ const handleDelete = () => {
           </Text>
         </Action>
         <Divider />
-
         <Action
           title="Documents"
-          status={(application.documents.length == 0)?Status.NOT_STARTED:Status.COMPLETED}
+          status={((application.action === "documentsRequired" && application.pendingDocuments.length > 0)?Status.ACTION_NEEDED:((application.status === Status.DRAFT)?Status.NOT_STARTED:Status.COMPLETED))}
           action={
             <Link
               as={RouterLink}
@@ -162,10 +168,10 @@ const handleDelete = () => {
             identified during the second step - identification.
           </Text>
           <UnorderedList>
-            <ListItem>Block/Site Plan</ListItem>
-            <ListItem>Detailed Plans Scale 1:50</ListItem>
-            <ListItem>Estimate time and cost of the projects</ListItem>
-            <ListItem>Property Title</ListItem>
+            {application.pendingDocuments.map((document) =>
+            <ListItem key={document.name}>
+              {document.name}
+            </ListItem>)}
           </UnorderedList>
         </Action>
         <Text variant="label">
