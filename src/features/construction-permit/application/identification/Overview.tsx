@@ -1,8 +1,10 @@
-import { Flex, HStack, Stack, StackDivider, Text } from "@chakra-ui/react";
+import EditIcon from "@assets/icons/edit.svg?react";
+import { Flex, HStack, Spacer, Stack, StackDivider, Text } from "@chakra-ui/react";
 import { colors } from "../../../../chakra-overrides/colors";
 import { ROLE, RoleData } from "./Identification";
 
 export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
+  const editRole = () => {}
   return (
     <>
       <Text>Please review the contact information</Text>
@@ -14,9 +16,16 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
         borderRadius="16px"
       >
         <Stack divider={<StackDivider />} spacing="10px">
-          <Text variant="title" size="lg">
-            Property Owner
-          </Text>
+          <Flex direction="row">
+            <Text variant="title" size="lg">
+              Property Owner
+            </Text>
+            <Spacer />
+            <Flex gap="10px" onClick={() => editRole()}>
+              <Text color={colors.theme.primary} fontWeight="semibold">Edit</Text>
+              <EditIcon stroke={colors.theme.primary}/>
+            </Flex>
+          </Flex>
           <HStack w="100%">
             <dl style={{ width: "50%" }}>
               <Text>Name</Text>
@@ -35,9 +44,16 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
           </HStack>
         </Stack>
         <Stack divider={<StackDivider />} spacing="10px">
-          <Text variant="title" size="lg">
-            Principal Contractor
-          </Text>
+        <Flex direction="row"  onClick={() => editRole()}>
+            <Text variant="title" size="lg">
+              Principal Contractor
+            </Text>
+            <Spacer />
+            <Flex gap="10px">
+              <Text color={colors.theme.primary} fontWeight="semibold">Edit</Text>
+              <EditIcon stroke={colors.theme.primary}/>
+            </Flex>
+          </Flex>
           <HStack w="100%">
             <dl style={{ width: "50%" }}>
               <Text>Name</Text>
@@ -56,9 +72,16 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
           </HStack>
         </Stack>
         <Stack divider={<StackDivider />} spacing="10px">
-          <Text variant="title" size="lg">
-            Lead Architect / Engineer
-          </Text>
+          <Flex direction="row">
+            <Text variant="title" size="lg">
+              Lead Architect / Engineer
+            </Text>
+            <Spacer />
+            <Flex gap="10px"  onClick={() => editRole()}>
+              <Text color={colors.theme.primary} fontWeight="semibold">Edit</Text>
+              <EditIcon stroke={colors.theme.primary}/>
+            </Flex>
+          </Flex>
           <HStack w="100%">
             <dl style={{ width: "50%" }}>
               <Text>Name</Text>
