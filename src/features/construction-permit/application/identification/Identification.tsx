@@ -1,6 +1,8 @@
-import { Button, ButtonGroup, Flex, Heading } from "@chakra-ui/react";
+import PlusIcon from "@assets/icons/plus.svg?react";
+import { Button, ButtonGroup, Flex, Heading, Text } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useMemo, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { colors } from "../../../../chakra-overrides/colors";
 import { Application } from "../../../../rpc/types";
 import InitialIdentification from "./InitialIdentification";
 import Overview from "./Overview";
@@ -53,6 +55,10 @@ export default function Identification() {
   const handleRoleChange = (e: ChangeEvent) => {
     setSelectedRole((e.target as HTMLSelectElement).value as ROLE);
   };
+
+  const handleAddPerson = () => {
+    console.log("Person added");
+  }
 
   const handleSave = () => {
     const storage = localStorage.getItem("application");
@@ -120,7 +126,13 @@ export default function Identification() {
           Identification
         </Heading>
         {isFinished ? (
-          <Overview state={state} />
+          <>
+            <Overview state={state} />
+            <Flex direction="row" gap="20px" cursor="pointer" color={colors.theme.primary} onClick={() => handleAddPerson()}>
+              <PlusIcon stroke={colors.theme.primary}/>
+              <Text fontWeight="semibold">Add Additional Person (Optional)</Text>
+            </Flex>
+          </>
         ) : (
           <>
             {isFirstIdentification ? (
@@ -140,6 +152,7 @@ export default function Identification() {
           </>
         )}
       </Flex>
+
       <Flex marginTop="auto" mb="20px">
         <ButtonGroup flexDirection="column" w="100%" gap="10px">
           <Button onClick={() => handleContinue()} colorScheme="admin">
