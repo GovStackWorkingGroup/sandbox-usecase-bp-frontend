@@ -79,12 +79,12 @@ export default function Overview() {
       const th = applications.find((app) => app.id == application.id);
       if (th) {
         if (th.action == "documentsRequired") application.action = "inReview";
-        rpc.forceSetData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
+        rpc.setData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
       } else {
-        rpc.forceSetData("applications", JSON.stringify([...applications, application]));
+        rpc.setData("applications", JSON.stringify([...applications, application]));
       }
     } else {
-      rpc.forceSetData("applications", JSON.stringify([application]));
+      rpc.setData("applications", JSON.stringify([application]));
     }
     navigate("../../construction-permit/my-applications")
   }
