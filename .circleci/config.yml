@@ -1,26 +1,59 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/configuration-reference
 version: 2.1
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/configuration-reference/#jobs
+orbs:
+  aws-cli: circleci/aws-cli@3.1.4
+  aws-ecr: circleci/aws-ecr@8.2.1
+  aws-eks: circleci/aws-eks@2.2.0
+  helm: circleci/helm@1.0
+  kubernetes: circleci/kubernetes@1.3.1
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/configuration-reference/#executor-job
+  deploy-frontend:
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/configuration-reference/#steps
+      - image: cimg/aws:2023.03
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+      - aws-cli/setup:
+          role-arn: 'arn:aws:iam::463471358064:role/CICDPipeline_sandbox-usecase-bp-frontend_Role_dev'
+          aws-region: AWS_DEFAULT_REGION
+          profile-name: CICDPipeline_sandbox-usecase-bp-frontend_Role_dev
+          role-session-name: CircleSession
+          session-duration: '1800'
+      - helm/install-helm-client:
+          version: v3.2.0
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: "${AWS_CLUSTER_NAME}"
+          cluster-authentication-role-arn: arn:aws:iam::463471358064:role/CICDPipeline_sandbox-usecase-bp-frontend_Role_dev
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: Create and push frontend container
+          command: |
+              docker build -t app/bp/dev-frontend:latest .
+              aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin 463471358064.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+              docker tag app/bp/dev-frontend:latest 463471358064.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/app/bp/dev-frontend:latest
+              docker push 463471358064.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/app/bp/dev-frontend:latest
+      - run:
+          name: Install chart
+          command: |
+            helm upgrade \
+              bp-frontend ./helm --install --create-namespace --namespace ${NAMESPACE}
+      - run:
+          name: Validate deployments
+          command: |
+            echo "Validate deployment"
+            kubectl rollout status --watch --timeout=60s deployment/bp-frontend -n ${NAMESPACE} 
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/configuration-reference/#workflows
+parameters:
+  deploy_allowed:
+    type: boolean
+    default: false
+
 workflows:
-  say-hello-workflow:
+  Frontend Deployment:
+    when: << pipeline.parameters.deploy_allowed >>
     jobs:
-      - say-hello
+      - hold:
+          type: approval
+      - deploy-frontend:
+          context: aws
+          requires:
+            - hold
