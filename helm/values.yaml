@@ -1,0 +1,19 @@
+bp_frontend:
+  name: "building-permit"
+  replicaCount: 1
+  labels:
+    app: "building-permit"
+  template:
+    labels:
+      app: "building-permit"
+  container:
+    name: building-permit
+    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/bp/dev-frontend
+    imageTag: latest
+    imagePullPolicy: "Always"
+  profiles: "container"
+  service:
+    name: "building-permit"
+    type: ClusterIP
+    port: 80
+    targetPort: 80
