@@ -39,15 +39,14 @@ const theme = extendTheme({
 
 const queryClient = new QueryClient();
 
-
 // on (re)load, check signed-id status
 fetch(
-  `/api/v1/rpc-data/data`,
+  `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/data`,
   {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`
+      "Authorization": sessionStorage.getItem("token")?(`Bearer ${sessionStorage.getItem("token")}`):("")
     },
     body: JSON.stringify({
       "tenant": "building-permit",

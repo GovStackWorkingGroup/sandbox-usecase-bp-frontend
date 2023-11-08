@@ -30,11 +30,11 @@ export default function BankPayment() {
   const handlePayment = () => {
     setOngoingPayment(true);
     setTimeout(() => {
-        const currentApplication = applications?.find((application) => application.id != id) as Application;
+        const currentApplication = applications?.find((application) => application.id === id) as Application;
         if (applications && currentApplication) {
           currentApplication.action="inReview";
           currentApplication.status=Status.IN_REVIEW;
-          rpc.forceSetData("applications", JSON.stringify([...applications.filter((application) => application.id != id), currentApplication]));
+          rpc.setData("applications", JSON.stringify([...applications.filter((application) => application.id != id), currentApplication]));
         }
       setSuccessfulPayment(true);
     }, 4000);
