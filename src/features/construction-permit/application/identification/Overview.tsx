@@ -44,7 +44,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
           </HStack>
         </Stack>
         <Stack divider={<StackDivider />} spacing="10px">
-        <Flex direction="row"  onClick={() => editRole()}>
+        <Flex direction="row" onClick={() => editRole()}>
             <Text variant="title" size="lg">
               Principal Contractor
             </Text>
@@ -77,7 +77,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               Lead Architect / Engineer
             </Text>
             <Spacer />
-            <Flex gap="10px"  onClick={() => editRole()}>
+            <Flex gap="10px" onClick={() => editRole()}>
               <Text color={colors.theme.primary} fontWeight="semibold">Edit</Text>
               <EditIcon stroke={colors.theme.primary}/>
             </Flex>

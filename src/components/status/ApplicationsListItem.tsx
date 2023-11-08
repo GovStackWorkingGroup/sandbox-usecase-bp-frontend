@@ -1,6 +1,6 @@
-import { Flex, Spacer, Divider, Text } from "@chakra-ui/react";
+import { Divider, Flex, Spacer, Text } from "@chakra-ui/react";
 import { colors } from "../../chakra-overrides/colors";
-import { ApplicationNotStarted } from "./ApplicationStatus";
+import ApplicationStatus, { Status } from "./ApplicationStatus";
 
 export default function ApplicationsListItem () {
   return (
@@ -11,7 +11,7 @@ export default function ApplicationsListItem () {
         color={colors.theme.primary} 
         alignSelf="center">1. Task Title</Text>
         <Spacer />
-        <ApplicationNotStarted />
+        <ApplicationStatus status={Status.NOT_STARTED} />
       </Flex>
       <Text>Task Description (If Needed)</Text>
       <Divider />
