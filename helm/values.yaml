@@ -13,7 +13,7 @@ bp_frontend:
     imagePullPolicy: "Always"
   profiles: "container"
   service:
-    name: "bp-frontend"
+    name: "frontend"
     type: ClusterIP
     port: 80
     targetPort: 80

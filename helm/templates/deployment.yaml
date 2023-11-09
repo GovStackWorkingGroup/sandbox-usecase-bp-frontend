@@ -32,7 +32,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.bp_frontend.service.name }}-service
+  name: {{ .Values.bp_frontend.service.name }}
   labels:
     {{- toYaml .Values.bp_frontend.labels | nindent 4 }}
 spec:
