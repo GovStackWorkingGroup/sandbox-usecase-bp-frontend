@@ -98,7 +98,6 @@ export default function ApplicationAction({
                 <Text>
                   If you want to change or propose other dates, please contact <span style={{ color: colors.theme.primary}}>support</span>.
                 </Text>
-                <Button w="100%" colorScheme="admin" variant="solid">Select a date</Button>
             </Flex>
           </>
         );

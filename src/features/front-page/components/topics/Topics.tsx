@@ -1,6 +1,5 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 
 export const topics = [
@@ -55,6 +54,10 @@ export const topics = [
 ];
 
 export default function Topics() {
+  const handleClick = () => {
+    alert("This page is still inactive");
+  }
+
   return (
     <Flex direction="column" padding="10px 0" gap="20px">
       <Heading variant="headline">Topics</Heading>
@@ -72,8 +75,9 @@ export default function Topics() {
           alignItems="center"
           gap="8px"
           justifyContent={"space-between"}
-          as={RouterLink}
-          to={topic.url}
+          onClick={() => handleClick()}
+          // as={RouterLink}
+          // to={topic.url}
         >
           <Flex>
             <Box>
