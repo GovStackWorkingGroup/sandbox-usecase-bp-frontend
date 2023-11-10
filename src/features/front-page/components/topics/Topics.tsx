@@ -72,8 +72,8 @@ export default function Topics() {
           alignItems="center"
           gap="8px"
           justifyContent={"space-between"}
-          as={RouterLink}
-          to={topic.url}
+          // as={RouterLink}
+          // to={topic.url}
         >
           <Flex>
             <Box>

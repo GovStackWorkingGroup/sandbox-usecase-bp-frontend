@@ -7,14 +7,13 @@ import {
   CircularProgress,
   Flex,
   Heading,
-  Input,
   Link,
   ListItem,
   Text,
   UnorderedList,
   VStack
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
@@ -67,6 +66,18 @@ export default function FileUpload() {
       }
     }
   );
+
+  function mockUpload() {
+    if (documents.length < application.pendingDocuments.length) {
+      let uploadedDocs: {name: string, progress: number, url: string}[] = [];
+      application.pendingDocuments.forEach((document) => {
+        uploadedDocs.push({name: document.name, progress: 100, url: ""});
+      });
+      setDocuments(uploadedDocs);
+    } else {
+      alert("All required documents are uploaded!");
+    }
+  }
 
   function handleChange(event: any) {
     const prevDoc = documents.find(document => document.progress < 100);
@@ -123,8 +134,8 @@ export default function FileUpload() {
               <>
                 <UnorderedList px="10px">
                   {
-                  application.pendingDocuments.map((document) =>
-                    <ListItem>
+                  application.pendingDocuments.map((document, index) =>
+                    <ListItem key={index}>
                       {document.name} ({document.extensions})
                     </ListItem>
                     )
@@ -136,12 +147,12 @@ export default function FileUpload() {
           </Text>
         </Flex><br />
         <Flex>
-          <Input
+          {/* <Input
             type="file"
             id="fileUpload"
             display="none"
             // accept='.pdf .jpg'
-            onChange={handleChange} />
+            onChange={handleChange} /> */}
           <Flex
             direction="row"
             gap="30px"
@@ -151,7 +162,8 @@ export default function FileUpload() {
             border="2px dashed grey"
             w="100%"
             borderRadius="10px"
-            onClick={() => document.getElementById("fileUpload")?.click()}>
+            onClick={() => mockUpload()}>
+            {/* onClick={() => document.getElementById("fileUpload")?.click()}> */}
             <UploadIcon stroke="grey" height="2rem" width="2rem" />
             <Text color="grey" size="lg" alignSelf="center">Select a file to upload</Text>
           </Flex>
@@ -165,8 +177,8 @@ export default function FileUpload() {
             Uploaded Documents
           </Text><br />
           {
-            (documents.length > 0)?(documents.map(document =>
-              <>
+            (documents.length > 0)?(documents.map((document, index) =>
+              <React.Fragment key={index}>
                 <Flex direction="row" padding="0.3rem" flexGrow={1}>
                   <Text maxW="20rem" alignSelf="center">{document.name}</Text>
                   {
@@ -191,7 +203,7 @@ export default function FileUpload() {
                     )
                   }
                 </Flex>
-              </>
+              </React.Fragment>
             )):(
               <Text>There are no documents</Text>
             )
