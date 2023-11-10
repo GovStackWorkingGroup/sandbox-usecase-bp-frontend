@@ -103,12 +103,12 @@ export default class APIProvider extends BaseProvider {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "username": username,
+          "username": username.trim(),
           "password": password
         }),
       },
     );
-    if (req.status == 403) {
+    if (!req.ok) {
       throw "loginRequired"
     } else {
       return req.text() as Promise<string>;
