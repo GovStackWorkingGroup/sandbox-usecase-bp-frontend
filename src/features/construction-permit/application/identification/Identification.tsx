@@ -1,6 +1,8 @@
-import { Button, ButtonGroup, Flex, Heading } from "@chakra-ui/react";
+import PlusIcon from "@assets/icons/plus.svg?react";
+import { Button, ButtonGroup, Flex, Heading, Text } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useMemo, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { colors } from "../../../../chakra-overrides/colors";
 import { Application } from "../../../../rpc/types";
 import InitialIdentification from "./InitialIdentification";
 import Overview from "./Overview";
@@ -43,9 +45,9 @@ function rolesReducer(state = initialState, action: RoleAction) {
 }
 
 export default function Identification() {
-  const {id} = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [idNumber, setIdNumber] = useState<string>("123123123123");
+  const [idNumber, setIdNumber] = useState<string>("9164993");
   const [name, setName] = useState<string>("Lewis Mumford");
   const [selectedRole, setSelectedRole] = useState<ROLE>(ROLE.PROPERTY_OWNER);
   const [isFinished, setIsFinished] = useState(false);
@@ -54,17 +56,24 @@ export default function Identification() {
     setSelectedRole((e.target as HTMLSelectElement).value as ROLE);
   };
 
+  const handleAddPerson = () => {
+    console.log("Person added");
+  };
+
   const handleSave = () => {
     const storage = localStorage.getItem("application");
-      if (storage) {
-        const application = JSON.parse(storage) as Application;
-        Object.keys(state).map((key, index) => {
-          application.identification.push({role: key as ROLE, data: Object.values(state)[index]})
+    if (storage) {
+      const application = JSON.parse(storage) as Application;
+      Object.keys(state).map((key, index) => {
+        application.identification.push({
+          role: key as ROLE,
+          data: Object.values(state)[index],
+        });
       });
       localStorage.setItem("application", JSON.stringify(application));
       navigate(`../${id}`);
     }
-  }
+  };
 
   const handleContinue = () => {
     if (!isFinished) {
@@ -81,11 +90,18 @@ export default function Identification() {
       if (storage) {
         const application = JSON.parse(storage) as Application;
         Object.keys(state).map((key, index) => {
-          application.identification.push({role: key as ROLE, data: Object.values(state)[index]})
-      });
+          application.identification = [
+            ...application.identification.filter((role) => role.role != key),
+            { role: key as ROLE, data: Object.values(state)[index] },
+          ];
+        });
         localStorage.setItem("application", JSON.stringify(application));
-        if (application.identification.length < 1) navigate(`../${id}/identification`)
-        else if (application.pendingDocuments.length > application.documents.length) navigate(`../${id}/documents`);
+        if (application.identification.length < 1)
+          navigate(`../${id}/identification`);
+        else if (
+          application.pendingDocuments.length > application.documents.length
+        )
+          navigate(`../${id}/documents`);
         else navigate(`../${id}`);
       } else {
         return navigate("../../construction-permit");
@@ -120,7 +136,21 @@ export default function Identification() {
           Identification
         </Heading>
         {isFinished ? (
-          <Overview state={state} />
+          <>
+            <Overview state={state} />
+            <Flex
+              direction="row"
+              gap="20px"
+              cursor="pointer"
+              color={colors.theme.primary}
+              onClick={() => handleAddPerson()}
+            >
+              <PlusIcon stroke={colors.theme.primary} />
+              <Text fontWeight="semibold">
+                Add Additional Person (Optional)
+              </Text>
+            </Flex>
+          </>
         ) : (
           <>
             {isFirstIdentification ? (
@@ -140,12 +170,17 @@ export default function Identification() {
           </>
         )}
       </Flex>
+
       <Flex marginTop="auto" mb="20px">
         <ButtonGroup flexDirection="column" w="100%" gap="10px">
           <Button onClick={() => handleContinue()} colorScheme="admin">
             Continue
           </Button>
-          <Button onClick={() => handleSave()} variant="outline" colorScheme="admin">
+          <Button
+            onClick={() => handleSave()}
+            variant="outline"
+            colorScheme="admin"
+          >
             Save for later
           </Button>
         </ButtonGroup>

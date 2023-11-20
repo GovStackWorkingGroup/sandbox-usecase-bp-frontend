@@ -7,7 +7,7 @@ export default class APIProvider extends BaseProvider {
 
   async getApplications() {
     const req = await fetch(
-      `/api/v1/rpc-data/data`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/data`,
       {
         method: "POST",
         headers: {
@@ -26,7 +26,7 @@ export default class APIProvider extends BaseProvider {
 
   async getData(key: string) {
     const req = await fetch(
-      `/api/v1/rpc-data/data`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/data`,
       {
         method: "POST",
         headers: {
@@ -44,7 +44,7 @@ export default class APIProvider extends BaseProvider {
 
   async setData(key: string, value: string) {
     const req = await fetch(
-      `/api/v1/rpc-data/data`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/data`,
       {
         method: "PUT",
         headers: {
@@ -64,7 +64,7 @@ export default class APIProvider extends BaseProvider {
 
   async forceSetData(key: string, value: string) {
     const req = await fetch(
-      `/api/v1/rpc-data/data`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/data`,
       {
         method: "PATCH",
         headers: {
@@ -83,7 +83,7 @@ export default class APIProvider extends BaseProvider {
 
   async invalidateSession () {
     const req = await fetch(
-      `/api/v1/rpc-data/session?tenant=building-permit`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/session?tenant=building-permit`,
       {
         method: "DELETE",
         headers: {
@@ -91,24 +91,24 @@ export default class APIProvider extends BaseProvider {
         },
       },
     );
-    return req.json() as Promise<string>;
+    return req.text() as Promise<string>;
   }
 
   async getToken(username: string, password: string) {
     const req = await fetch(
-      `/api/v1/auth/token`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/auth/token`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "username": username,
+          "username": username.trim(),
           "password": password
         }),
       },
     );
-    if (req.status == 403) {
+    if (!req.ok) {
       throw "loginRequired"
     } else {
       return req.text() as Promise<string>;
@@ -117,7 +117,7 @@ export default class APIProvider extends BaseProvider {
 
   async registerUser(name: string, username: string, password: string) {
     const req = await fetch(
-      `/api/v1/auth/token`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/auth/token`,
       {
         method: "POST",
         headers: {

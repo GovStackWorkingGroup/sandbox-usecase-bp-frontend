@@ -7,7 +7,7 @@ import {
   Link,
   List,
   ListItem,
-  Text,
+  Text
 } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
@@ -18,6 +18,11 @@ import Search from "../search/Search";
 
 export default function Sidebar() {
   const {logout} = useAuthentication();
+
+  const handleClick = () => {
+    alert("This page is still inactive");
+  }
+
   return (
     <Flex
       backgroundColor={colors.secondary[0]}
@@ -132,8 +137,9 @@ export default function Sidebar() {
                 gap="20px"
                 padding="10px 20px"
                 w="100%"
-                as={NavLink}
-                to="/accessibility"
+                onClick={() => handleClick()}
+                // as={NavLink}
+                // to="/accessibility"
                 _activeLink={{
                   background: colors.secondary[50],
                   color: colors.primary[500],
@@ -152,8 +158,9 @@ export default function Sidebar() {
                 gap="20px"
                 padding="10px 20px"
                 w="100%"
-                as={NavLink}
-                to="/settings"
+                // as={NavLink}
+                // to="/settings"
+                onClick={() => handleClick()}
                 _activeLink={{
                   background: colors.secondary[50],
                   color: colors.primary[500],
@@ -172,8 +179,9 @@ export default function Sidebar() {
                 gap="20px"
                 padding="10px 20px"
                 w="100%"
-                as={NavLink}
-                to="/help"
+                // as={NavLink}
+                // to="/help"
+                onClick={() => handleClick()}
                 _activeLink={{
                   background: colors.secondary[50],
                   color: colors.primary[500],
@@ -243,12 +251,13 @@ export default function Sidebar() {
                     _hover={{
                       backgroundColor: colors.secondary[50],
                     }}
-                    as={NavLink}
                     _activeLink={{
                       background: colors.secondary[50],
                       color: colors.primary[500],
                     }}
-                    to={topic.url}
+                    // as={NavLink}
+                    // to={topic.url}
+                    onClick={() => handleClick()}
                   >
                     <Text variant="label" size="md">
                       {topic.title}

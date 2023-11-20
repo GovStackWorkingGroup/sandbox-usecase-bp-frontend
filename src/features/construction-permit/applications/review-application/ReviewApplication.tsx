@@ -66,7 +66,7 @@ export default function ReviewApplication() {
                     <UnorderedList gap="20px" p="10px">
                       {application.identification.map((role) => (
                         <>
-                          <ListItem>
+                          <ListItem key={role.role}>
                             <b>{role.role}</b>: <br />
                             {role.data.idNumber} ({role.data.name})
                             <br />

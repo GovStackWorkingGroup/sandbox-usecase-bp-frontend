@@ -9,6 +9,7 @@ const applications = [
     {
       id: "000326",
       status: Status.APPROVED,
+      action: "",
       parcelID: "AB-1234",
       identification: [],
       documents: [],
@@ -17,6 +18,7 @@ const applications = [
     {
       id: "007266",
       status: Status.APPROVED,
+      action: "",
       parcelID: "AB-2222",
       identification: [],
       documents: [],
@@ -25,6 +27,7 @@ const applications = [
     {
       id: "000983",
       status: Status.REJECTED,
+      action: "",
       parcelID: "AB-1111",
       identification: [],
       documents: [],
@@ -33,6 +36,7 @@ const applications = [
     {
       id: "003324",
       status: Status.REJECTED,
+      action: "",
       parcelID: "AB-3333",
       identification: [],
       documents: [],
@@ -41,6 +45,7 @@ const applications = [
     {
       id: "132513",
       status: Status.IN_REVIEW,
+      action: "",
       parcelID: "AB-1441",
       identification: [],
       documents: [],
@@ -49,6 +54,7 @@ const applications = [
     {
       id: "006598",
       status: Status.IN_REVIEW,
+      action: "",
       parcelID: "AB-1123",
       identification: [],
       documents: [],
@@ -57,6 +63,7 @@ const applications = [
     {
       id: "987654",
       status: Status.ACTION_NEEDED,
+      action: "",
       parcelID: "AB-1314",
       identification: [],
       documents: [],
@@ -74,6 +81,7 @@ const applications = [
     {
       id: "396543",
       status: Status.DRAFT,
+      action: "",
       parcelID: "AB-1211",
       identification: [],
       documents: [],
