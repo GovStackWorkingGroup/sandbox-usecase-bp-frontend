@@ -35,6 +35,7 @@ export default function Sidebar() {
       height="100vh"
       maxWidth="32rem"
       boxShadow="5px 5px 10px 1px rgba(0,0,0,0.2)"
+      overflow="scroll"
     >
       <Fade in={true}>
         <Flex mb="20px" gap="20px">
