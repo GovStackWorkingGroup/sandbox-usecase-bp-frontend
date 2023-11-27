@@ -43,7 +43,7 @@ export default function FileUpload() {
     url: string
   }[]>([]);
 
-  useQuery(
+  const { data: applications } = useQuery(
     `applications`,
     rpc.getApplications,
     {
@@ -99,6 +99,8 @@ export default function FileUpload() {
   }
 
   const handleSave = () => {
+    application.documents = documents;
+    application.pendingDocuments = [];
     localStorage.setItem("application", JSON.stringify(application));
     navigate(-1);
   }
@@ -110,9 +112,25 @@ export default function FileUpload() {
     if (documents.length >= application.pendingDocuments.length) {
       if (application.pendingDocuments.length != 0) {
         application.status = Status.IN_REVIEW;
+        application.documents = documents;
         application.pendingDocuments = [];
       }
-      application.documents = documents;
+
+      if (application.action == "documentsRequired") {
+        if (applications) {
+          application.action = "inReview";
+          rpc.setData(
+            "applications",
+            JSON.stringify([
+              ...applications.filter((appl) => appl.id != application.id),
+              application,
+            ]),
+          );
+        return navigate('./sent');
+        }
+      }
+
+      application.action = "inReview";
       localStorage.setItem("application", JSON.stringify(application));
 
       if (application.identification.length < 1) navigate(`../${id}/identification`);
@@ -212,12 +230,12 @@ export default function FileUpload() {
         <ButtonGroup padding="10px" colorScheme="admin" marginTop="auto">
           <VStack w="100%">
             {
-              (application.pendingDocuments && application.pendingDocuments.length > 0)?(
+              (application.action != "" && application.pendingDocuments.length > 0 )?(
                 <>
                   <Button onClick={() => handleUpload()} variant="solid" w="100%">
                     Save
                   </Button>
-                  <Button onClick={() =>  handleSave()} variant="outline" w="100%">
+                  <Button onClick={() =>  navigate(-1)} variant="outline" w="100%">
                     Back
                   </Button>
                 </>

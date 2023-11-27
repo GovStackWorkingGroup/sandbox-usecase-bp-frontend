@@ -182,7 +182,7 @@ export default function Overview() {
             application.action === "documentsRequired" &&
             application.pendingDocuments.length > 0
               ? Status.ACTION_NEEDED
-              : application.status === Status.DRAFT
+              : (application.documents.length == 0)
               ? Status.NOT_STARTED
               : Status.COMPLETED
           }
