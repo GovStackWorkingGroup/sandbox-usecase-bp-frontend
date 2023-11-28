@@ -8,6 +8,8 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
+import { useContext, useEffect } from "react";
+import { useQuery } from "react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import Accordion from "../../components/accordion/Accordion";
@@ -16,12 +18,24 @@ import Breadcrumbs, {
   BreadcrumbPaths,
 } from "../../components/breadcrumbs/Breadcrumbs";
 import Protected from "../../components/protected/Protected";
+import { RPCContext } from "../../rpc/rpc";
 
 export default function ConstructionPermit() {
   const breadcrumbs: BreadcrumbPaths = [
     ["Housing", null],
     ["Construction Permit", "/housing/construction-permit"],
   ];
+
+  const rpc = useContext(RPCContext);
+
+  const { data: activity } = useQuery(`recent-activity`, rpc.getRecentActivity);
+  useEffect(() => {
+    if (activity) {
+      if (activity.findIndex((activity) => activity.name == `Construction Permit`) != 0) {
+        rpc.setRecentActivity(JSON.stringify([...activity.slice(-5).filter((activity) => activity.name != `Construction Permit`), {name: `Construction Permit`, path: `./housing/construction-permit`}]));
+      }
+    }
+  }, []);
   return (
     <Flex direction="column" flexGrow={1}>
       <Breadcrumbs path={breadcrumbs} />

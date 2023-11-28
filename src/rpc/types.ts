@@ -20,3 +20,8 @@ export interface Application {
     extensions: string;
   }[];
 }
+
+export interface RecentActivity {
+  name: string,
+  path: string
+}

@@ -22,7 +22,7 @@ export const useAuthentication = () => {
   const logout = () => {
     rpc.invalidateSession().then(() => {
       sessionStorage.removeItem("token");
-      navigate("/");
+      window.location.reload();
     });
   };
 

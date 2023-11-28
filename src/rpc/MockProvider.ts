@@ -1,7 +1,7 @@
 import { Status } from "../components/status/ApplicationStatus";
 import BaseProvider from "./BaseProvider";
 import ObjectToTree from "./StorageProvider/objectToTree";
-import { Application } from "./types";
+import { Application, RecentActivity } from "./types";
 
 const localStorageVariable = "No such variable in mock storage";
 
@@ -89,6 +89,14 @@ const applications = [
     }
   ];
 
+  const recentActivity = [
+    {name: "Construction Permit", path: "/housing/construction-permit"},
+    {name: "My applications", path: "/housing/construction-permit/my-applications"},
+    {name: "Visa application hub", path: "/"},
+    {name: "Social welfare programs", path: "/"},
+    {name: "Registration of residence", path: "/"}
+  ];
+
 const objectToTree = new ObjectToTree();
 
 export default class MockProvider extends BaseProvider {
@@ -100,11 +108,33 @@ export default class MockProvider extends BaseProvider {
     });
   }
 
+  async getRecentActivity() {
+    return new Promise<RecentActivity[]>((resolve) => {
+      console.log(JSON.stringify(recentActivity));
+      resolve(recentActivity);
+    });
+  }
+
+  async setRecentActivity(activity: string) {
+    return new Promise<string>((resolve) => {
+      console.log(JSON.stringify(recentActivity));
+      resolve(activity);
+    });
+  }
+
   async getData() {
     return "";
   }
 
   async setData() {
+    return "";
+  }
+
+  async getDataSet() {
+    return "";
+  }
+
+  async setDataSet() {
     return "";
   }
 

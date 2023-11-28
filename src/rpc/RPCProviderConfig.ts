@@ -11,8 +11,12 @@ export default class RPCProviderConfig {
   };
   map: Record<string, BaseProvider> = {
     getApplications: this.providers.API,
+    getRecentActivity: this.providers.API,
+    setRecentActivity: this.providers.API,
     getData: this.providers.API,
     setData: this.providers.API,
+    getDataSet: this.providers.API,
+    setDataSet: this.providers.API,
     forceSetData: this.providers.API,
     invalidateSession: this.providers.API,
     getToken: this.providers.API,

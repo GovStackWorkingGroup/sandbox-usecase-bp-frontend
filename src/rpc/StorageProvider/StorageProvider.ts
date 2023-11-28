@@ -10,11 +10,27 @@ export default class StorageProvider extends BaseProvider {
       return [];
   }
 
+  async getRecentActivity() {
+    return [];
+  }
+
+  async setRecentActivity(activity: string) {
+    return activity;
+  }
+
   async getData() {
     return "";
   }
 
   async setData() {
+    return "";
+  }
+
+  async getDataSet() {
+    return "";
+  }
+
+  async setDataSet() {
     return "";
   }
 
