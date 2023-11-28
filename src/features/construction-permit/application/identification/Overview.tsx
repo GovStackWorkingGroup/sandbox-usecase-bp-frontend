@@ -42,6 +42,22 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>{state[ROLE.PROPERTY_OWNER].idNumber}</Text>
             </dd>
           </HStack>
+          <HStack w="100%">
+            <dl style={{ width: "50%" }}>
+              <Text>E-Mail</Text>
+            </dl>
+            <dd style={{ width: "50%" }}>
+              <Text>lewis.mumford@email.com</Text>
+            </dd>
+          </HStack>
+          <HStack w="100%">
+            <dl style={{ width: "50%" }}>
+              <Text>Phone Number</Text>
+            </dl>
+            <dd style={{ width: "50%" }}>
+              <Text>(123) 123 123 123</Text>
+            </dd>
+          </HStack>
         </Stack>
         <Stack divider={<StackDivider />} spacing="10px">
         <Flex direction="row" onClick={() => editRole()}>
@@ -70,6 +86,22 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>{state[ROLE.PRINCIPAL_CONTRACTOR].idNumber}</Text>
             </dd>
           </HStack>
+          <HStack w="100%">
+            <dl style={{ width: "50%" }}>
+              <Text>E-Mail</Text>
+            </dl>
+            <dd style={{ width: "50%" }}>
+              <Text>contractor@email.com</Text>
+            </dd>
+          </HStack>
+          <HStack w="100%">
+            <dl style={{ width: "50%" }}>
+              <Text>Phone Number</Text>
+            </dl>
+            <dd style={{ width: "50%" }}>
+              <Text>(123) 988 97 97</Text>
+            </dd>
+          </HStack>
         </Stack>
         <Stack divider={<StackDivider />} spacing="10px">
           <Flex direction="row">
@@ -96,6 +128,22 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
             </dl>
             <dd style={{ width: "50%" }}>
               <Text>{state[ROLE.LEAD_ARCHITECT_OR_ENGINEER].idNumber}</Text>
+            </dd>
+          </HStack>
+          <HStack w="100%">
+            <dl style={{ width: "50%" }}>
+              <Text>E-Mail</Text>
+            </dl>
+            <dd style={{ width: "50%" }}>
+              <Text>architect-engineer@email.com</Text>
+            </dd>
+          </HStack>
+          <HStack w="100%">
+            <dl style={{ width: "50%" }}>
+              <Text>Phone Number</Text>
+            </dl>
+            <dd style={{ width: "50%" }}>
+              <Text>(123) 44 23 29</Text>
             </dd>
           </HStack>
         </Stack>
