@@ -62,14 +62,11 @@ export default function Identification() {
 
   const handleSave = () => {
     const storage = localStorage.getItem("application");
-    if (storage) {
-      const application = JSON.parse(storage) as Application;
-      Object.keys(state).map((key, index) => {
-        application.identification.push({
-          role: key as ROLE,
-          data: Object.values(state)[index],
+      if (storage) {
+        const application = JSON.parse(storage) as Application;
+        Object.keys(state).map((key, index) => {
+          if (Object.values(state)[index].name != null || key == ROLE.OTHER) application.identification = [...application.identification.filter((role) => role.role != key), {role: key as ROLE, data: Object.values(state)[index]}];
         });
-      });
       localStorage.setItem("application", JSON.stringify(application));
       navigate(`../${id}`);
     }

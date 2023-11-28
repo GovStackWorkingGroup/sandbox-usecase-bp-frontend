@@ -98,7 +98,9 @@ export default class APIProvider extends BaseProvider {
       },
     );
     if (req.ok) return req.json() as Promise<string>;
-    else throw req.status
+    else {
+      return ""
+    }
   }
 
   async getDataSet(keys: string[]) {
@@ -192,6 +194,24 @@ export default class APIProvider extends BaseProvider {
   }
 
   async registerUser(name: string, username: string, password: string) {
+    const req = await fetch(
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/auth/token`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          "name": name,
+          "username": username,
+          "password": password
+        }),
+      },
+    );
+    return req.json() as Promise<string>;
+  }
+
+  async verifyUser(username: string, password: string) {
     const req = await fetch(
       `${import.meta.env.VITE_API_ENDPOINT}/api/v1/auth/token`,
       {

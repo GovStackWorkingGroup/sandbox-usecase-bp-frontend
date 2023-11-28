@@ -3,6 +3,12 @@ import EyeOn from "@assets/icons/eye-on.svg?react";
 import LockIcon from "@assets/icons/lock.svg?react";
 import UserIcon from "@assets/icons/user.svg?react";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Button,
   ButtonGroup,
   Flex,
@@ -16,8 +22,9 @@ import {
   Link,
   Text,
   VStack,
+  useDisclosure
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthentication } from "../../utilities/useAuthentication";
 
@@ -25,15 +32,22 @@ export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const {login} = useAuthentication();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
   const handleTogglePassword = () => {
     setShowPassword((showPassword) => !showPassword);
   };
 
-  const navigate = useNavigate();
-  return (
+  const handleLogin = () => {
+    if (isOpen) onClose()
+    else onOpen();
+    
+  }
+
+   return (
     <Flex
       gap="20px"
       direction="column"
@@ -42,6 +56,32 @@ export default function Login() {
       maxWidth="32rem"
       margin="0 auto"
     >
+      <AlertDialog
+        motionPreset='slideInBottom'
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+        isOpen={isOpen}
+        isCentered
+      >
+        <AlertDialogOverlay />
+        <AlertDialogContent width="80%" background={"white"}>
+          <AlertDialogHeader>Another device in use</AlertDialogHeader>
+          <AlertDialogBody>
+            Signing in will remove an active session from another device. <br/>
+            <b>You will lose all unsaved progress!</b><br/><br/> 
+            Do you still want to sign in?
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button ref={cancelRef} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme='admin' ml={3} onClick={() => handleLogin()}>
+              Sign in
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Heading as="h1" variant="headline">
         Log In to e-Gov Portal
       </Heading>
@@ -86,7 +126,7 @@ export default function Login() {
         <ButtonGroup padding="10px" colorScheme="admin">
           <VStack w="100%">
             <Button onClick={() => login(username, password)} variant="solid" w="100%">
-              Enter
+              Log in
             </Button>
             <Button onClick={() => navigate(-1)} variant="outline" w="100%">
               Cancel
