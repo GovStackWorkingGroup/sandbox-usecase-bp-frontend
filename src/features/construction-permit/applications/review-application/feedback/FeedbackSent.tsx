@@ -33,7 +33,7 @@ export default function FeedbackSent() {
         </Flex>
         <ButtonGroup colorScheme="admin" marginTop="auto">
           <VStack w="100%">
-            <Button variant="solid" w="100%">
+            <Button as={RouterLink} to="/housing/construction-permit/my-applications" variant="solid" w="100%">
               My Applicatons
             </Button>
             <Button as={RouterLink} to="/" variant="outline" w="100%">

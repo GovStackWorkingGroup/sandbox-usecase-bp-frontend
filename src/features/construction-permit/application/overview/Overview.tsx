@@ -9,7 +9,7 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
@@ -22,6 +22,9 @@ export default function Overview() {
   const { id } = useParams();
   const rpc = useContext(RPCContext);
   const navigate = useNavigate();
+  const [enabled, setEnabled] = useState(false);
+  const [identificationDone, setIdentificationDone] = useState(false);
+  const [idInProgress, setIdInProgress] = useState(false);
 
   const documentsRequired = [
     {
@@ -89,6 +92,7 @@ export default function Overview() {
       const th = applications.find((app) => app.id == application.id);
       if (th) {
         if (th.action == "documentsRequired") application.action = "inReview";
+        application.status = Status.IN_REVIEW;
         rpc.setData(
           "applications",
           JSON.stringify([
@@ -109,9 +113,34 @@ export default function Overview() {
   };
 
   const handleDelete = () => {
-    localStorage.removeItem("application");
-    navigate("../../construction-permit");
-  };
+    if (applications) {
+      rpc.setData("applications", JSON.stringify(applications.filter((app) => app.id !== application.id)))
+      .then(() => {
+        localStorage.removeItem("application");
+        navigate("../../construction-permit/my-applications");
+      });
+    }
+  }
+
+  const saveDraft = () => {
+    if (applications) {
+      const th = applications.find((app) => app.id == application.id);
+      if (th) {
+        rpc.setData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
+      } else {
+        rpc.setData("applications", JSON.stringify([...applications, application]));
+      }
+    }
+  }
+
+  useEffect(() => {
+    const parcelDone= application.parcelID.length != 0;
+    const undoneID = application.identification.length > 0 && application.identification.length < 4;
+    setIdInProgress(undoneID);
+    setIdentificationDone(application.identification.length == 4);
+    const documentsDone = application.documents.length == application.pendingDocuments.length || application.pendingDocuments.length == 0;
+    setEnabled(parcelDone && identificationDone && documentsDone);
+  });
 
   return (
     <Flex direction="column" flexGrow={1}>
@@ -152,11 +181,7 @@ export default function Overview() {
         <Divider />
         <Action
           title="Identification"
-          status={
-            application.identification.length == 0
-              ? Status.NOT_STARTED
-              : Status.COMPLETED
-          }
+          status={identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED)}
           action={
             <Link
               as={RouterLink}
@@ -164,9 +189,7 @@ export default function Overview() {
               variant="underline"
               color={colors.theme.primary}
             >
-              {application.identification.length == 0
-                ? "Add contact details"
-                : "Edit contact details"}
+              {identificationDone?"Edit contact details":"Add contact details"}
             </Link>
           }
         >
@@ -216,17 +239,13 @@ export default function Overview() {
       </Flex>
       <Flex marginTop="auto" mb="20px">
         <ButtonGroup flexDirection="column" w="100%" gap="10px">
-          <Button colorScheme="admin" onClick={() => handleCreate()}>
+          <Button disabled={!enabled} colorScheme={enabled?"admin":"disabled"} onClick={() => enabled?handleCreate():""}>
             Apply
           </Button>
-          <Button as={RouterLink} to="/" variant="outline" colorScheme="admin">
+          <Button onClick={() => saveDraft()}as={RouterLink} to="/" variant="outline" colorScheme="admin">
             Back to Home
           </Button>
-          <Button
-            onClick={() => handleDelete()}
-            variant="plain"
-            color={colors.theme.info}
-          >
+          <Button onClick={() => handleDelete()} variant="plain" color={colors.theme.info}>
             Delete Application
           </Button>
         </ButtonGroup>

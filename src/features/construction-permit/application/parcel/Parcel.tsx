@@ -54,6 +54,14 @@ const handleContinue = () => {
     else navigate(`../${id}`);
   }
 
+
+const handleSave = () => {
+  if (application) application.parcelID = parcelId;
+    setApplication(application);
+    localStorage.setItem("application", JSON.stringify(application));
+    navigate(`../${id}`);
+  }
+
   return (
     <>
       <Flex mb="30px" gap="20px" direction="column">
@@ -72,7 +80,7 @@ const handleContinue = () => {
             maxLength={7}
             defaultValue={parcelId}
             onChange={(e) => setParcelId(e.target.value)}
-            placeholder="What is the Parcel ID?" />
+            placeholder="What is the Parcel ID? (7-Digit Parcel ID)" />
           </FormControl>
           <Button
             onClick={() => setMapOpened(true)}
@@ -163,10 +171,10 @@ const handleContinue = () => {
       </Flex>
       <Flex marginTop="auto" mb="20px">
         <ButtonGroup flexDirection="column" w="100%" gap="10px">
-          <Button colorScheme={(parcelId.length === 7)?"admin":"disabled"} disabled={(parcelId.length !== 7)} onClick={() => (parcelId.length == 7)?handleContinue():""}>
+          <Button colorScheme={(parcelId.length == 7)?"admin":"disabled"} disabled={(parcelId.length != 7)} onClick={() => (parcelId.length == 7)?handleContinue():""}>
             Continue
           </Button>
-          <Button onClick={() => navigate(`../${id}`)} variant="outline" colorScheme="admin">
+          <Button onClick={() => handleSave()} variant="outline" colorScheme="admin">
             Save for later
           </Button>
         </ButtonGroup>

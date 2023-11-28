@@ -102,8 +102,9 @@ export default function FileUpload() {
     application.documents = documents;
     application.pendingDocuments = [];
     localStorage.setItem("application", JSON.stringify(application));
-    navigate(-1);
+    navigate(`../../construction-permit/application/${id}`);
   }
+
   const handleRemove = (event: any) => {
     setDocuments(documents.filter((document) => document.name != event.name));
   }
@@ -229,27 +230,12 @@ export default function FileUpload() {
         </Flex>
         <ButtonGroup padding="10px" colorScheme="admin" marginTop="auto">
           <VStack w="100%">
-            {
-              (application.action != "" && application.pendingDocuments.length > 0 )?(
-                <>
-                  <Button onClick={() => handleUpload()} variant="solid" w="100%">
-                    Save
-                  </Button>
-                  <Button onClick={() =>  navigate(-1)} variant="outline" w="100%">
-                    Back
-                  </Button>
-                </>
-              ):(
-                <>
-                  <Button onClick={() => handleUpload()} variant="solid" w="100%">
-                    Continue
-                  </Button>
-                  <Button onClick={() => handleSave()} variant="outline" w="100%">
-                    Save for later
-                  </Button>
-                </>
-              )
-            }
+            <Button onClick={() => handleUpload()} variant="solid" w="100%">
+            {(application.action == "documentsRequired")?("Save"):("Continue")}
+            </Button>
+            <Button onClick={() =>  handleSave()} variant="outline" w="100%">
+            {(application.action == "documentsRequred")?("Back"):("Save for later")}
+            </Button>
           </VStack>
         </ButtonGroup>
       </Flex>

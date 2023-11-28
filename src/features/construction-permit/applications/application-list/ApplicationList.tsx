@@ -149,7 +149,7 @@ export default function ApplicationList() {
               </Tbody>
             </Table>
           </Flex>
-          <Button mt="auto" variant="outline" colorScheme="admin" as={RouterLink} to="/">
+          <Button mt="auto" variant="outline" colorScheme="admin" as={RouterLink} to="../construction-permit">
             Back
           </Button>
         </Flex>

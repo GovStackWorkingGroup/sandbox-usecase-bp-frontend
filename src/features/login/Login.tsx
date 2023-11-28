@@ -15,7 +15,7 @@ import {
   InputRightElement,
   Link,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,14 +25,13 @@ export default function Login() {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState(false);
-
+  const navigate = useNavigate();
   const {login} = useAuthentication();
 
   const handleTogglePassword = () => {
     setShowPassword((showPassword) => !showPassword);
   };
 
-  const navigate = useNavigate();
   return (
     <Flex
       gap="20px"
@@ -86,7 +85,7 @@ export default function Login() {
         <ButtonGroup padding="10px" colorScheme="admin">
           <VStack w="100%">
             <Button onClick={() => login(username, password)} variant="solid" w="100%">
-              Enter
+              Log in
             </Button>
             <Button onClick={() => navigate(-1)} variant="outline" w="100%">
               Cancel
