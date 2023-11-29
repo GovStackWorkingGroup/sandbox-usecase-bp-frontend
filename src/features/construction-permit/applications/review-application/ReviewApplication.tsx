@@ -10,6 +10,8 @@ import Breadcrumbs, {
 import ApplicationStatus from "../../../../components/status/ApplicationStatus";
 import { RPCContext } from "../../../../rpc/rpc";
 import { Application } from "../../../../rpc/types";
+import { ROLE } from "../../application/identification/Identification";
+import { RoleFormData } from "../../application/identification/RoleForm";
 import ApplicationAction from "./application-action/ApplicationAction";
 
 export default function ReviewApplication() {
@@ -65,14 +67,16 @@ export default function ReviewApplication() {
                   <>
                     <UnorderedList gap="20px" p="10px">
                       {application.identification.map((role) => (
-                        <>
-                          <ListItem key={role.role}>
-                            <b>{role.role}</b>: <br />
-                            {role.data.idNumber} ({role.data.name})
-                            <br />
-                            <br />
-                          </ListItem>
-                        </>
+                        (role.role != ROLE.OTHER && role.data.name != "")?(
+                          <>
+                            <ListItem key={role.role}>
+                              <b>{RoleFormData(role.role)?.role}</b>: <br />
+                              {role.data.idNumber} ({role.data.name})
+                              <br />
+                              <br />
+                            </ListItem>
+                          </>
+                        ):("")
                       ))}
                     </UnorderedList>
                   </>

@@ -32,7 +32,7 @@ export default function RoleForm({
   );
 }
 
-function RoleFormData(role: ROLE) {
+export function RoleFormData(role: ROLE) {
   switch (role) {
     case ROLE.PROPERTY_OWNER:
       return {
@@ -54,6 +54,13 @@ function RoleFormData(role: ROLE) {
         description: "principal contractor's",
         name: "Contractor's Name",
         id: "Contractor’s ID"
+      }
+    case ROLE.OTHER:
+      return {
+        role: "Other",
+        description: "other person's",
+        name: "Name",
+        id: "ID"
       }
   }
 }

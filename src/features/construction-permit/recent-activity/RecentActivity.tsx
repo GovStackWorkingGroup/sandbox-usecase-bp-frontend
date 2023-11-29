@@ -3,8 +3,8 @@ import { Flex, Heading, Link, List, ListIcon, ListItem, Text } from "@chakra-ui/
 import { useContext } from "react";
 import { useQuery } from "react-query";
 import { Link as RouterLink } from "react-router-dom";
-import { colors } from "../../chakra-overrides/colors";
-import { RPCContext } from "../../rpc/rpc";
+import { colors } from "../../../chakra-overrides/colors";
+import { RPCContext } from "../../../rpc/rpc";
 
 
 export default function RecentActivity() {

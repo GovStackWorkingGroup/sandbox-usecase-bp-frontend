@@ -12,8 +12,8 @@ export interface Application {
   action: "paymentRequired" | string;
   documents: {
     name: string;
-    progress?: number;
-    url?: string;
+    progress: number;
+    url: string;
   }[];
   pendingDocuments: {
     name: string;

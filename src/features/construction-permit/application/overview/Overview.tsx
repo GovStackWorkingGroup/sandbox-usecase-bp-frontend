@@ -1,11 +1,16 @@
+import DownloadIcon from "@assets/icons/download.svg?react";
 import {
   Button,
   ButtonGroup,
   Divider,
   Flex,
+  HStack,
   Heading,
   Link,
   ListItem,
+  Spacer,
+  Stack,
+  StackDivider,
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
@@ -16,6 +21,7 @@ import { colors } from "../../../../chakra-overrides/colors";
 import { Status } from "../../../../components/status/ApplicationStatus";
 import { RPCContext } from "../../../../rpc/rpc";
 import { Application } from "../../../../rpc/types";
+import { RoleFormData } from "../identification/RoleForm";
 import Action from "./components/Action";
 
 export default function Overview() {
@@ -89,23 +95,15 @@ export default function Overview() {
 
   const handleCreate = () => {
     if (applications) {
-      const th = applications.find((app) => app.id == application.id);
-      if (th) {
-        if (th.action == "documentsRequired") application.action = "inReview";
+        application.action = "inReview";
         application.status = Status.IN_REVIEW;
         rpc.setData(
           "applications",
           JSON.stringify([
-            ...applications.filter((appl) => appl.id != th.id),
+            ...applications.filter((appl) => appl.id != application.id),
             application,
           ]),
         );
-      } else {
-        rpc.setData(
-          "applications",
-          JSON.stringify([...applications, application]),
-        );
-      }
     } else {
       rpc.setData("applications", JSON.stringify([application]));
     }
@@ -138,7 +136,7 @@ export default function Overview() {
     const undoneID = application.identification.length > 0 && application.identification.length < 4;
     setIdInProgress(undoneID);
     setIdentificationDone(application.identification.length == 4);
-    const documentsDone = application.documents.length == application.pendingDocuments.length || application.pendingDocuments.length == 0;
+    const documentsDone = application.pendingDocuments.length == 0;
     setEnabled(parcelDone && identificationDone && documentsDone);
   });
 
@@ -167,16 +165,86 @@ export default function Overview() {
             <Link
               as={RouterLink}
               to="parcel"
-              variant="underline"
+              textDecoration="underline"
               color={colors.theme.primary}
             >
               {application.parcelID === "" ? "Add Parcel ID" : "Edit Parcel ID"}
             </Link>
           }
         >
+        <>
           <Text>
             Provide the Parcel ID of the construction site in your application.
           </Text>
+          {application.parcelID.length != 0?(
+            <Flex
+            backgroundColor={colors.secondary[50]}
+            direction="column"
+            gap="20px"
+            p="20px"
+            borderRadius="16px"
+          >
+              <Stack divider={<StackDivider />} spacing="10px">
+                <HStack w="100%">
+                  <dl style={{ width: "50%" }}>
+                    <Text fontWeight="semibold">Parcel ID:</Text>
+                  </dl>
+                  <dd style={{ width: "50%" }}>
+                    <Text>{application.parcelID}</Text>
+                  </dd>
+                </HStack>
+                <HStack w="100%">
+                  <dl style={{ width: "50%" }}>
+                    <Text fontWeight="semibold">Coordinates:</Text>
+                  </dl>
+                  <dd style={{ width: "50%" }}>
+                    <Text>
+                      40° 7′ 24″ North<br />
+                      82° 54′ 48″ West
+                      </Text>
+                  </dd>
+                </HStack>
+                <HStack w="100%">
+                  <dl style={{ width: "50%" }}>
+                    <Text fontWeight="semibold">The Total Area (m²):</Text>
+                  </dl>
+                  <dd style={{ width: "50%" }}>
+                    <Text>2784</Text>
+                  </dd>
+                </HStack>
+                <HStack w="100%">
+                  <dl style={{ width: "50%" }}>
+                    <Text fontWeight="semibold">Floor Area Ratio (FAR):</Text>
+                  </dl>
+                  <dd style={{ width: "50%" }}>
+                    <Text>1.5</Text>
+                  </dd>
+                </HStack>
+                <HStack w="100%">
+                  <dl style={{ width: "50%" }}>
+                    <Text fontWeight="semibold">Land-use Function:</Text>
+                  </dl>
+                  <dd style={{ width: "50%" }}>
+                    <Text>Commercial + Residential</Text>
+                  </dd>
+                </HStack>
+                <HStack w="100%">
+                  <dl style={{ width: "50%" }}>
+                    <Text fontWeight="semibold">Restrictions:</Text>
+                  </dl>
+                  <dd style={{ width: "50%" }}>
+                    <Text>
+                      Building Height<br/>
+                      Regulations Report<br/>
+                      2025 Master Plan of Digital Island
+                    </Text>
+                  </dd>
+                </HStack>
+
+              </Stack>
+            </Flex>
+          ):("")}
+        </>
         </Action>
         <Divider />
         <Action
@@ -186,17 +254,72 @@ export default function Overview() {
             <Link
               as={RouterLink}
               to="identification"
-              variant="underline"
+              textDecoration="underline"
               color={colors.theme.primary}
             >
               {identificationDone?"Edit contact details":"Add contact details"}
             </Link>
           }
         >
+        <>
           <Text>
             Provide the contact information for the owner, contractor, and lead
             architect or engineer.
           </Text>
+          {application.identification.length != 0?(
+            <Flex
+              backgroundColor={colors.secondary[50]}
+              direction="column"
+              gap="20px"
+              p="20px"
+              borderRadius="16px"
+            >
+              {application.identification.map((role) => (
+                (role.data.name != null)?(
+                <Stack divider={<StackDivider />} spacing="10px">
+                  <Flex direction="row">
+                    <Text variant="title" size="lg">
+                      {RoleFormData(role.role).role}
+                    </Text>
+                  </Flex>
+                  <HStack w="100%">
+                    <dl style={{ width: "50%" }}>
+                      <Text fontWeight="semibold">Name</Text>
+                    </dl>
+                    <dd style={{ width: "50%" }}>
+                      <Text>{role.data.name}</Text>
+                    </dd>
+                  </HStack>
+                  <HStack w="100%">
+                    <dl style={{ width: "50%" }}>
+                      <Text fontWeight="semibold">ID</Text>
+                    </dl>
+                    <dd style={{ width: "50%" }}>
+                      <Text>{role.data.idNumber}</Text>
+                    </dd>
+                  </HStack>
+                  <HStack w="100%">
+                    <dl style={{ width: "50%" }}>
+                      <Text fontWeight="semibold">E-Mail</Text>
+                    </dl>
+                    <dd style={{ width: "50%" }}>
+                      <Text>{role.role.toLowerCase()}@email.com</Text>
+                    </dd>
+                  </HStack>
+                  <HStack w="100%">
+                    <dl style={{ width: "50%" }}>
+                      <Text fontWeight="semibold">Phone Number</Text>
+                    </dl>
+                    <dd style={{ width: "50%" }}>
+                      <Text>(132) 135 102</Text>
+                    </dd>
+                  </HStack>
+                </Stack>
+                ):("")
+              ))}
+              </Flex>
+          ):("")}
+        </>
         </Action>
         <Divider />
         <Action
@@ -207,31 +330,56 @@ export default function Overview() {
               ? Status.ACTION_NEEDED
               : (application.documents.length == 0)
               ? Status.NOT_STARTED
-              : Status.COMPLETED
+              : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED
           }
           action={
             <Link
               as={RouterLink}
               to="documents"
-              variant="underline"
+              textDecoration="underline"
               color={colors.theme.primary}
             >
-              {application.documents.length <
-              application.pendingDocuments.length
-                ? "Upload documents"
-                : ""}
+              Upload documents
             </Link>
-          }
-        >
+          }>
           <Text>
             Uploaded documents should be digitally signed by each person that is
             identified during the second step - identification.
           </Text>
-          <UnorderedList>
-            {application.pendingDocuments.map((document) => (
-              <ListItem key={document.name}>{document.name}</ListItem>
-            ))}
-          </UnorderedList>
+          <>
+            <UnorderedList paddingStart="10px">
+                  <ListItem key="Block/Site Plan">Block/Site Plan</ListItem>
+                  <ListItem key="Detailed Plans Scale">Detailed Plans Scale 1:50 </ListItem>
+                  <ListItem key="Estimate time and cost of projects">Estimate time and cost of projects</ListItem>
+                  <ListItem key="Property Title">Property Title</ListItem>
+            </UnorderedList>
+            {(application.documents.length > 0)?(
+              <Flex
+                mt="20px"
+                backgroundColor={colors.secondary[50]}
+                direction="column"
+                gap="20px"
+                p="20px"
+                borderRadius="16px"
+              >
+                <Stack divider={<StackDivider />} spacing="10px">
+                  <Text variant="title" size="lg">
+                    Uploaded documents
+                  </Text>
+                  {application.documents.map((document) => (
+                      <HStack w="100%">
+                      <dl style={{ width: "50%" }}>
+                        <Text>{document.name}</Text>
+                      </dl><Spacer />
+                        <Flex direction="row" gap="15px" marginStart="auto">
+                          <DownloadIcon onClick={undefined} />
+                        </Flex>
+                    </HStack>
+                    ))}
+                </Stack>
+              </Flex>
+            ):("")}
+          </>
         </Action>
         <Text variant="label">
           The payment fee will be calculated after reviewing the application.

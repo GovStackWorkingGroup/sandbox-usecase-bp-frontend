@@ -1,5 +1,5 @@
 import { Grid, GridItem } from "@chakra-ui/layout";
-import RecentActivity from "../recent-activity/RecentActivity";
+import RecentActivity from "../construction-permit/recent-activity/RecentActivity";
 import Announcements from "./components/announcements/Announcements";
 import Hero from "./components/hero/Hero";
 import PopularServices from "./components/popular-services/PopularServices";

@@ -41,7 +41,7 @@ export default function FileUpload() {
     name: string,
     progress: number,
     url: string
-  }[]>([]);
+  }[]>(application.documents);
 
   const { data: applications } = useQuery(
     `applications`,
@@ -49,17 +49,19 @@ export default function FileUpload() {
     {
       onSuccess: (applications) => {
         const onGoingApplication = applications.find((application: Application) => application.id === id);
-        if (onGoingApplication) {
-          localStorage.setItem("application", JSON.stringify(onGoingApplication));
-          setApplication(onGoingApplication);
-        } else if (localStorage.getItem("application")) {
+        const localApplication = localStorage.getItem("application");
+        if (localApplication && JSON.parse(localApplication).id == id) {
           const application = localStorage.getItem("application");
           if (application && JSON.parse(application).id == id) {
             const app = JSON.parse(application) as Application;
             setApplication(app);
+            setDocuments(app.documents);
           } else {
             localStorage.setItem("application", JSON.stringify(application));
           }
+        } else if (onGoingApplication) {
+          localStorage.setItem("application", JSON.stringify(onGoingApplication));
+          setApplication(onGoingApplication);
         } else {
           navigate("../../construction-permit");
         }
@@ -68,12 +70,15 @@ export default function FileUpload() {
   );
 
   function mockUpload() {
-    if (documents.length < application.pendingDocuments.length) {
+    if (application.pendingDocuments.length > 0) {
       let uploadedDocs: {name: string, progress: number, url: string}[] = [];
       application.pendingDocuments.forEach((document) => {
         uploadedDocs.push({name: document.name, progress: 100, url: ""});
       });
-      setDocuments(uploadedDocs);
+      setDocuments([...documents, ...uploadedDocs]);
+      application.documents = documents;
+      application.pendingDocuments = [];
+      localStorage.setItem("application", JSON.stringify(application));
     } else {
       alert("All required documents are uploaded!");
     }
@@ -100,26 +105,27 @@ export default function FileUpload() {
 
   const handleSave = () => {
     application.documents = documents;
-    application.pendingDocuments = [];
     localStorage.setItem("application", JSON.stringify(application));
     navigate(`../../construction-permit/application/${id}`);
   }
 
   const handleRemove = (event: any) => {
+    const removedFile = documents.find((document) => document.name == event.name);
+    if (removedFile) application.pendingDocuments.push({name: removedFile.name, extensions: ""});
     setDocuments(documents.filter((document) => document.name != event.name));
+    application.documents = documents;
+    localStorage.setItem("application", JSON.stringify(application));
   }
 
   const handleUpload = () => {
-    if (documents.length >= application.pendingDocuments.length) {
-      if (application.pendingDocuments.length != 0) {
-        application.status = Status.IN_REVIEW;
+    if (application.pendingDocuments.length == 0) {
         application.documents = documents;
-        application.pendingDocuments = [];
-      }
+      localStorage.setItem("application", JSON.stringify(application));
 
       if (application.action == "documentsRequired") {
         if (applications) {
           application.action = "inReview";
+          application.status = Status.IN_REVIEW;
           rpc.setData(
             "applications",
             JSON.stringify([
@@ -130,9 +136,6 @@ export default function FileUpload() {
         return navigate('./sent');
         }
       }
-
-      application.action = "inReview";
-      localStorage.setItem("application", JSON.stringify(application));
 
       if (application.identification.length < 1) navigate(`../${id}/identification`);
       else if (application.parcelID.length < 1) navigate(`../${id}/parcel`);

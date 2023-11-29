@@ -47,7 +47,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>E-Mail</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>lewis.mumford@email.com</Text>
+              <Text>{ROLE.PROPERTY_OWNER.toLowerCase()}@email.com</Text>
             </dd>
           </HStack>
           <HStack w="100%">
@@ -55,7 +55,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>Phone Number</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>(123) 123 123 123</Text>
+              <Text>(122) 181 292</Text>
             </dd>
           </HStack>
         </Stack>
@@ -91,7 +91,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>E-Mail</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>contractor@email.com</Text>
+              <Text>{ROLE.PRINCIPAL_CONTRACTOR.toLowerCase()}@email.com</Text>
             </dd>
           </HStack>
           <HStack w="100%">
@@ -99,7 +99,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>Phone Number</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>(123) 988 97 97</Text>
+              <Text>(422) 182 152</Text>
             </dd>
           </HStack>
         </Stack>
@@ -135,7 +135,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>E-Mail</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>architect-engineer@email.com</Text>
+              <Text>{ROLE.LEAD_ARCHITECT_OR_ENGINEER.toLowerCase()}@email.com</Text>
             </dd>
           </HStack>
           <HStack w="100%">
@@ -143,7 +143,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               <Text>Phone Number</Text>
             </dl>
             <dd style={{ width: "50%" }}>
-              <Text>(123) 44 23 29</Text>
+              <Text>(512) 212 953</Text>
             </dd>
           </HStack>
         </Stack>

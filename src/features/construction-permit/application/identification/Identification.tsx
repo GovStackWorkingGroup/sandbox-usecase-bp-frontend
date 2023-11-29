@@ -95,9 +95,7 @@ export default function Identification() {
         localStorage.setItem("application", JSON.stringify(application));
         if (application.identification.length < 1)
           navigate(`../${id}/identification`);
-        else if (
-          application.pendingDocuments.length > application.documents.length
-        )
+        else if (application.documents.length > 0)
           navigate(`../${id}/documents`);
         else navigate(`../${id}`);
       } else {

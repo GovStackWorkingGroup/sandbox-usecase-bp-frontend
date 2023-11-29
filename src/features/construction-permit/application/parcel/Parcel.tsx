@@ -50,7 +50,7 @@ const handleContinue = () => {
     localStorage.setItem("application", JSON.stringify(application));
 
     if (application.identification.length < 1) navigate(`../${id}/identification`)
-    else if(application.pendingDocuments.length > application.documents.length) navigate(`../${id}/documents`);
+    else if(application.pendingDocuments.length > 0) navigate(`../${id}/documents`);
     else navigate(`../${id}`);
   }
 
