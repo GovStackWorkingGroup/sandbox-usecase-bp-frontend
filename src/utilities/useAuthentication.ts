@@ -7,15 +7,15 @@ export const useAuthentication = () => {
   const rpc = useContext(RPCContext);
   const navigate = useNavigate();
 
-  const login = async (username: string, password: string) => {
+  const login = async (username: string, password: string, redirect?: string | null) => {
     try {
       const token = await rpc.getToken(username.toLowerCase(), password);
       if (token) {
         sessionStorage.setItem("token", token);
-        navigate("/");
+        navigate(redirect?`../${redirect}`:"/");
       }
     } catch (e) {
-      navigate(`/login`);
+      window.location.reload();
     }
   };
 

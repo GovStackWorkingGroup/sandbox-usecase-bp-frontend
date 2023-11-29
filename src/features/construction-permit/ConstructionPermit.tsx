@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import Accordion from "../../components/accordion/Accordion";
 import AccordionItem from "../../components/accordion/AccordionItem";
@@ -21,6 +21,7 @@ import Breadcrumbs, {
 } from "../../components/breadcrumbs/Breadcrumbs";
 import Protected from "../../components/protected/Protected";
 import { RPCContext } from "../../rpc/rpc";
+import { useAuthentication } from "../../utilities/useAuthentication";
 
 export default function ConstructionPermit() {
   const breadcrumbs: BreadcrumbPaths = [
@@ -28,16 +29,20 @@ export default function ConstructionPermit() {
     ["Construction Permit", "/housing/construction-permit"],
   ];
 
+  const { isAuthenticated } = useAuthentication();
   const rpc = useContext(RPCContext);
+  const path = useLocation().pathname.substring(1);
 
-  const { data: activity } = useQuery(`recent-activity`, rpc.getRecentActivity);
-  useEffect(() => {
-    if (activity) {
-      if (activity.findIndex((activity) => activity.name == `Construction Permit`) != 0) {
-        rpc.setRecentActivity(JSON.stringify([...activity.slice(-5).filter((activity) => activity.name != `Construction Permit`), {name: `Construction Permit`, path: `./housing/construction-permit`}]));
+  if (isAuthenticated()) {
+    const { data: activity } = useQuery(`recent-activity`, rpc.getRecentActivity);
+    useEffect(() => {
+      if (activity) {
+        if (activity.findIndex((activity) => activity.name == `Construction Permit`) != 0) {
+          rpc.setRecentActivity(JSON.stringify([...activity.slice(-5).filter((activity) => activity.name != `Construction Permit`), {name: `Construction Permit`, path: `./housing/construction-permit`}]));
+        }
       }
-    }
-  }, []);
+    }, []);
+  }
   return (
     <Flex direction="column" flexGrow={1}>
     <Grid
@@ -248,7 +253,7 @@ export default function ConstructionPermit() {
                     </Heading>
                     <Text size="sm">Log in to access the service.</Text>
                   </Box>
-                  <Button as={RouterLink} to="/login" colorScheme="admin">
+                  <Button as={RouterLink} to={`/login?referrer=${path}`} colorScheme="admin">
                     Log In
                   </Button>
                 </>

@@ -1,19 +1,20 @@
 import { Grid, GridItem } from "@chakra-ui/layout";
+import { useAuthentication } from "../../utilities/useAuthentication";
 import RecentActivity from "../construction-permit/recent-activity/RecentActivity";
 import Announcements from "./components/announcements/Announcements";
 import Hero from "./components/hero/Hero";
 import PopularServices from "./components/popular-services/PopularServices";
 import Topics from "./components/topics/Topics";
-import { isAuthenticatedGuard } from "../../routes/ProtectedRoute";
 
 export default function FrontPage() {
+  const { isAuthenticated } = useAuthentication();
   return (
     <Grid
       templateAreas={{
-        xs: `"hero" ${isAuthenticatedGuard()?"\"recent-activity\"":""} "popular-services" "topics" "announcements"`,
-        sm: `"hero" ${isAuthenticatedGuard()?"\"recent-activity\"":""} "popular-services" "topics""announcements"`,
+        xs: `"hero" ${isAuthenticated()?"\"recent-activity\"":""} "popular-services" "topics" "announcements"`,
+        sm: `"hero" ${isAuthenticated()?"\"recent-activity\"":""} "popular-services" "topics""announcements"`,
         md: `"hero hero"
-        ${isAuthenticatedGuard()?"\"topics recent-activity\" \"topics popular-services\"":"\"topics popular-services\" \"topics announcements\""}
+        ${isAuthenticated()?"\"topics recent-activity\" \"topics popular-services\"":"\"topics popular-services\" \"topics announcements\""}
         "topics announcements"
         "topics announcements"`,
       }}
@@ -21,7 +22,7 @@ export default function FrontPage() {
       <GridItem area={"hero"}>
         <Hero />
       </GridItem>
-      {isAuthenticatedGuard()?(
+      {isAuthenticated()?(
         <>
           <GridItem area={"recent-activity"}>
             <RecentActivity />

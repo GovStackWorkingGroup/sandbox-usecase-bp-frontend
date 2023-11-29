@@ -40,7 +40,8 @@ export default class APIProvider extends BaseProvider {
       },
     );
     const activity = JSON.parse(await req.text()).value;
-    return JSON.parse(activity) as Promise<RecentActivity[]>
+    if (req.ok) return JSON.parse(activity) as Promise<RecentActivity[]>
+    else return [];
   }
 
   async setRecentActivity(activity: string) {
