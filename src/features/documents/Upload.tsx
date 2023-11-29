@@ -76,7 +76,7 @@ export default function FileUpload() {
         uploadedDocs.push({name: document.name, progress: 100, url: ""});
       });
       setDocuments([...documents, ...uploadedDocs]);
-      application.documents = documents;
+      application.documents = [...documents, ...uploadedDocs];
       application.pendingDocuments = [];
       localStorage.setItem("application", JSON.stringify(application));
     } else {
@@ -104,22 +104,26 @@ export default function FileUpload() {
   }
 
   const handleSave = () => {
-    application.documents = documents;
-    localStorage.setItem("application", JSON.stringify(application));
-    navigate(`../../construction-permit/application/${id}`);
+    if (application.action == "documentsRequired") {
+      navigate(`../../construction-permit/my-applications`);
+    } else {
+      application.documents = documents;
+      localStorage.setItem("application", JSON.stringify(application));
+      navigate(`../../construction-permit/application/${id}`);
+    }
   }
 
   const handleRemove = (event: any) => {
     const removedFile = documents.find((document) => document.name == event.name);
     if (removedFile) application.pendingDocuments.push({name: removedFile.name, extensions: ""});
     setDocuments(documents.filter((document) => document.name != event.name));
-    application.documents = documents;
+    application.documents = documents.filter((document) => document.name != event.name);
     localStorage.setItem("application", JSON.stringify(application));
   }
 
   const handleUpload = () => {
-    if (application.pendingDocuments.length == 0) {
-        application.documents = documents;
+    if (application.documents.length != 0 && application.pendingDocuments.length == 0) {
+      application.documents = documents;
       localStorage.setItem("application", JSON.stringify(application));
 
       if (application.action == "documentsRequired") {
@@ -237,7 +241,7 @@ export default function FileUpload() {
             {(application.action == "documentsRequired")?("Save"):("Continue")}
             </Button>
             <Button onClick={() =>  handleSave()} variant="outline" w="100%">
-            {(application.action == "documentsRequred")?("Back"):("Save for later")}
+            {(application.action == "documentsRequired")?("Back"):("Save for later")}
             </Button>
           </VStack>
         </ButtonGroup>
