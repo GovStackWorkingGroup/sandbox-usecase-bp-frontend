@@ -1,17 +1,8 @@
-# GovStack Building Permits Use Case
+# GovStack Construction Permit Use Case Frontend
 
-// TODO
+The Construction permit Use Case is created with the idea of proposing a way for individuals and businesses to acquire permits for construction, renovation or demolition projects from the national government easily via a streamlined process. 
 
-## Installation
 
-Use `npm` to install dependencies.
+[Documentation](./docs/main.md)
 
-```bash
-npm install
-```
-
-## Short description
-
-Project is bootstrapped with [React](https://react.dev/), [Vite](https://vitejs.dev/), [Chakra-UI](https://chakra-ui.com/)
-
-For an explanation on why these tools were chosen, read about the [Component Library Evaluation](https://govstack-global.atlassian.net/wiki/spaces/DEMO/pages/96043009/Component+Library+Evaluation) and [Front-end framework](https://govstack-global.atlassian.net/wiki/spaces/DEMO/pages/95912054/Frontend+Framework)
+[Live Demo](http://bp.dev.sandbox-playground.com)

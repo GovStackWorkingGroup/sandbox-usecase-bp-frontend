@@ -49,7 +49,7 @@ fetch(
       "Authorization": sessionStorage.getItem("token")?(`Bearer ${sessionStorage.getItem("token")}`):("")
     },
     body: JSON.stringify({
-      "tenant": "building-permit",
+      "tenant": "construction-permit",
       "key": "applications"
     }),
 signal: AbortSignal.timeout(5000)})

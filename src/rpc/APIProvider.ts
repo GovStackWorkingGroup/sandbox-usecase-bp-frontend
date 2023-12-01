@@ -15,7 +15,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "key": "applications"
         }),
       },
@@ -34,7 +34,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "key": "recent-activity"
         }),
       },
@@ -54,7 +54,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "key": "recent-activity",
           "value": activity
         })
@@ -74,7 +74,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "key": key
         })
       },
@@ -92,7 +92,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "key": key,
           "value": value
         })
@@ -114,7 +114,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "keys": keys
         })
       },
@@ -132,7 +132,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "keyValuePairs": keyValuePairs
         })
       },
@@ -151,7 +151,7 @@ export default class APIProvider extends BaseProvider {
           "Authorization": `Bearer ${sessionStorage.getItem("token")}`
         },
         body: JSON.stringify({
-          "tenant": "building-permit",
+          "tenant": "construction-permit",
           "key": key,
           "value": value
         })
@@ -162,7 +162,7 @@ export default class APIProvider extends BaseProvider {
 
   async invalidateSession () {
     const req = await fetch(
-      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/session?tenant=building-permit`,
+      `${import.meta.env.VITE_API_ENDPOINT}/api/v1/rpc-data/session?tenant=construction-permit`,
       {
         method: "DELETE",
         headers: {
