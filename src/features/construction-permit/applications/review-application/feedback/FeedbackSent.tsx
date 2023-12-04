@@ -1,10 +1,9 @@
 import {
   Button,
-  ButtonGroup,
   Flex,
   Heading,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -31,16 +30,16 @@ export default function FeedbackSent() {
             user-friendly.
           </Text>
         </Flex>
-        <ButtonGroup colorScheme="admin" marginTop="auto">
+        <Flex marginTop="auto">
           <VStack w="100%">
-            <Button as={RouterLink} to="/housing/construction-permit/my-applications" variant="solid" w="100%">
+            <Button as={RouterLink} to="/housing/construction-permit/my-applications" colorScheme="admin" variant="solid" w="100%">
               My Applicatons
             </Button>
-            <Button as={RouterLink} to="/" variant="outline" w="100%">
+            <Button as={RouterLink} to="/" colorScheme="admin" variant="outline" w="100%">
               Home
             </Button>
           </VStack>
-        </ButtonGroup>
+        </Flex>
       </Flex>
     </>
   );

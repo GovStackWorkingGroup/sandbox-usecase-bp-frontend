@@ -54,7 +54,7 @@ fetch(
     }),
 signal: AbortSignal.timeout(5000)})
 .then(response => {
-  if (!response.ok) {
+  if (response.status == 403) {
     sessionStorage.removeItem("token");
   }
 })

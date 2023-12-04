@@ -3,7 +3,6 @@ import DeleteIcon from "@assets/icons/trash.svg?react";
 import UploadIcon from "@assets/icons/upload.svg?react";
 import {
   Button,
-  ButtonGroup,
   CircularProgress,
   Flex,
   Heading,
@@ -33,7 +32,8 @@ export default function FileUpload() {
     parcelID: "",
     identification: [],
     documents: [],
-    pendingDocuments: []
+    pendingDocuments: [],
+    inspectionDate: ""
   });
 
   const [documents, setDocuments] =
@@ -235,16 +235,16 @@ export default function FileUpload() {
             )
           }
         </Flex>
-        <ButtonGroup padding="10px" colorScheme="admin" marginTop="auto">
+        <Flex padding="10px" marginTop="auto">
           <VStack w="100%">
-            <Button onClick={() => handleUpload()} variant="solid" w="100%">
+            <Button onClick={() => handleUpload()} colorScheme="admin" variant="solid" w="100%">
             {(application.action == "documentsRequired")?("Save"):("Continue")}
             </Button>
-            <Button onClick={() =>  handleSave()} variant="outline" w="100%">
+            <Button onClick={() =>  handleSave()} colorScheme="admin" variant="outline" w="100%">
             {(application.action == "documentsRequired")?("Back"):("Save for later")}
             </Button>
           </VStack>
-        </ButtonGroup>
+        </Flex>
       </Flex>
     </>
   );

@@ -1,13 +1,12 @@
 import {
   Button,
-  ButtonGroup,
   Flex,
   FormControl,
   FormLabel,
   Heading,
   Text,
   Textarea,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
@@ -42,21 +41,20 @@ export default function Feedback() {
             </Text>
             <Textarea marginTop="1rem" placeholder="(Optional)" />
           </FormControl>
-          <Flex mt="auto">
-            <ButtonGroup colorScheme="admin" w="100%">
+          <Flex mt="auto" w="100%">
               <VStack w="100%">
                 <Button
                   onClick={() => setFeedbackSent(true)}
+                  colorScheme="admin"
                   variant="solid"
                   width="100%"
                 >
                   Submit
                 </Button>
-                <Button as={RouterLink} to="/" variant="outline" width="100%">
+                <Button as={RouterLink} to="/" colorScheme="admin" variant="outline" width="100%">
                   Skip & Home
                 </Button>
               </VStack>
-            </ButtonGroup>
           </Flex>
         </Flex>
       </Flex>

@@ -2,14 +2,23 @@ import { PlusSquareIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   Heading,
-  Text,
+  Text
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
-export default function SchedulingComplete() {
+interface scheduleProps {
+  date: string;
+  slot: number
+}
+
+export default function SchedulingComplete(
+  {
+    date,
+    slot
+  }:scheduleProps
+  ) {
   return (
     <>
       <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
@@ -22,10 +31,10 @@ export default function SchedulingComplete() {
         </Text>
         <Box>
           <Text>
-            Date: <strong>17/08/2023</strong>
+            Date: <strong>{new Date(date).toLocaleString("en", { day: "2-digit"}) + "/" + (new Date(date).getMonth()+1) + "/" + new Date(date).getFullYear()}</strong>
           </Text>
           <Text>
-            Time: <strong>9:00-12:00</strong>
+            Time: <strong>{slot == 1?"9:00 - 12:00":"13:00 - 16:00"}</strong>
           </Text>
         </Box>
         <Button
@@ -41,18 +50,19 @@ export default function SchedulingComplete() {
           assistance or have any inquiries, please reach out to our support
           team.
         </Text>
-        <ButtonGroup mt="auto" orientation="vertical" colorScheme="admin">
-          <Button as={RouterLink} to="/">
+        <Flex mt="auto" flexDirection="column" >
+          <Button colorScheme="admin" as={RouterLink} to="/">
             Home
           </Button>
           <Button
             as={RouterLink}
             to="/housing/construction-permit/my-applications"
+            colorScheme="admin"
             variant="outline"
           >
             My Applications
           </Button>
-        </ButtonGroup>
+        </Flex>
       </Flex>
     </>
   );

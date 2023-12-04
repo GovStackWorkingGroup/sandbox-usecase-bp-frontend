@@ -3,6 +3,7 @@ import PlusIcon from "@assets/icons/plus.svg?react";
 import {
   Button,
   Flex,
+  Link,
   ListItem,
   Spacer,
   Text,
@@ -77,7 +78,7 @@ export default function ApplicationAction({
               Please select a date from the available options. <br />
               Ensure your presence on the chosen date for the inspection.
             </Text>
-            <Button w="100%" colorScheme="admin" variant="solid">
+            <Button w="100%" onClick={() => navigate("./schedule-inspection")} colorScheme="admin" variant="solid">
               Select a date
             </Button>
           </Flex>

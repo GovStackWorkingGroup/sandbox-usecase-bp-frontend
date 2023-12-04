@@ -13,7 +13,8 @@ const applications = [
       parcelID: "AB-1234",
       identification: [],
       documents: [],
-      pendingDocuments: []
+      pendingDocuments: [],
+      inspectionDate: ""
     },
     {
       id: "007266",
@@ -22,48 +23,33 @@ const applications = [
       parcelID: "AB-2222",
       identification: [],
       documents: [],
-      pendingDocuments: []
-    },
-    {
-      id: "000983",
-      status: Status.REJECTED,
-      action: "",
-      parcelID: "AB-1111",
-      identification: [],
-      documents: [],
-      pendingDocuments: []
-    },
-    {
-      id: "003324",
-      status: Status.REJECTED,
-      action: "",
-      parcelID: "AB-3333",
-      identification: [],
-      documents: [],
-      pendingDocuments: []
+      pendingDocuments: [],
+      inspectionDate: ""
     },
     {
       id: "132513",
       status: Status.IN_REVIEW,
-      action: "",
+      action: "inReview",
       parcelID: "AB-1441",
       identification: [],
       documents: [],
-      pendingDocuments: []
+      pendingDocuments: [],
+      inspectionDate: ""
     },
     {
       id: "006598",
       status: Status.IN_REVIEW,
-      action: "",
+      action: "inReview",
       parcelID: "AB-1123",
       identification: [],
       documents: [],
-      pendingDocuments: []
+      pendingDocuments: [],
+      inspectionDate: ""
     },
     {
       id: "987654",
       status: Status.ACTION_NEEDED,
-      action: "",
+      action: "documentsRequired",
       parcelID: "AB-1314",
       identification: [],
       documents: [],
@@ -76,7 +62,8 @@ const applications = [
           name: "Utilities and Infrastructure Plans",
           extensions: ".dwg, .dxf, .dgn, .rfa, .pln"
         }
-      ]
+      ],
+      inspectionDate: ""
     },
     {
       id: "396543",
@@ -85,7 +72,8 @@ const applications = [
       parcelID: "AB-1211",
       identification: [],
       documents: [],
-      pendingDocuments: []
+      pendingDocuments: [],
+      inspectionDate: ""
     }
   ];
 
@@ -103,21 +91,18 @@ export default class MockProvider extends BaseProvider {
 
   async getApplications() {
     return new Promise<Application[]>((resolve) => {
-      console.log(JSON.stringify(applications));
       resolve(applications);
     });
   }
 
   async getRecentActivity() {
     return new Promise<RecentActivity[]>((resolve) => {
-      console.log(JSON.stringify(recentActivity));
       resolve(recentActivity);
     });
   }
 
   async setRecentActivity(activity: string) {
     return new Promise<string>((resolve) => {
-      console.log(JSON.stringify(recentActivity));
       resolve(activity);
     });
   }

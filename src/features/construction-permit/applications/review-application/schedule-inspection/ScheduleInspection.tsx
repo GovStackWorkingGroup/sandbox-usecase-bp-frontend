@@ -1,21 +1,23 @@
 import {
   Button,
-  ButtonGroup,
   Flex,
   Heading,
   Input,
-  Text,
+  Text
 } from "@chakra-ui/react";
-import { ChangeEvent, useState } from "react";
+import { useContext, useState } from "react";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { colors } from "../../../../../chakra-overrides/colors";
 import Breadcrumbs, {
   BreadcrumbPaths,
 } from "../../../../../components/breadcrumbs/Breadcrumbs";
+import { Status } from "../../../../../components/status/ApplicationStatus";
+import { RPCContext } from "../../../../../rpc/rpc";
 import SchedulingComplete from "./SchedulingComplete";
 
 export default function ScheduleInspection() {
   const { id } = useParams();
+  const rpc = useContext(RPCContext);
   const breadcrumbs: BreadcrumbPaths = [
     ["Housing", null],
     ["Construction Permit", "/housing/construction-permit"],
@@ -25,17 +27,34 @@ export default function ScheduleInspection() {
       `/housing/construction-permit/my-applications/review/${id}`,
     ],
   ];
+  const { data: applications } = useQuery(`applications`, rpc.getApplications);
+  const application = applications?.find((appl) => appl.id === id);
+
   const [date, setDate] = useState("");
+  const [slot, setSlot] = useState(1);
   const [schedulingComplete, setSchedulingComplete] = useState(false);
-  const handleDate = (event: ChangeEvent) => {
-    setDate((event.target as HTMLInputElement).value);
+  const handleDate = (event: any) => {
+    setDate(new Date(event.target.value).toISOString());
   };
+
+  const schedule = () => {
+    if (applications && application) {
+      application.status = Status.IN_REVIEW;
+      application.action = "inReview";
+      application.inspectionDate = (new Date(date).toISOString() + " / 1");
+      rpc.setData("applications", JSON.stringify([...applications.filter((app) => app.id !== id), application]));
+      setSchedulingComplete(true);
+    } else {
+      alert("Please try again!");
+      window.location.reload();
+    }
+  }
 
   return (
     <>
       <Breadcrumbs path={breadcrumbs} />
       {schedulingComplete ? (
-        <SchedulingComplete />
+        <SchedulingComplete date={date} slot={slot}/>
       ) : (
         <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
           <Flex direction="column" gap="20px">
@@ -58,27 +77,28 @@ export default function ScheduleInspection() {
             {!date && <Text>Please pick a date first</Text>}
             {date && (
               <>
-                <Button justifyContent="space-between" colorScheme="admin">
-                  <span>17 August</span>
+                <Button onClick={() => setSlot(1)} justifyContent="space-between" color={slot === 1?"white":"black"} colorScheme={slot === 1?"admin":"white"}>
+                  <span>{new Date(date).toLocaleString("en", { day: "2-digit"}) + " " + new Date(date).toLocaleString("en", { month: "long"})}</span>
                   <span>9:00 - 12:00</span>
                 </Button>
                 <Button
                   justifyContent="space-between"
-                  colorScheme="white"
-                  color={colors.black}
+                  color={slot === 2?"white":"black"}
+                  colorScheme={slot === 2?"admin":"white"}
+                  onClick={() => setSlot(2)}
                 >
-                  <span>17 August</span>
+                  <span>{new Date(date).toLocaleString("en", { day: "2-digit"}) + " " + new Date(date).toLocaleString("en", { month: "long"})}</span>
                   <span>13:00 - 16:00</span>
                 </Button>
               </>
             )}
           </Flex>
-          <ButtonGroup mt="auto" orientation="vertical" colorScheme="admin">
-            <Button onClick={() => setSchedulingComplete(true)}>
+          <Flex mt="auto" flexDirection="column" >
+            <Button disabled={!date} colorScheme={date?"admin":"disabled"} onClick={() => date?(schedule()):{}}>
               Schedule
             </Button>
-            <Button variant="outline">Back</Button>
-          </ButtonGroup>
+            <Button colorScheme="admin" variant="outline" onClick={() => schedule()}>Back</Button>
+          </Flex>
         </Flex>
       )}
     </>

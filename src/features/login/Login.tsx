@@ -4,7 +4,6 @@ import LockIcon from "@assets/icons/lock.svg?react";
 import UserIcon from "@assets/icons/user.svg?react";
 import {
   Button,
-  ButtonGroup,
   Flex,
   FormControl,
   FormLabel,
@@ -25,8 +24,8 @@ export default function Login() {
   const {login} = useAuthentication();
   const navigate = useNavigate();
   const referrer = new URLSearchParams(window.location.search).get("referrer");
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("user1");
+  const [password, setPassword] = useState<string>("password");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
@@ -54,7 +53,7 @@ export default function Login() {
               <InputLeftElement>
                 <UserIcon />
               </InputLeftElement>
-              <Input onChange={(e) => setUsername(e.target.value)} type="text" placeholder="ID Number" />
+              <Input defaultValue="user1" onChange={(e) => setUsername(e.target.value)} type="text" placeholder="ID Number" />
             </InputGroup>
           </FormControl>
 
@@ -65,6 +64,7 @@ export default function Login() {
                 <LockIcon />
               </InputLeftElement>
               <Input
+                defaultValue="password"
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
@@ -83,16 +83,17 @@ export default function Login() {
             </Link>
           </FormControl>
         </Flex>
-        <ButtonGroup padding="10px" colorScheme="admin">
+        <Flex padding="10px" >
           <VStack w="100%">
-            <Button onClick={() => login(username, password, referrer)} variant="solid" w="100%">
+            <Button
+              onClick={() => login(username, password, referrer)} colorScheme="admin" variant="solid" w="100%">
               Log in
             </Button>
-            <Button onClick={() => navigate(-1)} variant="outline" w="100%">
+            <Button onClick={() => navigate(-1)} colorScheme="admin" variant="outline" w="100%">
               Cancel
             </Button>
           </VStack>
-        </ButtonGroup>
+        </Flex>
       </Flex>
     </Flex>
   );

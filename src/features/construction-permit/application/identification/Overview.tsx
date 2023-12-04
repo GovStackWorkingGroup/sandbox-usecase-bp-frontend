@@ -4,7 +4,7 @@ import { colors } from "../../../../chakra-overrides/colors";
 import { ROLE, RoleData } from "./Identification";
 
 export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
-  const editRole = () => {}
+  const editRole = (role: ROLE) => {}
   return (
     <>
       <Text>Please review the contact information</Text>
@@ -21,7 +21,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               Property Owner
             </Text>
             <Spacer />
-            <Flex gap="10px" onClick={() => editRole()}>
+            <Flex gap="10px" onClick={() => editRole(ROLE.PROPERTY_OWNER)}>
               <Text color={colors.theme.primary} fontWeight="semibold">Edit</Text>
               <EditIcon stroke={colors.theme.primary}/>
             </Flex>
@@ -60,7 +60,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
           </HStack>
         </Stack>
         <Stack divider={<StackDivider />} spacing="10px">
-        <Flex direction="row" onClick={() => editRole()}>
+        <Flex direction="row" onClick={() => editRole(ROLE.PRINCIPAL_CONTRACTOR)}>
             <Text variant="title" size="lg">
               Principal Contractor
             </Text>
@@ -109,7 +109,7 @@ export default function Overview({ state }: { state: Record<ROLE, RoleData> }) {
               Lead Architect / Engineer
             </Text>
             <Spacer />
-            <Flex gap="10px" onClick={() => editRole()}>
+            <Flex gap="10px" onClick={() => editRole(ROLE.LEAD_ARCHITECT_OR_ENGINEER)}>
               <Text color={colors.theme.primary} fontWeight="semibold">Edit</Text>
               <EditIcon stroke={colors.theme.primary}/>
             </Flex>

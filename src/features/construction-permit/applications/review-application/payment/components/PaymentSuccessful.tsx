@@ -1,11 +1,10 @@
 import DownloadIcon from "@assets/icons/download.svg?react";
 import {
   Button,
-  ButtonGroup,
   Flex,
   Heading,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../../../chakra-overrides/colors";
@@ -49,16 +48,16 @@ export default function PaymentSuccessful() {
           Download Invoice
         </Button>
 
-        <ButtonGroup padding="10px" colorScheme="admin" marginTop="auto">
+        <Flex padding="10px" marginTop="auto">
           <VStack w="100%">
-            <Button as={RouterLink} to="/" variant="solid" w="100%">
+            <Button as={RouterLink} to="/" colorScheme="admin"  variant="solid" w="100%">
               Home
             </Button>
-            <Button variant="outline" w="100%">
+            <Button colorScheme="admin" variant="outline" w="100%">
               Download Invoice
             </Button>
           </VStack>
-        </ButtonGroup>
+        </Flex>
       </Flex>
     </>
   );

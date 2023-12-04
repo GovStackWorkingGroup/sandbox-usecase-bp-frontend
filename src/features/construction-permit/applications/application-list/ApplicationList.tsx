@@ -36,18 +36,23 @@ export default function ApplicationList() {
   const { data: data } = useQuery(`applications`, rpc.getApplications);
 
   if (data) {
-    const completed = data.filter(
-      (application: Application) =>
-        application.status === Status.APPROVED ||
-        application.status === Status.COMPLETED ||
-        application.status === Status.REJECTED,
-    );
-    const inProgress = data.filter(
-      (application: Application) =>
-        application.status !== Status.APPROVED &&
-        application.status !== Status.COMPLETED &&
-        application.status !== Status.REJECTED,
-    );
+    const completed = (data.length > 0)?(
+      data.filter(
+        (application: Application) =>
+          application.status === Status.APPROVED ||
+          application.status === Status.COMPLETED ||
+          application.status === Status.REJECTED,
+      )
+    ):[];
+
+    const inProgress = (data.length > 0)?(
+      data.filter(
+        (application: Application) =>
+          application.status !== Status.APPROVED &&
+          application.status !== Status.COMPLETED &&
+          application.status !== Status.REJECTED,
+      )
+    ):[];
     return (
       <>
         <Breadcrumbs path={breadcrumbs} />
@@ -61,7 +66,7 @@ export default function ApplicationList() {
             <Text variant="title" size="lg">
               Ongoing Applications
             </Text>
-            {data && (
+            {data.length > 0?(
               <Table mr="-20px" ml="-24px">
                 <Thead>
                   <Tr>
@@ -97,6 +102,10 @@ export default function ApplicationList() {
                   ))}
                 </Tbody>
               </Table>
+            ):(
+            <Text>
+              There are no ongoing applications.
+            </Text>
             )}
             <Text size="sm" variant="label" fontWeight="500">
               <Link
@@ -115,6 +124,7 @@ export default function ApplicationList() {
             <Text variant="title" size="lg">
               Completed Applications
             </Text>
+            {completed.length > 0?(
             <Table mr="-20px" ml="-24px">
               <Thead>
                 <Tr>
@@ -148,6 +158,11 @@ export default function ApplicationList() {
                 ))}
               </Tbody>
             </Table>
+            ):(
+              <Text>
+                There are no finalized permit applications at the moment.
+              </Text>
+            )}
           </Flex>
           <Button mt="auto" variant="outline" colorScheme="admin" as={RouterLink} to="../construction-permit">
             Back

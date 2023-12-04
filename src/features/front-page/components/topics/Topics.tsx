@@ -59,7 +59,7 @@ export default function Topics() {
   }
 
   return (
-    <Flex direction="column" padding="10px 0" gap="20px">
+    <Flex direction="column" padding="10px 0" marginRight="20px" gap="20px">
       <Heading variant="headline">Topics</Heading>
       {topics.map((topic) => (
         <Link

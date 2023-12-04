@@ -1,11 +1,10 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Flex,
   Heading,
   Input,
-  Text,
+  Text
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { useQuery } from "react-query";
@@ -76,14 +75,14 @@ export default function BankPayment() {
           </Box>
         </Flex>
       </Flex>
-      <ButtonGroup mt="auto" gap="10px" orientation="vertical">
+      <Flex mt="auto" gap="10px" flexDirection="column">
         <Button colorScheme="admin" onClick={() => handlePayment()}>
           Pay Now
         </Button>
         <Button as={RouterLink} to="../" colorScheme="admin" variant="outline">
           Cancel
         </Button>
-      </ButtonGroup>
+      </Flex>
     </>
   );
 }

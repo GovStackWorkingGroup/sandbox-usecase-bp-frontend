@@ -20,8 +20,10 @@ export default class APIProvider extends BaseProvider {
         }),
       },
     );
-    const applications = JSON.parse(await req.text()).value;
-    return JSON.parse(applications) as Promise<Application[]>
+    const response = await req.text();
+    if (req.status != 400)
+      return JSON.parse(JSON.parse(response).value) as Promise<Application[]>
+    else return [];
   }
 
   async getRecentActivity() {
@@ -39,9 +41,10 @@ export default class APIProvider extends BaseProvider {
         }),
       },
     );
-    const activity = JSON.parse(await req.text()).value;
-    if (req.ok) return JSON.parse(activity) as Promise<RecentActivity[]>
-    else return [];
+    const response = await req.text();
+    if (req.status != 400)
+      return JSON.parse(JSON.parse(response).value) as Promise<RecentActivity[]>
+    else return []
   }
 
   async setRecentActivity(activity: string) {
@@ -79,7 +82,9 @@ export default class APIProvider extends BaseProvider {
         })
       },
     );
-    return req.json() as Promise<string>;
+    if (req.status != 400)
+      return req.json() as Promise<string>;
+    else throw "Error";
   }
 
   async setData(key: string, value: string) {

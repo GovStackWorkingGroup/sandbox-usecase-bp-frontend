@@ -1,5 +1,5 @@
 import PlusIcon from "@assets/icons/plus.svg?react";
-import { Button, ButtonGroup, Flex, Heading, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useMemo, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
@@ -166,8 +166,7 @@ export default function Identification() {
         )}
       </Flex>
 
-      <Flex marginTop="auto" mb="20px">
-        <ButtonGroup flexDirection="column" w="100%" gap="10px">
+      <Flex marginTop="auto" mb="20px" flexDirection="column" w="100%" gap="10px">
           <Button onClick={() => handleContinue()} colorScheme="admin">
             Continue
           </Button>
@@ -178,7 +177,6 @@ export default function Identification() {
           >
             Save for later
           </Button>
-        </ButtonGroup>
       </Flex>
     </>
   );

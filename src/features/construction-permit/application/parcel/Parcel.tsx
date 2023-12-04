@@ -1,6 +1,5 @@
 import {
   Button,
-  ButtonGroup,
   Flex,
   FormControl,
   FormLabel,
@@ -8,7 +7,7 @@ import {
   HStack,
   Input,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -28,7 +27,8 @@ export default function Parcel() {
     action: "inReview",
     identification: [],
     documents: [],
-    pendingDocuments: []
+    pendingDocuments: [],
+    inspectionDate: ""
   });
   const navigate = useNavigate();
 
@@ -169,15 +169,13 @@ const handleSave = () => {
           )
         }
       </Flex>
-      <Flex marginTop="auto" mb="20px">
-        <ButtonGroup flexDirection="column" w="100%" gap="10px">
-          <Button colorScheme={(parcelId.length == 7)?"admin":"disabled"} disabled={(parcelId.length != 7)} onClick={() => (parcelId.length == 7)?handleContinue():""}>
-            Continue
-          </Button>
-          <Button onClick={() => handleSave()} variant="outline" colorScheme="admin">
-            Save for later
-          </Button>
-        </ButtonGroup>
+      <Flex marginTop="auto" mb="20px" flexDirection="column" w="100%" gap="10px">
+        <Button colorScheme={(parcelId.length == 7)?"admin":"disabled"} disabled={(parcelId.length != 7)} onClick={() => (parcelId.length == 7)?handleContinue():""}>
+          Continue
+        </Button>
+        <Button onClick={() => handleSave()} variant="outline" colorScheme="admin">
+          Save for later
+        </Button>
       </Flex>
     </>
   );

@@ -1,7 +1,6 @@
 import DownloadIcon from "@assets/icons/download.svg?react";
 import {
   Button,
-  ButtonGroup,
   Divider,
   Flex,
   HStack,
@@ -12,7 +11,7 @@ import {
   Stack,
   StackDivider,
   Text,
-  UnorderedList,
+  UnorderedList
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -59,6 +58,7 @@ export default function Overview() {
     identification: [],
     documents: [],
     pendingDocuments: documentsRequired,
+    inspectionDate: ""
   });
 
   const { data: applications } = useQuery(`applications`, rpc.getApplications, {
@@ -385,18 +385,16 @@ export default function Overview() {
           The payment fee will be calculated after reviewing the application.
         </Text>
       </Flex>
-      <Flex marginTop="auto" mb="20px">
-        <ButtonGroup flexDirection="column" w="100%" gap="10px">
-          <Button disabled={!enabled} colorScheme={enabled?"admin":"disabled"} onClick={() => enabled?handleCreate():""}>
-            Apply
-          </Button>
-          <Button onClick={() => saveDraft()}as={RouterLink} to="/" variant="outline" colorScheme="admin">
-            Back to Home
-          </Button>
-          <Button onClick={() => handleDelete()} variant="plain" color={colors.theme.info}>
-            Delete Application
-          </Button>
-        </ButtonGroup>
+      <Flex marginTop="auto" mb="20px" w="100%" gap="10px" flexDirection="column">
+        <Button disabled={!enabled} colorScheme={enabled?"admin":"disabled"} onClick={() => enabled?handleCreate():""}>
+          Apply
+        </Button>
+        <Button onClick={() => saveDraft()}as={RouterLink} to="/" variant="outline" colorScheme="admin">
+          Back to Home
+        </Button>
+        <Button onClick={() => handleDelete()} variant="plain" color={colors.theme.info}>
+          Delete Application
+        </Button>
       </Flex>
     </Flex>
   );

@@ -19,6 +19,7 @@ export interface Application {
     name: string;
     extensions: string;
   }[];
+  inspectionDate: string
 }
 
 export interface RecentActivity {
