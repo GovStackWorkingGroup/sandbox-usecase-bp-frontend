@@ -34,7 +34,7 @@ commands:
       - run:
           name: Build docker image
           command: |
-            docker build -t $IMAGE:latest .
+            docker build --build-arg=RPC_ENDPOINT=https://rpc-backend.${SANDBOX_DOMAIN} -t $IMAGE:latest .
       - run:
           name: Check Helm Chart
           command: |
