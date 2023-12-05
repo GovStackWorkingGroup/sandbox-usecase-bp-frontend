@@ -1,58 +1,115 @@
 version: 2.1
+
+parameters:
+  namespace:
+    type: string
+    default: bp
+  playground:
+    type: boolean
+    default: false
+  image:
+    type: string
+    default: "app/bp/frontend"
+
 orbs:
-  aws-cli: circleci/aws-cli@3.1.4
-  helm: circleci/helm@1.0
-  kubernetes: circleci/kubernetes@1.3.1
-jobs:
-  deploy-frontend:
-    docker:
-      - image: cimg/aws:2023.03
+  aws-cli: circleci/aws-cli@4.1.2
+  helm: circleci/helm@3.0.0
+
+commands:
+  build_and_deploy:
+    parameters:
+      deploy:
+        type: boolean
+        default: false
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.14
-      - aws-cli/setup:
-          role-arn: 'arn:aws:iam::463471358064:role/CICDPipeline_sandbox-usecase-bp-frontend_Role_dev'
-          aws-region: AWS_DEFAULT_REGION
-          profile-name: CICDPipeline_sandbox-usecase-bp-frontend_Role_dev
-          role-session-name: CircleSession
-          session-duration: '1800'
-      - helm/install-helm-client:
-          version: v3.2.0
+          docker_layer_caching: true
+      - helm/install_helm_client:
+          version: v3.13.0
       - run:
-          name: Create and push frontend container
+          name: Setup env
           command: |
-              docker build -t app/bp/dev-frontend:latest .
-              aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin 463471358064.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
-              docker tag app/bp/dev-frontend:latest 463471358064.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/app/bp/dev-frontend:latest
-              docker push 463471358064.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/app/bp/dev-frontend:latest
+              echo "export IMAGE=${CONTAINER_REGISTRY}/<< pipeline.parameters.image >>" >> "$BASH_ENV"
       - run:
-          name: Update kubeconfig
+          name: Build docker image
           command: |
-            aws eks update-kubeconfig --name "${AWS_CLUSTER_NAME}"
+            docker build -t $IMAGE:latest .
       - run:
-          name: Install chart
+          name: Check Helm Chart
           command: |
-            helm upgrade \
-              bp-frontend ./helm --install --create-namespace --namespace ${NAMESPACE}
-      - run:
-          name: Validate deployments
-          command: |
-            echo "Validate deployment"
-            kubectl rollout status --watch --timeout=60s deployment/bp-frontend -n ${NAMESPACE} 
+            helm lint ./helm
+      - when:
+          condition: << parameters.deploy >>
+          steps:
+            - aws-cli/setup:
+                role_arn: "${AWS_CIRCLECI_ROLE_ARN}"
+                region: ${AWS_REGION}
+                role_session_name: CircleCISession
+                session_duration: '1800'
+            - run:
+                name: Push image
+                command: |
+                  aws ecr get-login-password | docker login --username AWS --password-stdin "${CONTAINER_REGISTRY}"
+                  docker push "$IMAGE:latest"
+            - run:
+                name: Update kubeconfig
+                command: |
+                  aws eks update-kubeconfig --name ${EKS_CLUSTER}
+            - run:
+                name: Deploy project
+                command: |
+                  DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' $IMAGE:latest)
+                  DIGEST="${DIGEST#*@}"
+                  helm upgrade --install --wait --create-namespace \
+                    --namespace << pipeline.parameters.namespace >> \
+                    --set-string "container.image=${IMAGE}@${DIGEST}" \
+                    bp-frontend ./helm
 
-parameters:
-  deploy_allowed:
-    type: boolean
-    default: false
+jobs:
+  build:
+    docker:
+      - image: cimg/aws:2023.09
+    steps:
+      - build_and_deploy:
+          deploy: false
+
+  build-and-deploy:
+    docker:
+      - image: cimg/aws:2023.09
+    steps:
+      - build_and_deploy:
+          deploy: true
 
 workflows:
-  Frontend Deployment:
-    when: << pipeline.parameters.deploy_allowed >>
+  # build every commit
+  "Just build":
+    when:
+      and:
+        - equal: [ false, << pipeline.parameters.playground >> ]
+        - not:
+            equal: [ 'main', << pipeline.git.branch >> ]
     jobs:
-      - hold:
-          type: approval
-      - deploy-frontend:
-          context: aws
-          requires:
-            - hold
+      - build:
+          context: sandbox-dev
+
+  # build and deploy to dev commits to main
+  "Build and deploy":
+    when:
+      and:
+        - equal: [ false, << pipeline.parameters.playground >> ]
+        - or:
+          - equal: [ 'main', << pipeline.git.branch >> ]
+    jobs:
+      - build-and-deploy:
+          context: sandbox-dev
+
+  # build and deploy to playground depending on parameter
+  "Build and deploy to playground":
+    when:
+      and:
+        - equal: [ true, << pipeline.parameters.playground >> ]
+        - equal: [ 'main', << pipeline.git.branch >> ]
+    jobs:
+      - build-and-deploy:
+          context: playground
