@@ -5,6 +5,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Text
 } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 type BreadcrumbElement = [string, string | null];
@@ -37,13 +38,17 @@ export default function Breadcrumbs({ path = [] }: BreadcrumbsProps) {
             <HomeIcon />
           </BreadcrumbLink>
         </BreadcrumbItem>
+
         {path.map(([title, pathname], index) => (
-          <BreadcrumbItem key={title}>
+          <BreadcrumbItem key={title}
+          display={{base: (index > (path.length - 4)?"flex":"none"), md: "flex"}}
+          >
             <BreadcrumbLink
               padding="12px 6px"
               {...getBreadcrumbLinkProps(pathname)}
             >
-              {title}
+              <Text display={{base: (index == path.length - 1 || index == path.length - 2)?"flex":"none", md: "flex"}}>{title}</Text>
+              <Text display={{base: (index == (path.length - 3)?"flex":"none"), md: "none"}}>&#8230;</Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
         ))}

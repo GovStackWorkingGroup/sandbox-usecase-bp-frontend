@@ -36,7 +36,7 @@ export default function ReviewApplication() {
     ["Construction Permit", "/housing/construction-permit"],
     ["My Applications", `/housing/construction-permit/my-applications`],
     [
-      `Permit application #${id}`,
+      `#${id}`,
       `/housing/construction-permit/my-applications/review/${id}`,
     ],
   ];

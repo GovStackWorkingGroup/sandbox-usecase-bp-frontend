@@ -9,7 +9,7 @@ export default function ConstructionPermitApplication() {
     ["Housing", null],
     ["Construction Permit", "/housing/construction-permit"],
     [
-      `Permit application #${id}`,
+      `#${id}`,
       `/housing/construction-permit/application/${id}`,
     ],
   ];
