@@ -63,7 +63,7 @@ commands:
                   DIGEST="${DIGEST#*@}"
                   helm upgrade --install --wait --create-namespace \
                     --namespace << pipeline.parameters.namespace >> \
-                    --set-string "bb_frontend.container.image=${IMAGE}@${DIGEST}" \
+                    --set-string "bp_frontend.container.image=${IMAGE}@${DIGEST}" \
                     bp-frontend ./helm
 
 jobs:
