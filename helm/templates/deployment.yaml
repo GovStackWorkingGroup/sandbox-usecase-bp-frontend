@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.bp_frontend.container.name }}
-          image: "{{ .Values.bp_frontend.container.image }}:{{ .Values.bp_frontend.container.imageTag }}"
+          image: "{{ .Values.bp_frontend.container.image }}"
           imagePullPolicy: {{ .Values.bp_frontend.container.imagePullPolicy }}
           ports:
           - containerPort: 80

@@ -8,8 +8,7 @@ bp_frontend:
       app: "bp-frontend"
   container:
     name: bp-frontend
-    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/bp/frontend
-    imageTag: latest
+    image: 463471358064.dkr.ecr.eu-central-1.amazonaws.com/app/bp/frontend:latest
     imagePullPolicy: "Always"
   profiles: "container"
   service:
