@@ -32,7 +32,7 @@ export default function Sidebar() {
       padding="10px 20px 30px 20px"
       direction="column"
       width="100%"
-      height="100vh"
+      height="auto"
       maxWidth="32rem"
       boxShadow="5px 5px 10px 1px rgba(0,0,0,0.2)"
       overflow="scroll"

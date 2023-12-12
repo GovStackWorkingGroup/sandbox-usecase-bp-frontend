@@ -3,6 +3,8 @@ import {
   Button,
   Divider,
   Flex,
+  Grid,
+  GridItem,
   HStack,
   Heading,
   Link,
@@ -22,6 +24,7 @@ import { RPCContext } from "../../../../rpc/rpc";
 import { Application } from "../../../../rpc/types";
 import { RoleFormData } from "../identification/RoleForm";
 import Action from "./components/Action";
+import StepStatus from "./components/StepStatus";
 
 export default function Overview() {
   const { id } = useParams();
@@ -143,18 +146,51 @@ export default function Overview() {
   return (
     <Flex direction="column" flexGrow={1}>
       <Flex mb="30px" gap="20px" direction="column">
+        <Grid
+        gap="30px"
+        templateAreas={{
+          xs: `"heading" "actions"`,
+          sm: `"heading" "actions"`,
+          md: `"heading actions"
+          "status actions"`,
+        }}
+      >
+      <GridItem area="heading">
+        <Flex>
+            <Text variant="title" size="md" mt="5px">
+            Application Overview{" "}
+            <span style={{ color: colors.secondary[600] }}>#{id}</span>
+          </Text>
+        </Flex>
+      </GridItem>
+      <GridItem area="status" position="relative" alignItems="baseline">
+        <Flex direction="column" alignSelf="bottom" display={{base: "none", md: "flex"}}>
+      <StepStatus
+            activeStep="parcel"
+            status={
+              {
+                parcel: application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED,
+                identification:
+                  identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED),
+                documents: (
+                  application.action === "documentsRequired" &&
+                  application.pendingDocuments.length > 0
+                    ? Status.IN_PROGRESS
+                    : (application.documents.length == 0)
+                    ? Status.NOT_STARTED
+                    : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED)
+                }
+            }
+          />
+          </Flex>
+        </GridItem>
+        <GridItem area="actions" gap="20px" display="flex" flexDirection="column"  mb="30px">
         <Heading size="md" variant="title">
           Construction Permit Application
         </Heading>
         <Text>
           For a successful application, please ensure all required documents and
           information are provided accurately for the construction permit.
-        </Text>
-      </Flex>
-      <Flex gap="20px" direction="column" mb="20px">
-        <Text variant="title">
-          Application Overview{" "}
-          <span style={{ color: colors.secondary[600] }}>#{id}</span>
         </Text>
         <Action
           title="Parcel ID"
@@ -381,10 +417,13 @@ export default function Overview() {
             ):("")}
           </>
         </Action>
+        </GridItem>
+        </Grid>
+      </Flex>
         <Text variant="label">
           The payment fee will be calculated after reviewing the application.
         </Text>
-      </Flex>
+
       <Flex marginTop="auto" mb="20px" w="100%" gap="10px" flexDirection="column">
         <Button disabled={!enabled} colorScheme={enabled?"admin":"disabled"} onClick={() => enabled?handleCreate():""}>
           Apply

@@ -78,7 +78,7 @@ export default function PaymentOverview() {
           <Flex w="100%" alignItems="center">
             <Box>
               <Text>Debit/Credit Card</Text>
-              <Text>Enter your bank details for payment.</Text>
+              <Text whiteSpace="break-spaces">Enter your bank details for payment.</Text>
             </Box>
             <ChevronRightIcon marginLeft="auto" viewBox="24px 24px" />
           </Flex>
@@ -96,7 +96,7 @@ export default function PaymentOverview() {
           <Flex w="100%" alignItems="center">
             <Box>
               <Text>Mobile Money</Text>
-              <Text>Enter your mobile money details for payment.</Text>
+              <Text whiteSpace="break-spaces">Enter your mobile money details for payment.</Text>
             </Box>
             <ChevronRightIcon marginLeft="auto" viewBox="24px 24px" />
           </Flex>
@@ -114,7 +114,7 @@ export default function PaymentOverview() {
           <Flex w="100%" alignItems="center">
             <Box>
               <Text>Digital Wallet</Text>
-              <Text>Enter your digital wallet details for payment.</Text>
+              <Text whiteSpace="break-spaces">Enter your digital wallet details for payment.</Text>
             </Box>
             <ChevronRightIcon marginLeft="auto" viewBox="24px 24px" />
           </Flex>
