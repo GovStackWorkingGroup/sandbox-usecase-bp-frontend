@@ -3,11 +3,13 @@ import CheckCircle from "@assets/icons/check-circle-2.svg?react";
 import CircleEllipsis from "@assets/icons/circle-ellipsis.svg?react";
 import RadioOFF from "@assets/icons/selected-off.svg?react";
 import RadioON from "@assets/icons/selected-on.svg?react";
-import { Divider, Flex, List, Text } from "@chakra-ui/react";
+import { Divider, Flex, Link, List, Text } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../../chakra-overrides/colors";
 import { Status } from "../../../../../components/status/ApplicationStatus";
 
 interface StepProps {
+  id: string,
   activeStep: "parcel" | "identification" | "documents" | "overview",
   status: {
     parcel: Status.NOT_STARTED | Status.IN_PROGRESS | Status.COMPLETED,
@@ -29,7 +31,7 @@ const steps = {
     step: "documents",
     title: "Documents"
   },
-  
+
 }
 
 const statusConfig = {
@@ -51,10 +53,11 @@ const statusConfig = {
 }
 
 export default function StepStatus(
-  { 
+  {
+    id,
     activeStep,
     status
-  }: 
+  }:
   StepProps,
 ) {
   return (
@@ -63,13 +66,16 @@ export default function StepStatus(
       Object.entries(status).map((step) => (
         <Flex direction="column" gap="10px" pt="10px">
           <Flex direction="row" gap="10px" alignItems="center">
-            {activeStep == step[0]?<RadioON viewBox="0 0 20 20" />:<RadioOFF style={{width: "16px",}}/>}
-              <Text color={colors.theme.primary} fontWeight="semibold">{
+            {activeStep == step[0]?<RadioON style={{width: "16px"}}/>:<RadioOFF style={{width: "16px"}}/>}
+              <Link
+                as={RouterLink}
+                to={`../${id}/${step[0]}`}
+                color={colors.theme.primary} fontWeight="semibold">{
                 (step[0] == "parcel" ||
                 step[0] == "identification" ||
                 step[0] == "documents")?
               steps[step[0]].title:""}
-              </Text>
+              </Link>
           </Flex>
           <Flex ml="-2px" direction="row" alignItems="center" display={{base: "none", md: "flex"}}>
             {statusConfig[step[1]].icon}

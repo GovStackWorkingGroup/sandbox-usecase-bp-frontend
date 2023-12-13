@@ -105,13 +105,13 @@ export default function Sidebar() {
           <Text variant="title" size="md" cursor="pointer" onClick={() => changeLanguage("en")} color={isActiveLanguage("en")?colors.theme.primary:colors.black}>
             {t('en')}
           </Text>
-          <Text variant="title" size="md" onClick={() => changeLanguage("de")} color={isActiveLanguage("de")?colors.theme.primary:colors.black}>
+          <Text variant="title" size="md" cursor="pointer" onClick={() => changeLanguage("de")} color={isActiveLanguage("de")?colors.theme.primary:colors.black}>
             {t('de')}
           </Text>
-          <Text variant="title" size="md" onClick={() => changeLanguage("fr")} color={isActiveLanguage("fr")?colors.theme.primary:colors.black}>
+          <Text variant="title" size="md" cursor="pointer" onClick={() => changeLanguage("fr")} color={isActiveLanguage("fr")?colors.theme.primary:colors.black}>
             {t('fr')}
           </Text>
-          <Text variant="title" size="md" onClick={() => changeLanguage("est")} color={isActiveLanguage("est")?colors.theme.primary:colors.black}>
+          <Text variant="title" size="md" cursor="pointer" onClick={() => changeLanguage("est")} color={isActiveLanguage("est")?colors.theme.primary:colors.black}>
             {t('est')}
           </Text>
         </Flex>

@@ -177,6 +177,7 @@ export default function Identification() {
               alignSelf="bottom"
               display={{base: "none", md: "flex"}}>
               <StepStatus
+                id={application.id}
                 activeStep="identification"
                 status={
                   {

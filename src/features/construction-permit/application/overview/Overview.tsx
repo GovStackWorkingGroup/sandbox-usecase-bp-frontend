@@ -171,6 +171,7 @@ export default function Overview() {
             alignSelf="bottom"
             display={{base: "none", md: "flex"}}>
             <StepStatus
+              id={application.id}
               activeStep="overview"
               status={
                 {

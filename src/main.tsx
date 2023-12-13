@@ -1,5 +1,5 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider } from "react-router-dom";
@@ -38,13 +38,6 @@ const theme = extendTheme({
   },
 });
 
-const Loader = () => (
-  <div className="App">
-    <img src="/govstack-logo.svg" className="App-logo" alt="logo" />
-    <div>Loading...</div>
-  </div>
-);
-
 const queryClient = new QueryClient();
 
 // on (re)load, check signed-id status
@@ -71,9 +64,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <Suspense fallback={<Loader />}>
-          <RouterProvider router={router} />
-          </Suspense>
+        <RouterProvider router={router} />
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>,
