@@ -38,13 +38,14 @@ export default function Sidebar() {
   return (
     <Flex
       backgroundColor={colors.secondary[0]}
+      zIndex = {2}
       position="absolute"
       right="0"
       top="calc(100% + 1px)"
-      padding="10px 20px 30px 20px"
+      padding="10px 20px 70px 20px"
       direction="column"
       width="100%"
-      height="auto"
+      height="100vh"
       maxWidth="32rem"
       boxShadow="5px 5px 10px 1px rgba(0,0,0,0.2)"
       overflow="scroll"
