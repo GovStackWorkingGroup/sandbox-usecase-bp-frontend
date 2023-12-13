@@ -21,9 +21,11 @@ export default class APIProvider extends BaseProvider {
       },
     );
     const response = await req.text();
-    if (req.status != 400)
+    try {
       return JSON.parse(JSON.parse(response).value) as Promise<Application[]>
-    else return [];
+    } catch (e) {
+      return [];
+    }
   }
 
   async getRecentActivity() {
@@ -42,9 +44,11 @@ export default class APIProvider extends BaseProvider {
       },
     );
     const response = await req.text();
-    if (req.status != 400)
+    try {
       return JSON.parse(JSON.parse(response).value) as Promise<RecentActivity[]>
-    else return []
+    } catch (e) {
+      return []
+    }
   }
 
   async setRecentActivity(activity: string) {
