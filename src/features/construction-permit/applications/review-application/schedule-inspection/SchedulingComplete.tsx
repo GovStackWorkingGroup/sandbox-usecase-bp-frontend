@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Flex,
+  Grid,
   Heading,
   Text
 } from "@chakra-ui/react";
@@ -50,18 +51,28 @@ export default function SchedulingComplete(
           assistance or have any inquiries, please reach out to our support
           team.
         </Text>
-        <Flex mt="auto" flexDirection="column" >
-          <Button colorScheme="admin" as={RouterLink} to="/">
-            Home
-          </Button>
-          <Button
-            as={RouterLink}
-            to="/housing/construction-permit/my-applications"
-            colorScheme="admin"
-            variant="outline"
-          >
-            My Applications
-          </Button>
+        <Flex mt="auto" direction={{base: "column", md: "row"}}>
+          <Grid
+            gap="10px"
+            w="100%"
+            gridAutoColumns={{base:"100%", md: "50%"}}
+            templateAreas={{
+              base: `"a" "b"`,
+              md: `"b a"`
+            }}>
+            <Button gridArea="a" colorScheme="admin" as={RouterLink} to="/">
+              Home
+            </Button>
+            <Button
+            gridArea="b"
+              as={RouterLink}
+              to="/housing/construction-permit/my-applications"
+              colorScheme="admin"
+              variant="outline"
+            >
+              My Applications
+            </Button>
+          </Grid>
         </Flex>
       </Flex>
     </>

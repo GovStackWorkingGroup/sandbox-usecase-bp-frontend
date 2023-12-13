@@ -13,7 +13,8 @@ import {
   Stack,
   StackDivider,
   Text,
-  UnorderedList
+  UnorderedList,
+  useMediaQuery
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
@@ -63,6 +64,9 @@ export default function Overview() {
     pendingDocuments: documentsRequired,
     inspectionDate: ""
   });
+
+  const [isMobile] = useMediaQuery('(max-width: 768px)');
+
 
   const { data: applications } = useQuery(`applications`, rpc.getApplications, {
     onSuccess: (applications) => {
@@ -144,297 +148,312 @@ export default function Overview() {
   });
 
   return (
-    <Flex direction="column" flexGrow={1}>
-      <Flex mb="30px" gap="20px" direction="column">
-        <Grid
+    <Flex mb="30px" gap="20px" direction="column" flexGrow={1}>
+      <Grid
         gap="30px"
         templateAreas={{
-          xs: `"heading" "actions"`,
-          sm: `"heading" "actions"`,
-          md: `"heading actions"
-          "status actions"`,
+          base: `"heading" "actions"`,
+          md: `"heading actions"`,
         }}
       >
-      <GridItem area="heading">
-        <Flex>
+        <GridItem area="heading"
+          gap="10px"
+          flexDirection="column"
+          display="flex">
+          <Flex>
             <Text variant="title" size="md" mt="5px">
-            Application Overview{" "}
-            <span style={{ color: colors.secondary[600] }}>#{id}</span>
-          </Text>
-        </Flex>
-      </GridItem>
-      <GridItem area="status" position="relative" alignItems="baseline">
-        <Flex direction="column" alignSelf="bottom" display={{base: "none", md: "flex"}}>
-      <StepStatus
-            activeStep="parcel"
-            status={
-              {
-                parcel: application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED,
-                identification:
-                  identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED),
-                documents: (
-                  application.action === "documentsRequired" &&
-                  application.pendingDocuments.length > 0
-                    ? Status.IN_PROGRESS
-                    : (application.documents.length == 0)
-                    ? Status.NOT_STARTED
-                    : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED)
+              Application Overview{" "}
+              <span style={{ color: colors.secondary[600] }}>#{id}</span>
+            </Text>
+          </Flex>
+          <Flex
+            direction="column"
+            alignSelf="bottom"
+            display={{base: "none", md: "flex"}}>
+            <StepStatus
+              activeStep="overview"
+              status={
+                {
+                  parcel: application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED,
+                  identification:
+                    identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED),
+                  documents: (
+                    application.action === "documentsRequired" &&
+                    application.pendingDocuments.length > 0
+                      ? Status.IN_PROGRESS
+                      : (application.documents.length == 0)
+                      ? Status.NOT_STARTED
+                      : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED)
                 }
-            }
-          />
+              }
+            />
           </Flex>
         </GridItem>
-        <GridItem area="actions" gap="20px" display="flex" flexDirection="column"  mb="30px">
-        <Heading size="md" variant="title">
-          Construction Permit Application
-        </Heading>
-        <Text>
-          For a successful application, please ensure all required documents and
-          information are provided accurately for the construction permit.
-        </Text>
-        <Action
-          title="Parcel ID"
-          status={
-            application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED
-          }
-          action={
-            <Link
-              as={RouterLink}
-              to="parcel"
-              textDecoration="underline"
-              color={colors.theme.primary}
-            >
-              {application.parcelID === "" ? "Add Parcel ID" : "Edit Parcel ID"}
-            </Link>
-          }
-        >
-        <>
+        <GridItem
+          area="actions" gap="20px" display="flex" flexDirection="column"  mb="30px">
+          <Heading size="md" variant="title">
+            Construction Permit Application
+          </Heading>
           <Text>
-            Provide the Parcel ID of the construction site in your application.
+            For a successful application, please ensure all required documents and
+            information are provided accurately for the construction permit.
           </Text>
-          {application.parcelID.length != 0?(
-            <Flex
-            backgroundColor={colors.secondary[50]}
-            direction="column"
-            gap="20px"
-            p="20px"
-            borderRadius="16px"
+          <Action
+            title="Parcel ID"
+            showStatus = {isMobile}
+            status={ application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED }
+            action={
+              <Link
+                as={RouterLink}
+                to="parcel"
+                textDecoration="underline"
+                color={colors.theme.primary}
+              >
+                {application.parcelID === "" ? "Add Parcel ID" : "Edit Parcel ID"}
+              </Link>
+            }
           >
-              <Stack divider={<StackDivider />} spacing="10px">
-                <HStack w="100%">
-                  <dl style={{ width: "50%" }}>
-                    <Text fontWeight="semibold">Parcel ID:</Text>
-                  </dl>
-                  <dd style={{ width: "50%" }}>
-                    <Text>{application.parcelID}</Text>
-                  </dd>
-                </HStack>
-                <HStack w="100%">
-                  <dl style={{ width: "50%" }}>
-                    <Text fontWeight="semibold">Coordinates:</Text>
-                  </dl>
-                  <dd style={{ width: "50%" }}>
-                    <Text>
-                      40° 7′ 24″ North<br />
-                      82° 54′ 48″ West
-                      </Text>
-                  </dd>
-                </HStack>
-                <HStack w="100%">
-                  <dl style={{ width: "50%" }}>
-                    <Text fontWeight="semibold">The Total Area (m²):</Text>
-                  </dl>
-                  <dd style={{ width: "50%" }}>
-                    <Text>2784</Text>
-                  </dd>
-                </HStack>
-                <HStack w="100%">
-                  <dl style={{ width: "50%" }}>
-                    <Text fontWeight="semibold">Floor Area Ratio (FAR):</Text>
-                  </dl>
-                  <dd style={{ width: "50%" }}>
-                    <Text>1.5</Text>
-                  </dd>
-                </HStack>
-                <HStack w="100%">
-                  <dl style={{ width: "50%" }}>
-                    <Text fontWeight="semibold">Land-use Function:</Text>
-                  </dl>
-                  <dd style={{ width: "50%" }}>
-                    <Text>Commercial + Residential</Text>
-                  </dd>
-                </HStack>
-                <HStack w="100%">
-                  <dl style={{ width: "50%" }}>
-                    <Text fontWeight="semibold">Restrictions:</Text>
-                  </dl>
-                  <dd style={{ width: "50%" }}>
-                    <Text>
-                      Building Height<br/>
-                      Regulations Report<br/>
-                      2025 Master Plan of Digital Island
-                    </Text>
-                  </dd>
-                </HStack>
-
-              </Stack>
-            </Flex>
-          ):("")}
-        </>
-        </Action>
-        <Divider />
-        <Action
-          title="Identification"
-          status={identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED)}
-          action={
-            <Link
-              as={RouterLink}
-              to="identification"
-              textDecoration="underline"
-              color={colors.theme.primary}
-            >
-              {identificationDone?"Edit contact details":"Add contact details"}
-            </Link>
-          }
-        >
-        <>
-          <Text>
-            Provide the contact information for the owner, contractor, and lead
-            architect or engineer.
-          </Text>
-          {application.identification.length != 0?(
-            <Flex
+          <>
+            <Text>
+              Provide the Parcel ID of the construction site in your application.
+            </Text>
+            {application.parcelID.length != 0 && (
+              <Flex
               backgroundColor={colors.secondary[50]}
               direction="column"
               gap="20px"
               p="20px"
               borderRadius="16px"
             >
-              {application.identification.map((role) => (
-                (role.data.name != null)?(
                 <Stack divider={<StackDivider />} spacing="10px">
-                  <Flex direction="row">
-                    <Text variant="title" size="lg">
-                      {RoleFormData(role.role).role}
-                    </Text>
-                  </Flex>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">Name</Text>
+                      <Text fontWeight="semibold">Parcel ID:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
-                      <Text>{role.data.name}</Text>
+                      <Text>{application.parcelID}</Text>
                     </dd>
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">ID</Text>
+                      <Text fontWeight="semibold">Coordinates:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
-                      <Text>{role.data.idNumber}</Text>
+                      <Text>
+                        40° 7′ 24″ North<br />
+                        82° 54′ 48″ West
+                        </Text>
                     </dd>
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">E-Mail</Text>
+                      <Text fontWeight="semibold">The Total Area (m²):</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
-                      <Text>{role.role.toLowerCase()}@email.com</Text>
+                      <Text>2784</Text>
                     </dd>
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">Phone Number</Text>
+                      <Text fontWeight="semibold">Floor Area Ratio (FAR):</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
-                      <Text>(132) 135 102</Text>
+                      <Text>1.5</Text>
                     </dd>
                   </HStack>
+                  <HStack w="100%">
+                    <dl style={{ width: "50%" }}>
+                      <Text fontWeight="semibold">Land-use Function:</Text>
+                    </dl>
+                    <dd style={{ width: "50%" }}>
+                      <Text>Commercial + Residential</Text>
+                    </dd>
+                  </HStack>
+                  <HStack w="100%">
+                    <dl style={{ width: "50%" }}>
+                      <Text fontWeight="semibold">Restrictions:</Text>
+                    </dl>
+                    <dd style={{ width: "50%" }}>
+                      <Text>
+                        Building Height<br/>
+                        Regulations Report<br/>
+                        2025 Master Plan of Digital Island
+                      </Text>
+                    </dd>
+                  </HStack>
+
                 </Stack>
-                ):("")
-              ))}
-              </Flex>
-          ):("")}
-        </>
-        </Action>
-        <Divider />
-        <Action
-          title="Documents"
-          status={
-            application.action === "documentsRequired" &&
-            application.pendingDocuments.length > 0
-              ? Status.ACTION_NEEDED
-              : (application.documents.length == 0)
-              ? Status.NOT_STARTED
-              : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED
-          }
-          action={
-            <Link
-              as={RouterLink}
-              to="documents"
-              textDecoration="underline"
-              color={colors.theme.primary}
-            >
-              Upload documents
-            </Link>
-          }>
-          <Text>
-            Uploaded documents should be digitally signed by each person that is
-            identified during the second step - identification.
-          </Text>
+              </Flex >
+            )}
+          </>
+          </Action>
+          <Divider />
+          <Action
+            title="Identification"
+            showStatus = {isMobile}
+            status= { identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED) }
+            action={
+              <Link
+                as={RouterLink}
+                to="identification"
+                textDecoration="underline"
+                color={colors.theme.primary}
+              >
+                {identificationDone?"Edit contact details":"Add contact details"}
+              </Link>
+            }
+          >
           <>
-            <UnorderedList paddingStart="10px">
-                  <ListItem key="Block/Site Plan">Block/Site Plan</ListItem>
-                  <ListItem key="Detailed Plans Scale">Detailed Plans Scale 1:50 </ListItem>
-                  <ListItem key="Estimate time and cost of projects">Estimate time and cost of projects</ListItem>
-                  <ListItem key="Property Title">Property Title</ListItem>
-            </UnorderedList>
-            {(application.documents.length > 0)?(
+            <Text>
+              Provide the contact information for the owner, contractor, and lead
+              architect or engineer.
+            </Text>
+            {application.identification.length != 0 && (
               <Flex
-                mt="20px"
                 backgroundColor={colors.secondary[50]}
                 direction="column"
                 gap="20px"
                 p="20px"
                 borderRadius="16px"
               >
-                <Stack divider={<StackDivider />} spacing="10px">
-                  <Text variant="title" size="lg">
-                    Uploaded documents
-                  </Text>
-                  {application.documents.map((document) => (
-                      <HStack w="100%">
+                {application.identification.map((role) => (
+                  (role.data.name != null) && (
+                  <Stack divider={<StackDivider />} spacing="10px">
+                    <Flex direction="row">
+                      <Text variant="title" size="lg">
+                        {RoleFormData(role.role).role}
+                      </Text>
+                    </Flex>
+                    <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text>{document.name}</Text>
-                      </dl><Spacer />
-                        <Flex direction="row" gap="15px" marginStart="auto">
-                          <DownloadIcon onClick={undefined} />
-                        </Flex>
+                        <Text fontWeight="semibold">Name</Text>
+                      </dl>
+                      <dd style={{ width: "50%" }}>
+                        <Text>{role.data.name}</Text>
+                      </dd>
                     </HStack>
-                    ))}
-                </Stack>
+                    <HStack w="100%">
+                      <dl style={{ width: "50%" }}>
+                        <Text fontWeight="semibold">ID</Text>
+                      </dl>
+                      <dd style={{ width: "50%" }}>
+                        <Text>{role.data.idNumber}</Text>
+                      </dd>
+                    </HStack>
+                    <HStack w="100%">
+                      <dl style={{ width: "50%" }}>
+                        <Text fontWeight="semibold">E-Mail</Text>
+                      </dl>
+                      <dd style={{ width: "50%" }}>
+                        <Text>{role.role.toLowerCase()}@email.com</Text>
+                      </dd>
+                    </HStack>
+                    <HStack w="100%">
+                      <dl style={{ width: "50%" }}>
+                        <Text fontWeight="semibold">Phone Number</Text>
+                      </dl>
+                      <dd style={{ width: "50%" }}>
+                        <Text>(132) 135 102</Text>
+                      </dd>
+                    </HStack>
+                  </Stack>
+                  )
+                ))}
               </Flex>
-            ):("")}
+            )}
           </>
-        </Action>
+          </Action>
+          <Divider />
+          <Action
+            title="Documents"
+            showStatus = {isMobile}
+            status = {
+              application.action === "documentsRequired" &&
+              application.pendingDocuments.length > 0
+              ? Status.ACTION_NEEDED
+              : (application.documents.length == 0)
+              ? Status.NOT_STARTED
+              : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED
+            }
+            action={
+              <Link
+                as={RouterLink}
+                to="documents"
+                textDecoration="underline"
+                color={colors.theme.primary}
+              >
+                Upload documents
+              </Link>
+            }>
+            <Text>
+              Uploaded documents should be digitally signed by each person that is
+              identified during the second step - identification.
+            </Text>
+            <>
+              <UnorderedList paddingStart="10px">
+                    <ListItem key="Block/Site Plan">Block/Site Plan</ListItem>
+                    <ListItem key="Detailed Plans Scale">Detailed Plans Scale 1:50 </ListItem>
+                    <ListItem key="Estimate time and cost of projects">Estimate time and cost of projects</ListItem>
+                    <ListItem key="Property Title">Property Title</ListItem>
+              </UnorderedList>
+              {application.documents.length > 0 && (
+                <Flex
+                  mt="20px"
+                  backgroundColor={colors.secondary[50]}
+                  direction="column"
+                  gap="20px"
+                  p="20px"
+                  borderRadius="16px"
+                >
+                  <Stack divider={<StackDivider />} spacing="10px">
+                    <Text variant="title" size="lg">
+                      Uploaded documents
+                    </Text>
+                    {application.documents.map((document) => (
+                        <HStack w="100%">
+                        <dl style={{ width: "50%" }}>
+                          <Text>{document.name}</Text>
+                        </dl><Spacer />
+                          <Flex direction="row" gap="15px" marginStart="auto">
+                            <DownloadIcon onClick={undefined} />
+                          </Flex>
+                      </HStack>
+                      ))}
+                  </Stack>
+                </Flex>
+              )}
+            </>
+          </Action>
+          <Text variant="label">
+            The payment fee will be calculated after reviewing the application.
+          </Text>
+          <Flex marginTop="auto"
+            mb="20px"
+            gap="20px"
+            direction={{base: "column", md: "row"}}>
+            <Grid
+              autoColumns="30%"
+              gap="20px"
+              width="100%"
+              templateColumns="auto"
+              templateAreas={{
+                xs: `"a" "b" "c"`,
+                sm: `"a" "b" "c"`,
+                md: `"c b a"`,
+            }}>
+              <Button gridArea="a" width="100%" disabled={!enabled} colorScheme={enabled?"admin":"disabled"} onClick={() => enabled?handleCreate():""}>
+                Apply
+              </Button>
+              <Button gridArea="b" width="100%" onClick={() => saveDraft()}as={RouterLink} to="/" variant="outline" colorScheme="admin">
+                Back to Home
+              </Button>
+              <Button gridArea="c" width="100%" onClick={() => handleDelete()} variant="plain" color={colors.theme.info}>
+                Delete Application
+              </Button>
+            </Grid>
+          </Flex>
         </GridItem>
-        </Grid>
-      </Flex>
-        <Text variant="label">
-          The payment fee will be calculated after reviewing the application.
-        </Text>
-
-      <Flex marginTop="auto" mb="20px" w="100%" gap="10px" flexDirection="column">
-        <Button disabled={!enabled} colorScheme={enabled?"admin":"disabled"} onClick={() => enabled?handleCreate():""}>
-          Apply
-        </Button>
-        <Button onClick={() => saveDraft()}as={RouterLink} to="/" variant="outline" colorScheme="admin">
-          Back to Home
-        </Button>
-        <Button onClick={() => handleDelete()} variant="plain" color={colors.theme.info}>
-          Delete Application
-        </Button>
-      </Flex>
+      </Grid>
     </Flex>
   );
 }

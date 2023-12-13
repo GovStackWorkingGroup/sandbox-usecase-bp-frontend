@@ -8,7 +8,7 @@ import { colors } from "../../../../../chakra-overrides/colors";
 import { Status } from "../../../../../components/status/ApplicationStatus";
 
 interface StepProps {
-  activeStep: "parcel" | "identification" | "documents",
+  activeStep: "parcel" | "identification" | "documents" | "overview",
   status: {
     parcel: Status.NOT_STARTED | Status.IN_PROGRESS | Status.COMPLETED,
     identification: Status.NOT_STARTED | Status.IN_PROGRESS | Status.COMPLETED,
@@ -34,17 +34,17 @@ const steps = {
 
 const statusConfig = {
   [Status.COMPLETED]: {
-    icon: <CheckCircle fill={colors.status.green} stroke="white"/>,
+    icon: <CheckCircle width="22px" fill={colors.status.green} stroke="white"/>,
     title: "COMPLETED",
     color: colors.status.green,
   },
   [Status.NOT_STARTED]: {
-    icon: <AlertCircle fill={colors.status.grey} stroke="white"/>,
+    icon: <AlertCircle width="22px" fill={colors.status.grey} stroke="white"/>,
     title: "NOT STARTED",
     color: colors.status.grey,
   },
   [Status.IN_PROGRESS]: {
-    icon: <CircleEllipsis fill={colors.status.blue} stroke="white"/>,
+    icon: <CircleEllipsis width="22px" fill={colors.status.blue} stroke="white"/>,
     title: "IN PROGRESS",
     color: colors.status.blue,
   }
@@ -61,9 +61,9 @@ export default function StepStatus(
     <List h="100px">
       {
       Object.entries(status).map((step) => (
-        <Flex direction="column" gap="10px" p="10px">
+        <Flex direction="column" gap="10px" pt="10px">
           <Flex direction="row" gap="10px" alignItems="center">
-            {activeStep == step[0]?<RadioON viewBox="0 0 24 24" />:<RadioOFF viewBox="0 0 24 24" />}
+            {activeStep == step[0]?<RadioON viewBox="0 0 20 20" />:<RadioOFF style={{width: "16px",}}/>}
               <Text color={colors.theme.primary} fontWeight="semibold">{
                 (step[0] == "parcel" ||
                 step[0] == "identification" ||

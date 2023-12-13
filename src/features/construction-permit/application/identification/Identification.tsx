@@ -1,9 +1,11 @@
 import PlusIcon from "@assets/icons/plus.svg?react";
-import { Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Button, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useMemo, useReducer, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
+import { Status } from "../../../../components/status/ApplicationStatus";
 import { Application } from "../../../../rpc/types";
+import StepStatus from "../overview/components/StepStatus";
 import InitialIdentification from "./InitialIdentification";
 import Overview from "./Overview";
 import RoleForm from "./RoleForm";
@@ -50,11 +52,23 @@ export default function Identification() {
   const [idNumber, setIdNumber] = useState<string>("9164993");
   const [name, setName] = useState<string>("Lewis Mumford");
   const [selectedRole, setSelectedRole] = useState<ROLE>(ROLE.PROPERTY_OWNER);
+  const [identificationDone, setIdentificationDone] = useState(false);
+  const [idInProgress, setIdInProgress] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [state, dispatch] = useReducer(rolesReducer, initialState);
   const handleRoleChange = (e: ChangeEvent) => {
     setSelectedRole((e.target as HTMLSelectElement).value as ROLE);
   };
+  const [application, setApplication] = useState<Application>({
+    id: `${id}`,
+    status: Status.DRAFT,
+    parcelID: "",
+    action: "inReview",
+    identification: [],
+    documents: [],
+    pendingDocuments: [],
+    inspectionDate: ""
+  });
 
   const handleAddPerson = () => {
     console.log("Person added");
@@ -116,6 +130,8 @@ export default function Identification() {
     return null;
   }, [state]);
 
+  const storageApplication = localStorage.getItem("application");
+
   useEffect(() => {
     if (roleToFill === ROLE.OTHER) {
       setIsFinished(true);
@@ -123,60 +139,125 @@ export default function Identification() {
     if (roleToFill && roleToFill !== ROLE.OTHER) {
       setSelectedRole(roleToFill);
     }
+
+    if (storageApplication) {
+      const application = JSON.parse(storageApplication) as Application;
+      // setApplication(application);
+      const undoneID = application.identification.length > 0 && application.identification.length < 4;
+      setIdInProgress(undoneID);
+      setIdentificationDone(application.identification.length == 4);
+    } else {
+      navigate("../../construction-permit");
+    }
+
   }, [roleToFill]);
   return (
     <>
       <Flex gap="20px" direction="column">
-        <Heading size="md" variant="title">
-          Identification
-        </Heading>
-        {isFinished ? (
-          <>
-            <Overview state={state} />
-            <Flex
-              direction="row"
-              gap="20px"
-              cursor="pointer"
-              color={colors.theme.primary}
-              onClick={() => handleAddPerson()}
-            >
-              <PlusIcon stroke={colors.theme.primary} />
-              <Text fontWeight="semibold">
-                Add Additional Person (Optional)
+        <Grid
+            gap="20px"
+            templateAreas={{
+              base: `"heading" "identification" "buttons"`,
+              md: `"heading identification"
+              "heading buttons"`,
+            }}
+          >
+          <GridItem area="heading"
+            gap="10px"
+            flexDirection="column"
+            display="flex">
+            <Flex>
+              <Text variant="title" size="md" mt="5px">
+                Application Overview{" "}
+                <span style={{ color: colors.secondary[600] }}>#{id}</span>
               </Text>
             </Flex>
-          </>
-        ) : (
-          <>
-            {isFirstIdentification ? (
-              <InitialIdentification
-                selectedRole={selectedRole}
-                handleRoleChange={handleRoleChange}
+            <Flex
+              direction="column"
+              alignSelf="bottom"
+              display={{base: "none", md: "flex"}}>
+              <StepStatus
+                activeStep="identification"
+                status={
+                  {
+                    parcel: application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED,
+                    identification:
+                      identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED),
+                    documents: (
+                      application.action === "documentsRequired" &&
+                      application.pendingDocuments.length > 0
+                        ? Status.IN_PROGRESS
+                        : (application.documents.length == 0)
+                        ? Status.NOT_STARTED
+                        : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED)
+                  }
+                }
               />
+            </Flex>
+          </GridItem>
+          <GridItem area="identification" gap="20px" display="flex" flexDirection="column" >
+            <Heading size="md" variant="title">
+              Identification
+            </Heading>
+            {isFinished ? (
+              <>
+                <Overview state={state} />
+                <Flex
+                  direction="row"
+                  gap="20px"
+                  cursor="pointer"
+                  color={colors.theme.primary}
+                  onClick={() => handleAddPerson()}
+                >
+                  <PlusIcon stroke={colors.theme.primary} />
+                  <Text fontWeight="semibold">
+                    Add Additional Person (Optional)
+                  </Text>
+                </Flex>
+              </>
             ) : (
-              <RoleForm
-                name={name}
-                id={idNumber}
-                role={roleToFill ?? ROLE.LEAD_ARCHITECT_OR_ENGINEER}
-                setId={setIdNumber}
-                setName={setName}
-              />
+              <>
+                {isFirstIdentification ? (
+                  <InitialIdentification
+                    selectedRole={selectedRole}
+                    handleRoleChange={handleRoleChange}
+                  />
+                ) : (
+                  <RoleForm
+                    name={name}
+                    id={idNumber}
+                    role={roleToFill ?? ROLE.LEAD_ARCHITECT_OR_ENGINEER}
+                    setId={setIdNumber}
+                    setName={setName}
+                  />
+                )}
+              </>
             )}
-          </>
-        )}
-      </Flex>
-
-      <Flex marginTop="auto" mb="20px" flexDirection="column" w="100%" gap="10px">
-          <Button onClick={() => handleContinue()} colorScheme="admin">
-            Continue
-          </Button>
-          <Button
-            onClick={() => handleSave()}
-            variant="outline"
-            colorScheme="admin"
-          >
-            Save for later
-          </Button>
+            <Flex marginTop="auto" mb="20px" direction={{base: "column", md: "row"}} w="100%" gap="10px">
+              <Grid
+                gap="10px"
+                w="100%"
+                gridAutoColumns={{base:"100%", md: "50%"}}
+                templateAreas={{
+                  base: `"a" "b"`,
+                  md: `"b a"`
+              }}>
+                <Button gridArea="a" width="100%" onClick={() => handleContinue()} colorScheme="admin">
+                  Continue
+                </Button>
+                <Button
+                  gridArea="b"
+                  width="100%"
+                  onClick={() => handleSave()}
+                  variant="outline"
+                  colorScheme="admin"
+                >
+                  Save for later
+                </Button>
+              </Grid>
+            </Flex>
+          </GridItem>
+        </Grid>
       </Flex>
     </>
   );

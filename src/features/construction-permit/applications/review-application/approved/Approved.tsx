@@ -2,10 +2,10 @@ import DownloadIcon from "@assets/icons/download.svg?react";
 import {
   Button,
   Flex,
+  Grid,
   Heading,
   Link,
-  Text,
-  VStack
+  Text
 } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { colors } from "../../../../../chakra-overrides/colors";
@@ -71,15 +71,22 @@ export default function Approved() {
           For any inquiries or assistance, please reach out to our{" "}
           <span style={{ color: colors.theme.primary }}>support</span> team.
         </Text>
-        <Flex  marginTop="auto">
-          <VStack w="100%">
-            <Button as={RouterLink} to="./../feedback" colorScheme="admin" variant="solid" w="100%">
+        <Flex marginTop="auto" direction={{base: "column", md: "row"}}>
+          <Grid
+            gap="10px"
+            w="100%"
+            gridAutoColumns={{base:"100%", md: "50%"}}
+            templateAreas={{
+              base: `"a" "b"`,
+              md: `"b a"`
+          }}>
+            <Button gridArea="a" as={RouterLink} to="./../feedback" colorScheme="admin" variant="solid" w="100%">
               Continue
             </Button>
-            <Button colorScheme="admin" variant="outline" w="100%">
+            <Button gridArea="b" colorScheme="admin" variant="outline" w="100%">
               Download Construction Permit
             </Button>
-          </VStack>
+          </Grid>
         </Flex>
       </Flex>
     </>

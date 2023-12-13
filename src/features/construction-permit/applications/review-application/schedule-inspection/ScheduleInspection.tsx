@@ -1,6 +1,7 @@
 import {
   Button,
   Flex,
+  Grid,
   Heading,
   Input,
   Text
@@ -93,11 +94,22 @@ export default function ScheduleInspection() {
               </>
             )}
           </Flex>
-          <Flex mt="auto" flexDirection="column" >
-            <Button disabled={!date} colorScheme={date?"admin":"disabled"} onClick={() => date?(schedule()):{}}>
-              Schedule
-            </Button>
-            <Button colorScheme="admin" variant="outline" onClick={() => schedule()}>Back</Button>
+          <Flex mt="auto" direction={{base: "column", md: "row"}}>
+            <Grid
+              gap="10px"
+              w="100%"
+              gridAutoColumns={{base:"100%", md: "50%"}}
+              templateAreas={{
+                base: `"a" "b"`,
+                md: `"b a"`
+            }}>
+              <Button gridArea="a" disabled={!date} colorScheme={date?"admin":"disabled"} onClick={() => date?(schedule()):{}}>
+                Schedule
+              </Button>
+              <Button gridArea="b" colorScheme="admin" variant="outline" onClick={() => schedule()}>
+                Back
+              </Button>
+            </Grid>
           </Flex>
         </Flex>
       )}

@@ -67,7 +67,7 @@ interface ApplicationStatusProps {
 export default function ApplicationStatus({ status }: ApplicationStatusProps) {
   return (
     <>
-      <Flex direction="row" p="5px" alignItems="center" display={{base: "flex", md: "none"}}>
+      <Flex direction="row" p="5px" alignItems="center">
         {statusConfig[status].icon}
         <Text
           size="sm"

@@ -5,25 +5,29 @@ import {
   Button,
   CircularProgress,
   Flex,
+  Grid,
+  GridItem,
   Heading,
   Link,
   ListItem,
   Text,
-  UnorderedList,
-  VStack
+  UnorderedList
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import { Status } from "../../components/status/ApplicationStatus";
 import { RPCContext } from "../../rpc/rpc";
 import { Application } from "../../rpc/types";
+import StepStatus from "../construction-permit/application/overview/components/StepStatus";
 
 export default function FileUpload() {
   const { id } = useParams();
   const rpc = useContext(RPCContext);
   const navigate = useNavigate();
+  const [identificationDone, setIdentificationDone] = useState(false);
+  const [idInProgress, setIdInProgress] = useState(false);
 
   const [application, setApplication] = useState<Application>({
     id: `${id}`,
@@ -149,10 +153,62 @@ export default function FileUpload() {
     }
   }
 
+  const storageApplication = localStorage.getItem("application");
+
+  useEffect(() => {
+    if (storageApplication) {
+      const application = JSON.parse(storageApplication) as Application;
+      setApplication(application);
+      const undoneID = application.identification.length > 0 && application.identification.length < 4;
+      setIdInProgress(undoneID);
+      setIdentificationDone(application.identification.length == 4);
+    }}
+  );
+
   return (
-    <>
-      <Flex direction="column" flexGrow={1}>
-        <Flex direction="column" gap="20px">
+    <Grid
+      gap="20px"
+      templateAreas={{
+        xs: `"heading" "documents"`,
+        sm: `"heading" "documents"`,
+        md: `"heading documents"`,
+      }}
+    >
+      <GridItem area="heading"
+        gap="10px"
+        flexDirection="column"
+        display="flex">
+        <Flex>
+          <Text variant="title" size="md" mt="5px">
+            Application Overview{" "}
+            <span style={{ color: colors.secondary[600] }}>#{id}</span>
+          </Text>
+        </Flex>
+        <Flex
+          direction="column"
+          alignSelf="bottom"
+          display={{base: "none", md: "flex"}}>
+          <StepStatus
+            activeStep="documents"
+            status={
+              {
+                parcel: application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED,
+                identification:
+                  identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED),
+                documents: (
+                  application.action === "documentsRequired" &&
+                  application.pendingDocuments.length > 0
+                    ? Status.IN_PROGRESS
+                    : (application.documents.length == 0)
+                    ? Status.NOT_STARTED
+                    : (application.documents.length > 0 && application.pendingDocuments.length > 0)?Status.IN_PROGRESS:Status.COMPLETED)
+              }
+            }
+          />
+        </Flex>
+      </GridItem>
+      <GridItem area="documents">
+        <Flex direction="column" gap="20px" flexGrow={1}>
           <Heading variant="headline">Upload Documents</Heading>
           <Text >
             Please upload the following documents:
@@ -235,17 +291,25 @@ export default function FileUpload() {
             )
           }
         </Flex>
-        <Flex padding="10px" marginTop="auto">
-          <VStack w="100%">
-            <Button onClick={() => handleUpload()} colorScheme="admin" variant="solid" w="100%">
+        <Flex padding="10px" marginTop="auto" width="100%" direction={{base: "column", md: "row"}}>
+          <Grid
+            w="100%"
+            gap="10px"
+            templateAreas={{
+              xs: `"a" "b"`,
+              sm: `"a" "b"`,
+              md: `"b a"`,
+            }}
+          >
+            <Button gridArea="a" width="100%" onClick={() => handleUpload()} colorScheme="admin" variant="solid" w="100%">
             {(application.action == "documentsRequired")?("Save"):("Continue")}
             </Button>
-            <Button onClick={() =>  handleSave()} colorScheme="admin" variant="outline" w="100%">
+            <Button gridArea="b" width="100%" onClick={() =>  handleSave()} colorScheme="admin" variant="outline" w="100%">
             {(application.action == "documentsRequired")?("Back"):("Save for later")}
             </Button>
-          </VStack>
+          </Grid>
         </Flex>
-      </Flex>
-    </>
+    </GridItem>
+    </Grid>
   );
 }

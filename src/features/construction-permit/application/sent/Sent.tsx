@@ -1,10 +1,10 @@
 import {
   Button,
   Flex,
+  Grid,
   Heading,
   Link,
-  Text,
-  VStack
+  Text
 } from "@chakra-ui/react";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
@@ -85,12 +85,20 @@ export default function ApplicationSent() {
           </AccordionItem>
         </Accordion>
       </Flex>
-      <Flex padding="10px" marginTop="auto">
-        <VStack w="100%">
-          <Button as={RouterLink} to="/" colorScheme="admin"variant="solid" w="100%">
+      <Flex padding="10px" marginTop="auto" direction={{base: "column", md: "row"}}>
+        <Grid
+          gap="10px"
+          w="100%"
+          gridAutoColumns={{base:"100%", md: "50%"}}
+          templateAreas={{
+            base: `"a" "b"`,
+            md: `"b a"`
+          }}>
+          <Button gridArea="a" as={RouterLink} to="/" colorScheme="admin"variant="solid" w="100%">
             Home
           </Button>
           <Button
+            gridArea="b"
             as={RouterLink}
             to="/housing/construction-permit/my-applications"
             colorScheme="admin"
@@ -99,7 +107,7 @@ export default function ApplicationSent() {
           >
             My Applications
           </Button>
-        </VStack>
+        </Grid>
       </Flex>
     </Flex>
   );

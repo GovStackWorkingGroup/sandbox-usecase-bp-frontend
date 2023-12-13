@@ -7,6 +7,7 @@ import ApplicationStatus, {
 interface ActionProps {
   title: string;
   status: Status;
+  showStatus?: boolean;
   children: JSX.Element | JSX.Element[];
   action: JSX.Element;
 }
@@ -14,6 +15,7 @@ interface ActionProps {
 export default function Action({
   title,
   status,
+  showStatus,
   children,
   action,
 }: ActionProps) {
@@ -23,7 +25,7 @@ export default function Action({
         <Heading color={colors.theme.primary} variant="title" size="sm">
           {title}
         </Heading>
-        <ApplicationStatus status={status ?? Status.NOT_STARTED} />
+        { showStatus && <ApplicationStatus status={status ?? Status.NOT_STARTED} /> }
       </Flex>
       <Flex direction="column">{children}</Flex>
       {action}

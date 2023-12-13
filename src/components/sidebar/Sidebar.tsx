@@ -9,6 +9,7 @@ import {
   ListItem,
   Text
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import { topics } from "../../features/front-page/components/topics/Topics";
@@ -19,8 +20,19 @@ import Search from "../search/Search";
 export default function Sidebar() {
   const {logout} = useAuthentication();
 
+
   const handleClick = () => {
     alert("This page is still inactive");
+  }
+
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng: any) => {
+    i18n.changeLanguage(lng);
+  };
+
+  const isActiveLanguage = (language: string) => {
+    return i18n.language == language;
   }
 
   return (
@@ -90,17 +102,17 @@ export default function Sidebar() {
             />
           </svg>
 
-          <Text color={colors.theme.primary} variant="title" size="md">
-            Eng
+          <Text variant="title" size="md" cursor="pointer" onClick={() => changeLanguage("en")} color={isActiveLanguage("en")?colors.theme.primary:colors.black}>
+            {t('en')}
           </Text>
-          <Text variant="title" size="md">
-            De
+          <Text variant="title" size="md" onClick={() => changeLanguage("de")} color={isActiveLanguage("de")?colors.theme.primary:colors.black}>
+            {t('de')}
           </Text>
-          <Text variant="title" size="md">
-            Fr
+          <Text variant="title" size="md" onClick={() => changeLanguage("fr")} color={isActiveLanguage("fr")?colors.theme.primary:colors.black}>
+            {t('fr')}
           </Text>
-          <Text variant="title" size="md">
-            Est
+          <Text variant="title" size="md" onClick={() => changeLanguage("est")} color={isActiveLanguage("est")?colors.theme.primary:colors.black}>
+            {t('est')}
           </Text>
         </Flex>
         <Box mb="20px">

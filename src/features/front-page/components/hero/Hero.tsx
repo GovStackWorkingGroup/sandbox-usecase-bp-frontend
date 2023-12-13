@@ -1,8 +1,10 @@
 import { Flex, Heading } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { colors } from "../../../../chakra-overrides/colors";
 import Search from "../../../../components/search/Search";
 
 export default function Hero() {
+  const { t } = useTranslation();
   return (
     <Flex
       backgroundColor={colors.secondary[50]}
@@ -14,10 +16,10 @@ export default function Hero() {
       paddingX="20px"
     >
       <Heading as="h1" size="lg" variant="display">
-        Welcome to Digital Island eGov Portal
+        {t('heroTitle')}
       </Heading>
       <Heading size="sm" variant="title">
-        Your Gateway to Government Services
+        {t('heroDescription')}
       </Heading>
       <Search colorScheme="admin" />
     </Flex>

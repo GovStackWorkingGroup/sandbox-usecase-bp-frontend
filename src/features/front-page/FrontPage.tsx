@@ -22,13 +22,13 @@ export default function FrontPage() {
       <GridItem area={"hero"}>
         <Hero />
       </GridItem>
-      {isAuthenticated()?(
+      {isAuthenticated() && (
         <>
           <GridItem area={"recent-activity"}>
             <RecentActivity />
           </GridItem>
         </>
-      ):("")}
+      )}
       <GridItem area="popular-services">
         <PopularServices />
       </GridItem>

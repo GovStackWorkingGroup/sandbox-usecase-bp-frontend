@@ -1,5 +1,5 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider } from "react-router-dom";
@@ -12,6 +12,7 @@ import { Progress } from "./chakra-overrides/Progress";
 import Tabs from "./chakra-overrides/Tabs";
 import { Text } from "./chakra-overrides/Text";
 import { colors } from "./chakra-overrides/colors";
+import './i18n';
 import "./index.css";
 import { router } from "./routes/router";
 
@@ -36,6 +37,13 @@ const theme = extendTheme({
     "2xl": "1300px",
   },
 });
+
+const Loader = () => (
+  <div className="App">
+    <img src="/govstack-logo.svg" className="App-logo" alt="logo" />
+    <div>Loading...</div>
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -63,7 +71,9 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
+        <Suspense fallback={<Loader />}>
+          <RouterProvider router={router} />
+          </Suspense>
       </ChakraProvider>
     </QueryClientProvider>
   </React.StrictMode>,

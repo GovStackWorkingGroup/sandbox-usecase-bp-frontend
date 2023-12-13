@@ -41,7 +41,7 @@ export default function ReviewApplication() {
     ],
   ];
 
-  return application ? (
+  return application && (
     <>
       <Breadcrumbs path={breadcrumbs} />
       <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
@@ -63,11 +63,11 @@ export default function ReviewApplication() {
 
             <AccordionItem title="Identification">
               <>
-                {application.identification.length > 0 ? (
+                {application.identification.length > 0 && (
                   <>
                     <UnorderedList gap="20px" p="10px">
                       {application.identification.map((role) => (
-                        (role.role != ROLE.OTHER && role.data.name != "")?(
+                        (role.role != ROLE.OTHER && role.data.name != "") && (
                           <>
                             <ListItem key={role.role}>
                               <b>{RoleFormData(role.role)?.role}</b>: <br />
@@ -76,17 +76,15 @@ export default function ReviewApplication() {
                               <br />
                             </ListItem>
                           </>
-                        ):("")
+                        )
                       ))}
                     </UnorderedList>
                   </>
-                ) : (
-                  ""
                 )}
               </>
             </AccordionItem>
             <AccordionItem title="Documents">
-              {application.documents.length > 0 ? (
+              {application.documents.length > 0 && (
                 <>
                   <UnorderedList gap="20px" p="10px">
                     {application.documents.map((document) => (
@@ -96,8 +94,6 @@ export default function ReviewApplication() {
                     ))}
                   </UnorderedList>
                 </>
-              ) : (
-                ""
               )}
             </AccordionItem>
           </Accordion>
@@ -112,7 +108,5 @@ export default function ReviewApplication() {
         </Button>
       </Flex>
     </>
-  ) : (
-    ""
   );
 }

@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Flex,
+  Grid,
   Heading,
   Input,
   Text
@@ -75,13 +76,22 @@ export default function BankPayment() {
           </Box>
         </Flex>
       </Flex>
-      <Flex mt="auto" gap="10px" flexDirection="column">
-        <Button colorScheme="admin" onClick={() => handlePayment()}>
-          Pay Now
-        </Button>
-        <Button as={RouterLink} to="../" colorScheme="admin" variant="outline">
-          Cancel
-        </Button>
+      <Flex mt="auto" gap="10px" direction={{base: "column", md: "row"}}>
+        <Grid
+          gap="10px"
+          w="100%"
+          gridAutoColumns={{base:"100%", md: "50%"}}
+          templateAreas={{
+            base: `"a" "b"`,
+            md: `"b a"`
+        }}>
+          <Button gridArea="a" colorScheme="admin" onClick={() => handlePayment()}>
+            Pay Now
+          </Button>
+          <Button gridArea="b"  as={RouterLink} to="../" colorScheme="admin" variant="outline">
+            Cancel
+          </Button>
+        </Grid>
       </Flex>
     </>
   );
