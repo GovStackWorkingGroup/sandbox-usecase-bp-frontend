@@ -12,20 +12,70 @@ import {
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
-import { topics } from "../../features/front-page/components/topics/Topics";
 import { useAuthentication } from "../../utilities/useAuthentication";
 import Protected from "../protected/Protected";
 import Search from "../search/Search";
 
 export default function Sidebar() {
   const {logout} = useAuthentication();
-
+  const { t, i18n } = useTranslation();
 
   const handleClick = () => {
-    alert("This page is still inactive");
+    alert(t('inactive-page'));
   }
 
-  const { t, i18n } = useTranslation();
+
+  const topics = [
+    {
+      url: "/healthcare",
+      title: t('topics.healthcare.title'),
+      description:
+      t('topics.healthcare.description'),
+    },
+    {
+      url: "/housing/construction-permit",
+      title: t('topics.housing.title'),
+      description:
+      t('topics.housing.description'),
+    },
+    {
+      url: "/benefits-and-social-services",
+      title: t('topics.benefits-social-services.title'),
+      description:
+      t('topics.benefits-social-services.description'),
+    },
+    {
+      url: "/identity-and-family",
+      title: t('topics.identity-family.title'),
+      description:
+      t('topics.identity-family.description'),
+    },
+    {
+      url: "/business-and-labour",
+      title:t('topics.business-labor.title'),
+      description:
+      t('topics.business-labor.description'),
+    },
+    {
+      url: "/travel-and-transformation",
+      title: t('topics.travel-transformation.title'),
+      description:
+      t('topics.travel-transformation.description'),
+    },
+    {
+      url: "/money-and-property",
+      title: t('topics.money-property.title'),
+      description:
+      t('topics.money-property.description'),
+    },
+    {
+      url: "/crime-justice-and-law",
+      title: t('topics.crime-justice-law.title'),
+      description:
+      t('topics.crime-justice-law.description'),
+    }
+  ];
+
 
   const changeLanguage = (lng: any) => {
     i18n.changeLanguage(lng);
@@ -121,7 +171,7 @@ export default function Sidebar() {
         </Box>
         <Flex direction="column" gap="10px">
           <Text variant="title" size="md" color={colors.secondary[900]}>
-            Self Service
+            {t('sidebar.self-service')}
           </Text>
           <List as="nav" ml="-20px" mr="-20px">
             <ListItem>
@@ -140,7 +190,7 @@ export default function Sidebar() {
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
-                  Home
+                  {t('button.home')}
                 </Text>
               </Link>
             </ListItem>
@@ -161,7 +211,7 @@ export default function Sidebar() {
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
-                  Accessibility Settings
+                {t('sidebar.accessibility-settings')}
                 </Text>
               </Link>
             </ListItem>
@@ -182,7 +232,7 @@ export default function Sidebar() {
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
-                  Settings
+                {t('sidebar.settings')}
                 </Text>
               </Link>
             </ListItem>
@@ -203,7 +253,7 @@ export default function Sidebar() {
               >
                 <MoonIcon />
                 <Text variant="title" size="md">
-                  Help
+                {t('sidebar.help')}
                 </Text>
               </Link>
             </ListItem>
@@ -220,7 +270,7 @@ export default function Sidebar() {
                   >
                     <MoonIcon />
                     <Text variant="title" size="md">
-                      Log Out
+                      {t('button.logout')}
                     </Text>
                   </Link>
                 }
@@ -240,7 +290,7 @@ export default function Sidebar() {
                   >
                     <MoonIcon />
                     <Text variant="title" size="md">
-                      Log In
+                    {t('button.login')}
                     </Text>
                   </Link>
                 }
@@ -251,7 +301,7 @@ export default function Sidebar() {
         <Divider w="auto" mr="-20px" ml="-20px" mt="10px" mb="20px" />
         <Flex direction="column" gap="20px">
           <Text variant="title" size="md" color={colors.secondary[900]}>
-            Topics
+            {t('topics.title')}
           </Text>
           <List display="flex" flexDir="column">
             {topics.map((topic) => {

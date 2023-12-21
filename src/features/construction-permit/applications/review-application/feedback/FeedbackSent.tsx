@@ -5,9 +5,11 @@ import {
   Heading,
   Text
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function FeedbackSent() {
+  const { t } = useTranslation();
   return (
     <>
       <Flex
@@ -20,14 +22,12 @@ export default function FeedbackSent() {
       >
         <Flex direction="column" gap="10px">
           <Heading as="h1" size="md" variant="display">
-            Thank You for Your Feedback!
+            {t('application.feedback.feedback-sent.thank-you')}
           </Heading>
           <Text size="md">
-            Your feedback is invaluable in helping us improve our services.
+          {t('application.feedback.feedback-sent.desc1')}
             <br /> <br />
-            We greatly appreciate your time and input. Your suggestions and
-            comments contribute to making our processes better and more
-            user-friendly.
+            {t('application.feedback.feedback-sent.desc2')}
           </Text>
         </Flex>
         <Flex marginTop="auto" w="100%" direction={{base: "column", md: "row"}}>
@@ -40,10 +40,10 @@ export default function FeedbackSent() {
               md: `"b a"`
           }}>
             <Button gridArea="a" as={RouterLink} to="/housing/construction-permit/my-applications" colorScheme="admin" variant="solid" w="100%">
-              My Applicatons
+              {t('button.my-applications')}
             </Button>
             <Button gridArea="b" as={RouterLink} to="/" colorScheme="admin" variant="outline" w="100%">
-              Home
+              {t('button.home')}
             </Button>
           </Grid>
         </Flex>

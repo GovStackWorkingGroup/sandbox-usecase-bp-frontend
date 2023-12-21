@@ -34,7 +34,7 @@ export default function BankPayment() {
         if (applications && currentApplication) {
           currentApplication.action="inReview";
           currentApplication.status=Status.IN_REVIEW;
-          rpc.setData("applications", JSON.stringify([...applications.filter((application) => application.id != id), currentApplication]));
+          rpc.forceSetData("applications", JSON.stringify([...applications.filter((application) => application.id != id), currentApplication]));
         }
       setSuccessfulPayment(true);
     }, 4000);

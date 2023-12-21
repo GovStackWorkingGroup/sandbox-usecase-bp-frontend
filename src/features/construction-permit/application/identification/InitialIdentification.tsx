@@ -1,5 +1,6 @@
 import { FormControl, HStack, Select, Text } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
+import { useTranslation } from "react-i18next";
 import ListCard from "../../../../components/list-card/ListCard";
 import { ROLE } from "./Identification";
 
@@ -10,36 +11,36 @@ export default function InitialIdentification({
   selectedRole: ROLE;
   handleRoleChange: (e: ChangeEvent) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <>
       <FormControl gap="10px" display="flex" flexDirection="column">
         <Text variant="title" size="lg">
-          Your Role In The Project
+          {t('application.identification.roles.role')}
         </Text>
         <Select value={selectedRole} onChange={handleRoleChange}>
-          <option disabled>Select your role</option>
-          <option value={ROLE.PROPERTY_OWNER}>Property Owner</option>
+          <option disabled>{t('application.identification.roles.select-role')}</option>
+          <option value={ROLE.PROPERTY_OWNER}>{t('application.identification.roles.property-owner.role')}</option>
           <option value={ROLE.PRINCIPAL_CONTRACTOR}>
-            Principal Contractor
+          {t('application.identification.roles.principal-contractor.role')}
           </option>
           <option value={ROLE.LEAD_ARCHITECT_OR_ENGINEER}>
-            Lead Architect or Engineer
+          {t('application.identification.roles.lead-architect-engineer.role')}
           </option>
-          <option value={ROLE.OTHER}>Other (Please add explanation)</option>
+          <option value={ROLE.OTHER}>{t('application.identification.roles.other.add-explanation')}</option>
         </Select>
       </FormControl>
       <Text variant="title" size="lg">
-        Your Contact Information
+      {t('application.identification.contact-information.title')}
       </Text>
       <Text>
-        Please check your information and update your contact details if
-        necessary
+      {t('application.identification.contact-information.description')}
       </Text>
       <ListCard>
         <HStack>
           <dl style={{ width: "50%" }}>
             <Text size="sm" fontWeight="500">
-              Name
+            {t('application.identification.contact-information.name')}
             </Text>
           </dl>
           <dd style={{ width: "50%" }}>
@@ -49,7 +50,7 @@ export default function InitialIdentification({
         <HStack>
           <dl style={{ width: "50%" }}>
             <Text size="sm" fontWeight="500">
-              ID
+            {t('application.identification.contact-information.id')}
             </Text>
           </dl>
           <dd style={{ width: "50%" }}>
@@ -60,7 +61,7 @@ export default function InitialIdentification({
         <HStack>
           <dl style={{ width: "50%" }}>
             <Text size="sm" fontWeight="500">
-              E-Mail
+            {t('application.identification.contact-information.email')}
             </Text>
           </dl>
           <dd style={{ width: "50%" }}>
@@ -71,7 +72,7 @@ export default function InitialIdentification({
         <HStack>
           <dl style={{ width: "50%" }}>
             <Text size="sm" fontWeight="500">
-              Phone Number
+            {t('application.identification.contact-information.phone')}
             </Text>
           </dl>
           <dd style={{ width: "50%" }}>

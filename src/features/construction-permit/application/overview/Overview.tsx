@@ -17,18 +17,20 @@ import {
   useMediaQuery
 } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 import { Status } from "../../../../components/status/ApplicationStatus";
 import { RPCContext } from "../../../../rpc/rpc";
 import { Application } from "../../../../rpc/types";
-import { RoleFormData } from "../identification/RoleForm";
+import { ROLE } from "../identification/Identification";
 import Action from "./components/Action";
 import StepStatus from "./components/StepStatus";
 
 export default function Overview() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const rpc = useContext(RPCContext);
   const navigate = useNavigate();
   const [enabled, setEnabled] = useState(false);
@@ -104,7 +106,7 @@ export default function Overview() {
     if (applications) {
         application.action = "inReview";
         application.status = Status.IN_REVIEW;
-        rpc.setData(
+        rpc.forceSetData(
           "applications",
           JSON.stringify([
             ...applications.filter((appl) => appl.id != application.id),
@@ -112,14 +114,14 @@ export default function Overview() {
           ]),
         );
     } else {
-      rpc.setData("applications", JSON.stringify([application]));
+      rpc.forceSetData("applications", JSON.stringify([application]));
     }
     navigate("../../construction-permit/my-applications");
   };
 
   const handleDelete = () => {
     if (applications) {
-      rpc.setData("applications", JSON.stringify(applications.filter((app) => app.id !== application.id)))
+      rpc.forceSetData("applications", JSON.stringify(applications.filter((app) => app.id !== application.id)))
       .then(() => {
         localStorage.removeItem("application");
         navigate("../../construction-permit/my-applications");
@@ -131,12 +133,45 @@ export default function Overview() {
     if (applications) {
       const th = applications.find((app) => app.id == application.id);
       if (th) {
-        rpc.setData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
+        rpc.forceSetData("applications", JSON.stringify([...applications.filter((appl) => appl.id != th.id), application]));
       } else {
-        rpc.setData("applications", JSON.stringify([...applications, application]));
+        rpc.forceSetData("applications", JSON.stringify([...applications, application]));
       }
     }
   }
+
+  function RoleFormData(role: ROLE) {
+    switch (role) {
+      case ROLE.PROPERTY_OWNER:
+        return {
+          role: t('application.identification.roles.property-owner.role'),
+          description: t('application.identification.roles.property-owner.description'),
+          name: t('application.identification.roles.property-owner.name'),
+          id: t('application.identification.roles.property-owner.id')
+        }
+      case ROLE.LEAD_ARCHITECT_OR_ENGINEER:
+        return {
+          role: t('application.identification.roles.lead-architect-engineer.role'),
+          description: t('application.identification.roles.lead-architect-engineer.description'),
+          name: t('application.identification.roles.lead-architect-engineer.name'),
+          id: t('application.identification.roles.lead-architect-engineer.id')
+        }
+      case ROLE.PRINCIPAL_CONTRACTOR:
+        return {
+          role: t('application.identification.roles.principal-contractor.role'),
+          description: t('application.identification.roles.principal-contractor.description'),
+          name: t('application.identification.roles.principal-contractor.name'),
+          id: t('application.identification.roles.principal-contractor.id')
+        }
+      case ROLE.OTHER:
+        return {
+          role: t('application.identification.roles.other.role'),
+          description: t('application.identification.roles.other.description'),
+          name: t('application.identification.roles.other.name'),
+          id: t('application.identification.roles.other.id')
+        }
+      }
+    }
 
   useEffect(() => {
     const parcelDone= application.parcelID.length != 0;
@@ -162,7 +197,7 @@ export default function Overview() {
           display="flex">
           <Flex>
             <Text variant="title" size="md" mt="5px">
-              Application Overview{" "}
+              {t('application.overview.heading')}{" "}
               <span style={{ color: colors.secondary[600] }}>#{id}</span>
             </Text>
           </Flex>
@@ -193,14 +228,13 @@ export default function Overview() {
         <GridItem
           area="actions" gap="20px" display="flex" flexDirection="column"  mb="30px">
           <Heading size="md" variant="title">
-            Construction Permit Application
+            {t('application.overview.title')}
           </Heading>
           <Text>
-            For a successful application, please ensure all required documents and
-            information are provided accurately for the construction permit.
+          {t('application.overview.description')}
           </Text>
           <Action
-            title="Parcel ID"
+            title={t('application.parcel.title')}
             showStatus = {isMobile}
             status={ application.parcelID === "" ? Status.NOT_STARTED : Status.COMPLETED }
             action={
@@ -210,13 +244,13 @@ export default function Overview() {
                 textDecoration="underline"
                 color={colors.theme.primary}
               >
-                {application.parcelID === "" ? "Add Parcel ID" : "Edit Parcel ID"}
+                {application.parcelID === "" ? t('application.parcel.add-parcel-id') : t('application.parcel.edit-parcel-id')}
               </Link>
             }
           >
           <>
             <Text>
-              Provide the Parcel ID of the construction site in your application.
+            {t('application.overview.parcel-description')}
             </Text>
             {application.parcelID.length != 0 && (
               <Flex
@@ -229,7 +263,7 @@ export default function Overview() {
                 <Stack divider={<StackDivider />} spacing="10px">
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">Parcel ID:</Text>
+                      <Text fontWeight="semibold">{t('application.parcel.title')}:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
                       <Text>{application.parcelID}</Text>
@@ -237,18 +271,18 @@ export default function Overview() {
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">Coordinates:</Text>
+                      <Text fontWeight="semibold">{t('application.parcel.parcel-info.coordinates.title')}:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
                       <Text>
-                        40° 7′ 24″ North<br />
-                        82° 54′ 48″ West
+                      {t('application.parcel.parcel-info.coordinates.crd1')}<br />
+                      {t('application.parcel.parcel-info.coordinates.crd2')}
                         </Text>
                     </dd>
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">The Total Area (m²):</Text>
+                      <Text fontWeight="semibold">{t('application.parcel.parcel-info.total-area')}:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
                       <Text>2784</Text>
@@ -256,7 +290,7 @@ export default function Overview() {
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">Floor Area Ratio (FAR):</Text>
+                      <Text fontWeight="semibold">{t('application.parcel.parcel-info.floor-area-ratio')}:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
                       <Text>1.5</Text>
@@ -264,21 +298,21 @@ export default function Overview() {
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">Land-use Function:</Text>
+                      <Text fontWeight="semibold">{t('application.parcel.parcel-info.land-use-function.title')}:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
-                      <Text>Commercial + Residential</Text>
+                      <Text>{t('application.parcel.parcel-info.land-use-function.use')}</Text>
                     </dd>
                   </HStack>
                   <HStack w="100%">
                     <dl style={{ width: "50%" }}>
-                      <Text fontWeight="semibold">Restrictions:</Text>
+                      <Text fontWeight="semibold">{t('application.parcel.parcel-info.restrictions.title')}:</Text>
                     </dl>
                     <dd style={{ width: "50%" }}>
                       <Text>
-                        Building Height<br/>
-                        Regulations Report<br/>
-                        2025 Master Plan of Digital Island
+                        {t('application.parcel.parcel-info.restrictions.restr1')}<br/>
+                        {t('application.parcel.parcel-info.restrictions.restr2')}<br/>
+                        {t('application.parcel.parcel-info.restrictions.restr3')}
                       </Text>
                     </dd>
                   </HStack>
@@ -290,7 +324,7 @@ export default function Overview() {
           </Action>
           <Divider />
           <Action
-            title="Identification"
+            title={t('application.identification.title')}
             showStatus = {isMobile}
             status= { identificationDone?Status.COMPLETED:(idInProgress?Status.IN_PROGRESS:Status.NOT_STARTED) }
             action={
@@ -300,14 +334,13 @@ export default function Overview() {
                 textDecoration="underline"
                 color={colors.theme.primary}
               >
-                {identificationDone?"Edit contact details":"Add contact details"}
+                {identificationDone?t('application.identification.contact-information.edit-details'):t('application.identification.contact-information.add-details')}
               </Link>
             }
           >
           <>
             <Text>
-              Provide the contact information for the owner, contractor, and lead
-              architect or engineer.
+            {t('application.overview.identification-description')}
             </Text>
             {application.identification.length != 0 && (
               <Flex
@@ -327,7 +360,7 @@ export default function Overview() {
                     </Flex>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text fontWeight="semibold">Name</Text>
+                        <Text fontWeight="semibold">{t('application.identification.contact-information.name')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
                         <Text>{role.data.name}</Text>
@@ -335,7 +368,7 @@ export default function Overview() {
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text fontWeight="semibold">ID</Text>
+                        <Text fontWeight="semibold">{t('application.identification.contact-information.id')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
                         <Text>{role.data.idNumber}</Text>
@@ -343,7 +376,7 @@ export default function Overview() {
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text fontWeight="semibold">E-Mail</Text>
+                        <Text fontWeight="semibold">{t('application.identification.contact-information.id')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
                         <Text>{role.role.toLowerCase()}@email.com</Text>
@@ -351,7 +384,7 @@ export default function Overview() {
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text fontWeight="semibold">Phone Number</Text>
+                        <Text fontWeight="semibold">{t('application.identification.contact-information.phone')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
                         <Text>(132) 135 102</Text>
@@ -366,7 +399,7 @@ export default function Overview() {
           </Action>
           <Divider />
           <Action
-            title="Documents"
+            title={t('application.documents.title')}
             showStatus = {isMobile}
             status = {
               application.action === "documentsRequired" &&
@@ -383,12 +416,11 @@ export default function Overview() {
                 textDecoration="underline"
                 color={colors.theme.primary}
               >
-                Upload documents
+                {t('button.upload-documents')}
               </Link>
             }>
             <Text>
-              Uploaded documents should be digitally signed by each person that is
-              identified during the second step - identification.
+            {t('application.overview.documents-description')}
             </Text>
             <>
               <UnorderedList paddingStart="10px">
@@ -408,7 +440,7 @@ export default function Overview() {
                 >
                   <Stack divider={<StackDivider />} spacing="10px">
                     <Text variant="title" size="lg">
-                      Uploaded documents
+                      {t('application.documents.upload.uploaded-documents')}
                     </Text>
                     {application.documents.map((document) => (
                         <HStack w="100%">
@@ -426,7 +458,7 @@ export default function Overview() {
             </>
           </Action>
           <Text variant="label">
-            The payment fee will be calculated after reviewing the application.
+            {t('application.overview.payment-fee')}
           </Text>
           <Flex marginTop="auto"
             mb="20px"
@@ -443,13 +475,13 @@ export default function Overview() {
                 md: `"c b a"`,
             }}>
               <Button gridArea="a" width="100%" disabled={!enabled} colorScheme={enabled?"admin":"disabled"} onClick={() => enabled?handleCreate():""}>
-                Apply
+                {t('button.apply')}
               </Button>
               <Button gridArea="b" width="100%" onClick={() => saveDraft()}as={RouterLink} to="/" variant="outline" colorScheme="admin">
-                Back to Home
+              {t('button.back-to-home')}
               </Button>
               <Button gridArea="c" width="100%" onClick={() => handleDelete()} variant="plain" color={colors.theme.info}>
-                Delete Application
+              {t('button.delete-application')}
               </Button>
             </Grid>
           </Flex>

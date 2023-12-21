@@ -8,21 +8,24 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 
-const popularServices = [
-  ["Construction Permit", "/housing/construction-permit"],
-  ["Visa application hub", null],
-  ["Social welfare programs", null],
-  ["Registration of residence", null],
-  ["Income tax returns", null],
-];
-
 export default function PopularServices() {
+  const { t } = useTranslation();
+
+  const popularServices = [
+    [t('popular-services.construction-permit'), "/housing/construction-permit"],
+    [t('popular-services.visa-application'), null],
+    [t('popular-services.social-welfare'), null],
+    [t('popular-services.residence-registration'), null],
+    [t('popular-services.income-tax-returns'), null],
+  ];
+
   return (
     <Flex direction="column" gap="10px" padding="10px 0">
-      <Heading variant="headline">Popular Services</Heading>
+      <Heading variant="headline">{t('popular-services.title')}</Heading>
       <List color={colors.theme.primary}>
         {popularServices.map(([name, pathname]) => (
           <ListItem key={name} display="flex" alignItems={"center"}>

@@ -9,11 +9,13 @@ import {
   Textarea
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import FeedbackRating from "./FeedbackRatingRadio";
 import FeedbackSent from "./FeedbackSent";
 
 export default function Feedback() {
+  const { t } = useTranslation();
   const [feedbackSent, setFeedbackSent] = useState(false);
   if (feedbackSent) {
     return <FeedbackSent />;
@@ -23,21 +25,20 @@ export default function Feedback() {
       <Flex mt="80px" gap="20px" paddingBottom="20px" flexGrow={1}>
         <Flex gap="10px" direction="column" w="100%">
           <Heading as="h1" size="md" variant="display">
-            We need your Feedback!
+            {t('application.feedback.title')}
           </Heading>
           <FormControl marginTop="1rem" isRequired>
             <FormLabel>
-              How would you rate your experience with our service?
+            {t('application.feedback.description')}
             </FormLabel>
             <Flex justifyContent="center">
               <FeedbackRating />
             </Flex>
           </FormControl>
           <FormControl marginTop="1rem">
-            <FormLabel>Let us know about your experience</FormLabel>
+            <FormLabel>{t('application.feedback.experience')}</FormLabel>
             <Text size="md">
-              Did you accomplish what you intended to do in this session? Help
-              us to understand what we can improve.
+            {t('application.feedback.experience-description')}
             </Text>
             <Textarea marginTop="1rem" placeholder="(Optional)" />
           </FormControl>
@@ -57,10 +58,10 @@ export default function Feedback() {
                 variant="solid"
                 width="100%"
               >
-                Submit
+                {t('button.submit')}
               </Button>
               <Button gridArea="b" as={RouterLink} to="/" colorScheme="admin" variant="outline" width="100%">
-                Skip & Home
+                {t('button.skip-and-home')}
               </Button>
             </Grid>
           </Flex>

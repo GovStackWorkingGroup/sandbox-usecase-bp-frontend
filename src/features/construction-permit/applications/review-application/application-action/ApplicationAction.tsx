@@ -3,12 +3,12 @@ import PlusIcon from "@assets/icons/plus.svg?react";
 import {
   Button,
   Flex,
-  Link,
   ListItem,
   Spacer,
   Text,
-  UnorderedList,
+  UnorderedList
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { colors } from "../../../../../chakra-overrides/colors";
 import { Application } from "../../../../../rpc/types";
@@ -29,6 +29,7 @@ export default function ApplicationAction({
   application: Application;
 }) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   switch (action) {
     case "paymentRequired":
       return (
@@ -42,15 +43,13 @@ export default function ApplicationAction({
             bg={colors.secondary[50]}
           >
             <Text variant="title" size="lg">
-              Payment Required
+            {t('actions.payment.title')}
             </Text>
             <Text>
-              To facilitate the processing of your application, please proceed
-              with the payment of the required fee. Once payment is complete,
-              your application will be forwarded to stakeholders for clearance.
+            {t('actions.payment.description')}
             </Text>
             <Button colorScheme="admin" as={RouterLink} to={`payment`}>
-              Payment
+              {t('application.payment.title')}
             </Button>
           </Flex>
         </>
@@ -69,17 +68,17 @@ export default function ApplicationAction({
           >
             <Flex direction="row" gap="20px" alignItems="center">
               <Text variant="title" size="lg">
-                Schedule Your Site Inspection
+              {t('actions.inspection.schedule.title')}
               </Text>{" "}
               <Spacer />
               <AlertIcon stroke="black" />
             </Flex>
             <Text>
-              Please select a date from the available options. <br />
-              Ensure your presence on the chosen date for the inspection.
+            {t('actions.inspection.schedule.desc1')}<br />
+            {t('actions.inspection.schedule.desc2')}
             </Text>
             <Button w="100%" onClick={() => navigate("./schedule-inspection")} colorScheme="admin" variant="solid">
-              Select a date
+            {t('actions.inspection.schedule.select-date')}
             </Button>
           </Flex>
         </>
@@ -98,19 +97,18 @@ export default function ApplicationAction({
           >
             <Flex direction="row" gap="20px" alignItems="center">
               <Text variant="title" size="lg">
-                Upcoming Site Inspection
+              {t('actions.inspection.upcoming.title')}
               </Text>{" "}
               <Spacer />
               <AlertIcon stroke="black" />
             </Flex>
             <Text>
-              Mandatory site inspection scheduled. Please ensure your presence
-              on the specified date for the inspection.
+            {t('actions.inspection.upcoming.description')}.
             </Text>
             <Text>
-              Date: <span style={{ fontWeight: "bold" }}>17/08/2023</span>
+            {t('actions.inspection.upcoming.slot.date')}: <span style={{ fontWeight: "bold" }}>17/08/2023</span>
               <br />
-              Time: <span style={{ fontWeight: "bold" }}>9:00 - 12:00</span>
+              {t('actions.inspection.upcoming.slot.time')}: <span style={{ fontWeight: "bold" }}>9:00 - 12:00</span>
             </Text>
             <Flex
               direction="row"
@@ -119,11 +117,11 @@ export default function ApplicationAction({
               color={colors.theme.primary}
             >
               <PlusIcon stroke={colors.theme.primary} />
-              <Text fontWeight="semibold">Add to calendar</Text>
+              <Text fontWeight="semibold">{t('button.add-to-calendar')}</Text>
             </Flex>
             <Text>
-              If you want to change or propose other dates, please contact{" "}
-              <span style={{ color: colors.theme.primary }}>support</span>.
+              {t('actions.inspection.upcoming.change-date-text')}{" "}
+              <span style={{ color: colors.theme.primary }}>{t('construction-permit.approved.support')}</span>.
             </Text>
           </Flex>
         </>
@@ -142,13 +140,13 @@ export default function ApplicationAction({
           >
             <Flex direction="row" gap="20px" alignItems="center">
               <Text variant="title" size="lg">
-                Additional Documents Needed
+                {t('actions.documents.title')}
               </Text>{" "}
               <Spacer />
               <AlertIcon stroke="black" />
             </Flex>
-            <Text>Additional documents are required for your application.</Text>
-            <Text>Requested documents:</Text>
+            <Text>{t('actions.documents.description')}</Text>
+            <Text>{t('actions.documents.requested-documents')}:</Text>
             <UnorderedList color={colors.theme.primary} paddingX="10px">
               {application?.pendingDocuments.map((document) => (
                 <>
@@ -168,7 +166,7 @@ export default function ApplicationAction({
                 )
               }
             >
-              Upload Documents
+              {t('application.documents.upload.title')}
             </Button>
           </Flex>
         </>
@@ -186,17 +184,13 @@ export default function ApplicationAction({
             bg={colors.secondary[50]}
           >
             <Text variant="title" size="lg">
-              Application Under Review
+              {t('actions.in-review.title')}
             </Text>
             <Text>
-              Your construction permit application is currently under review by
-              our team. We're diligently assessing your submission to ensure
-              compliance with all necessary regulations.
+              {t('actions.in-review.desc1')}
             </Text>
             <Text>
-              You will receive updates on the progress via E-Mail and within
-              your account. If you have any questions or need assistance, our
-              support team is here to help.
+              {t('actions.in-review.desc2')}
             </Text>
           </Flex>
         </>

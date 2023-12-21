@@ -7,6 +7,7 @@ import {
   useRadio,
   useRadioGroup,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { colors } from "../../../../../chakra-overrides/colors";
 
 function RadioCard(props: any) {
@@ -46,6 +47,7 @@ function RadioCard(props: any) {
 }
 
 export default function FeedbackRatingRadio() {
+  const { t } = useTranslation();
   const options = ["1", "2", "3", "4", "5"];
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "feedbackRating",
@@ -68,9 +70,9 @@ export default function FeedbackRatingRadio() {
         </HStack>
       </Flex>
       <Flex direction="row" px="10px">
-        <Text color="gray">Not Satisfied</Text>
+        <Text color="gray">{t('application.feedback.labels.not-satisfied')}</Text>
         <Spacer />
-        <Text color="gray">Very Satisfied</Text>
+        <Text color="gray">{t('application.feedback.labels.satisfied')}</Text>
       </Flex>
     </Flex>
   );

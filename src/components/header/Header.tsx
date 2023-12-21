@@ -1,12 +1,14 @@
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Box, Flex, IconButton, Image, Link, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
 import Protected from "../protected/Protected";
 import Sidebar from "../sidebar/Sidebar";
 
 export default function Header() {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   useEffect(() => {
@@ -27,9 +29,9 @@ export default function Header() {
         <Image h="32px" w="32px" src="/govstack-logo.svg" />
         <Box>
           <Text variant="caps" size="md">
-            DIGITAL ISLAND
+            {t('header.title')}
           </Text>
-          <Text size="xs">E-GOV PORTAL</Text>
+          <Text size="xs">{t('header.heading')}</Text>
         </Box>
       </Flex>
       <Flex alignItems="center" gap="20px">
@@ -37,7 +39,7 @@ export default function Header() {
           unauthorized={
             <Link as={RouterLink} to="/login">
               <Text size="md" fontWeight={600}>
-                Log In
+                {t('button.login')}
               </Text>
             </Link>
           }
@@ -46,7 +48,7 @@ export default function Header() {
           backgroundColor="transparent"
           onClick={() => setIsOpen(!isOpen)}
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-          aria-label="Open menu'"
+          aria-label={t('header.open-menu')}
         />
       </Flex>
       {isOpen && <Sidebar />}

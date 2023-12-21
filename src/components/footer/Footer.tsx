@@ -1,7 +1,9 @@
 import { Divider, Flex, Image, Link, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { colors } from "../../chakra-overrides/colors";
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <Flex
       borderTop={`1px solid ${colors.secondary[700]}`}
@@ -19,7 +21,7 @@ export default function Footer() {
       >
         <Flex alignItems="center" gap="10px">
           <Image w="24px" h="24px" src="/govstack-logo.svg" />
-          <Text size="xs">© Digital Island 2023</Text>
+          <Text size="xs">{t('footer.digital-island')}</Text>
         </Flex>
         <Flex gap="10px" alignItems="center">
           <Link>
@@ -41,7 +43,7 @@ export default function Footer() {
       </Flex>
       <Flex gap="10px" flexWrap="wrap" alignItems="center">
         <Text as={Link} size="xs">
-          Contact Us
+        {t('footer.contact-us')}
         </Text>
         <Divider
           h="16px"
@@ -50,7 +52,7 @@ export default function Footer() {
           orientation="vertical"
         />
         <Text as={Link} size="xs">
-          Give Feedback
+        {t('footer.give-feedback')}
         </Text>
         <Divider
           h="16px"
@@ -59,7 +61,7 @@ export default function Footer() {
           orientation="vertical"
         />
         <Text as={Link} size="xs">
-          Data Protection
+        {t('footer.data-protection')}
         </Text>
       </Flex>
     </Flex>

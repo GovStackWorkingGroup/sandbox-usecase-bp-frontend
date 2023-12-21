@@ -1,6 +1,7 @@
 import PlusIcon from "@assets/icons/plus.svg?react";
 import { Button, Flex, Grid, GridItem, Heading, Text } from "@chakra-ui/react";
 import { ChangeEvent, useEffect, useMemo, useReducer, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 import { Status } from "../../../../components/status/ApplicationStatus";
@@ -48,6 +49,7 @@ function rolesReducer(state = initialState, action: RoleAction) {
 
 export default function Identification() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [idNumber, setIdNumber] = useState<string>("9164993");
   const [name, setName] = useState<string>("Lewis Mumford");
@@ -59,7 +61,7 @@ export default function Identification() {
   const handleRoleChange = (e: ChangeEvent) => {
     setSelectedRole((e.target as HTMLSelectElement).value as ROLE);
   };
-  const [application, setApplication] = useState<Application>({
+  const application = {
     id: `${id}`,
     status: Status.DRAFT,
     parcelID: "",
@@ -68,10 +70,10 @@ export default function Identification() {
     documents: [],
     pendingDocuments: [],
     inspectionDate: ""
-  });
+  };
 
   const handleAddPerson = () => {
-    console.log("Person added");
+    console.log(t('application.overview.person-added'));
   };
 
   const handleSave = () => {
@@ -168,7 +170,7 @@ export default function Identification() {
             display="flex">
             <Flex>
               <Text variant="title" size="md" mt="5px">
-                Application Overview{" "}
+                {t('application.overview.title')}{" "}
                 <span style={{ color: colors.secondary[600] }}>#{id}</span>
               </Text>
             </Flex>
@@ -198,7 +200,7 @@ export default function Identification() {
           </GridItem>
           <GridItem area="identification" gap="20px" display="flex" flexDirection="column" >
             <Heading size="md" variant="title">
-              Identification
+              {t('application.identification.title')}
             </Heading>
             {isFinished ? (
               <>
@@ -212,7 +214,7 @@ export default function Identification() {
                 >
                   <PlusIcon stroke={colors.theme.primary} />
                   <Text fontWeight="semibold">
-                    Add Additional Person (Optional)
+                  {t('application.identification.add-person')}
                   </Text>
                 </Flex>
               </>
@@ -244,7 +246,7 @@ export default function Identification() {
                   md: `"b a"`
               }}>
                 <Button gridArea="a" width="100%" onClick={() => handleContinue()} colorScheme="admin">
-                  Continue
+                {t('button.continue')}
                 </Button>
                 <Button
                   gridArea="b"
@@ -253,7 +255,7 @@ export default function Identification() {
                   variant="outline"
                   colorScheme="admin"
                 >
-                  Save for later
+                  {t('button.save-for-later')}
                 </Button>
               </Grid>
             </Flex>

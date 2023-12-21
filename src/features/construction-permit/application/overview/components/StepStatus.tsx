@@ -4,6 +4,7 @@ import CircleEllipsis from "@assets/icons/circle-ellipsis.svg?react";
 import RadioOFF from "@assets/icons/selected-off.svg?react";
 import RadioON from "@assets/icons/selected-on.svg?react";
 import { Divider, Flex, Link, List, Text } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../../chakra-overrides/colors";
 import { Status } from "../../../../../components/status/ApplicationStatus";
@@ -18,40 +19,6 @@ interface StepProps {
   }
 }
 
-const steps = {
-  parcel: {
-    step: "parcel",
-    title: "Parcel ID"
-  },
-  identification: {
-    step: "identification",
-    title: "Identification"
-  },
-  documents: {
-    step: "documents",
-    title: "Documents"
-  },
-
-}
-
-const statusConfig = {
-  [Status.COMPLETED]: {
-    icon: <CheckCircle width="22px" fill={colors.status.green} stroke="white"/>,
-    title: "COMPLETED",
-    color: colors.status.green,
-  },
-  [Status.NOT_STARTED]: {
-    icon: <AlertCircle width="22px" fill={colors.status.grey} stroke="white"/>,
-    title: "NOT STARTED",
-    color: colors.status.grey,
-  },
-  [Status.IN_PROGRESS]: {
-    icon: <CircleEllipsis width="22px" fill={colors.status.blue} stroke="white"/>,
-    title: "IN PROGRESS",
-    color: colors.status.blue,
-  }
-}
-
 export default function StepStatus(
   {
     id,
@@ -60,6 +27,41 @@ export default function StepStatus(
   }:
   StepProps,
 ) {
+  const { t } = useTranslation();
+
+  const steps = {
+    parcel: {
+      step: "parcel",
+      title: t('application.parcel.title')
+    },
+    identification: {
+      step: "identification",
+      title: t('application.identification.title')
+    },
+    documents: {
+      step: "documents",
+      title: t('application.documents.title')
+    },
+  }
+
+  const statusConfig = {
+    [Status.COMPLETED]: {
+      icon: <CheckCircle width="22px" fill={colors.status.green} stroke="white"/>,
+      title: t('status.completed'),
+      color: colors.status.green,
+    },
+    [Status.NOT_STARTED]: {
+      icon: <AlertCircle width="22px" fill={colors.status.grey} stroke="white"/>,
+      title: t('status.not-started'),
+      color: colors.status.grey,
+    },
+    [Status.IN_PROGRESS]: {
+      icon: <CircleEllipsis width="22px" fill={colors.status.blue} stroke="white"/>,
+      title: t('status.in-progress'),
+      color: colors.status.blue,
+    }
+  }
+
   return (
     <List h="100px">
       {

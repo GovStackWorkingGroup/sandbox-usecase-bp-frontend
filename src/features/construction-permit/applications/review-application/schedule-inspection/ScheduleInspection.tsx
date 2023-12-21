@@ -7,6 +7,7 @@ import {
   Text
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import Breadcrumbs, {
@@ -18,11 +19,12 @@ import SchedulingComplete from "./SchedulingComplete";
 
 export default function ScheduleInspection() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const rpc = useContext(RPCContext);
   const breadcrumbs: BreadcrumbPaths = [
-    ["Housing", null],
-    ["Construction Permit", "/housing/construction-permit"],
-    ["My Applications", `/housing/construction-permit/my-applications`],
+    [t('topics.housing.title'), null],
+    [t('popular-services.construction-permit'), "/housing/construction-permit"],
+    [t('button.my-applications'), `/housing/construction-permit/my-applications`],
     [
       `#${id}`,
       `/housing/construction-permit/my-applications/review/${id}`,
@@ -43,10 +45,10 @@ export default function ScheduleInspection() {
       application.status = Status.IN_REVIEW;
       application.action = "inReview";
       application.inspectionDate = (new Date(date).toISOString() + " / 1");
-      rpc.setData("applications", JSON.stringify([...applications.filter((app) => app.id !== id), application]));
+      rpc.forceSetData("applications", JSON.stringify([...applications.filter((app) => app.id !== id), application]));
       setSchedulingComplete(true);
     } else {
-      alert("Please try again!");
+      alert(t('application.inspection.try-again'));
       window.location.reload();
     }
   }

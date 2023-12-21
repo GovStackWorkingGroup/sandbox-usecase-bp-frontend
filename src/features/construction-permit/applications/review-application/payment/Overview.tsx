@@ -11,20 +11,22 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
-import { Link as RouterLink, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../../chakra-overrides/colors";
 
 export default function PaymentOverview() {
   const { id } = useParams();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   return (
     <>
       <Heading variant="headline">Payment</Heading>
-      <Text>Application #{id}</Text>
+      <Text>{t('application.application-number')}{id}</Text>
       <Text>
-        This fee covers the processing and administrative costs associated with
-        your construction permit application.
+        {t('application.payment.overview.description')}
       </Text>
-      <Text>Please review the details below:</Text>
+      <Text>{t('application.payment.overview.review-details.title')}:</Text>
       <Flex
         p="10px"
         flexDirection="column"
@@ -35,7 +37,7 @@ export default function PaymentOverview() {
           justifyContent="space-between"
           borderBottom="1px dashed #000"
         >
-          <Text>Site visit</Text>
+          <Text>{t('application.payment.overview.review-details.site-visit')}</Text>
           <Text>240 €</Text>
         </Flex>
         <Flex
@@ -43,11 +45,11 @@ export default function PaymentOverview() {
           borderBottom="1px dashed #000"
           justifyContent="space-between"
         >
-          <Text>Validation of Certificates</Text>
+          <Text>{t('application.payment.overview.review-details.certificate-validation')}</Text>
           <Text>120 €</Text>
         </Flex>
         <Flex p="10px 20px" justifyContent="space-between">
-          <Text>Creation of records for requested construction permit</Text>
+          <Text>{t('application.payment.overview.review-details.record-creation')}</Text>
           <Text>120 €</Text>
         </Flex>
         <Flex
@@ -55,13 +57,13 @@ export default function PaymentOverview() {
           p="10px 20px"
           justifyContent="space-between"
         >
-          <Text>Total</Text> <Text>480 €</Text>
+          <Text>{t('application.payment.overview.review-details.total')}</Text> <Text>480 €</Text>
         </Flex>
       </Flex>
-      <Text variant="title">Payment Options</Text>
-      <Text>Please select a payment option to proceed</Text>
+      <Text variant="title">{t('application.payment.overview.payment-options.title')}</Text>
+      <Text>{t('application.payment.overview.payment-options.description')}</Text>
       <Text variant="label" color={colors.secondary[700]} size="sm">
-        Online Payment Methods
+      {t('application.payment.overview.payment-options.online.title')}
       </Text>
       <Flex flexDirection="column">
         <Button
@@ -77,8 +79,8 @@ export default function PaymentOverview() {
           <CreditCard stroke={colors.secondary[1000]} />
           <Flex w="100%" alignItems="center">
             <Box>
-              <Text>Debit/Credit Card</Text>
-              <Text whiteSpace="break-spaces">Enter your bank details for payment.</Text>
+              <Text>{t('application.payment.overview.payment-options.online.debit.title')}</Text>
+              <Text whiteSpace="break-spaces">{t('application.payment.overview.payment-options.online.debit.description')}</Text>
             </Box>
             <ChevronRightIcon marginLeft="auto" viewBox="24px 24px" />
           </Flex>
@@ -95,8 +97,8 @@ export default function PaymentOverview() {
 
           <Flex w="100%" alignItems="center">
             <Box>
-              <Text>Mobile Money</Text>
-              <Text whiteSpace="break-spaces">Enter your mobile money details for payment.</Text>
+              <Text>{t('application.payment.overview.payment-options.online.mobile.title')}</Text>
+              <Text whiteSpace="break-spaces">{t('application.payment.overview.payment-options.online.mobile.description')}</Text>
             </Box>
             <ChevronRightIcon marginLeft="auto" viewBox="24px 24px" />
           </Flex>
@@ -113,31 +115,31 @@ export default function PaymentOverview() {
 
           <Flex w="100%" alignItems="center">
             <Box>
-              <Text>Digital Wallet</Text>
-              <Text whiteSpace="break-spaces">Enter your digital wallet details for payment.</Text>
+              <Text>{t('application.payment.overview.payment-options.online.wallet.title')}</Text>
+              <Text whiteSpace="break-spaces">{t('application.payment.overview.payment-options.online.wallet.description')}</Text>
             </Box>
             <ChevronRightIcon marginLeft="auto" viewBox="24px 24px" />
           </Flex>
         </Button>
       </Flex>
       <Text variant="label" color={colors.secondary[700]} size="sm">
-        Bank Transfer Payment
+      {t('application.payment.overview.payment-options.bank-transfer.title')}
       </Text>
       <Text>
-        For bank transfer payments, use the following account details:
+      {t('application.payment.overview.payment-options.bank-transfer.description')}:
       </Text>
       <UnorderedList>
-        <ListItem>Bank Name: D.I. </ListItem>
+        <ListItem>{t('application.payment.overview.payment-options.bank-transfer.bank-name')}</ListItem>
         <ListItem>
-          Bank Account Holder: Digital Island City Planning Department
+        {t('application.payment.overview.payment-options.bank-transfer.account-holder')}
         </ListItem>
-        <ListItem>Account Number: DI123456789123456</ListItem>
-        <ListItem>Reference: [Application Number]</ListItem>
+        <ListItem>{t('application.payment.overview.payment-options.bank-transfer.account-number')}</ListItem>
+        <ListItem>{t('application.payment.overview.payment-options.bank-transfer.reference')}</ListItem>
       </UnorderedList>
-      <Text>Please use your application number as the payment reference.</Text>
-      <Text>Once you've made the payment, allow some processing time.</Text>
-      <Button colorScheme="admin" mt="20px" variant="outline">
-        Back
+      <Text>{t('application.payment.overview.payment-options.bank-transfer.desc1')}</Text>
+      <Text>{t('application.payment.overview.payment-options.bank-transfer.desc2')}</Text>
+      <Button colorScheme="admin" mt="20px" variant="outline" onClick={() => navigate(-1)}>
+        {t('button.back')}
       </Button>
     </>
   );

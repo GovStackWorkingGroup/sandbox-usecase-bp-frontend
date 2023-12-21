@@ -12,6 +12,7 @@ import {
   VStack
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
 import ListCard from "../../../../components/list-card/ListCard";
@@ -21,6 +22,7 @@ import StepStatus from "../overview/components/StepStatus";
 
 export default function Parcel() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const [mapOpened, setMapOpened] = useState(false);
   const [parcelId, setParcelId] = useState("");
   const [identificationDone, setIdentificationDone] = useState(false);
@@ -87,7 +89,7 @@ const handleSave = () => {
             display="flex">
             <Flex>
               <Text variant="title" size="md" mt="5px">
-                Application Overview{" "}
+               {t('application.overview.title')}{" "}
                 <span style={{ color: colors.secondary[600] }}>#{id}</span>
               </Text>
             </Flex>
@@ -117,22 +119,21 @@ const handleSave = () => {
           </GridItem>
           <GridItem area="parcel" display="flex" flexDirection="column" gap="20px">
             <Heading size="md" variant="title">
-              Parcel ID
+              {t('application.parcel.title')}
             </Heading>
-            <Text>Please enter the Parcel ID of proposed work site.</Text>
+            <Text>{t('application.parcel.desc1')}</Text>
             <Text size="sm">
-              Your Parcel ID can be found on property title, site plan, land
-              cadastre or you can select via using the map.
+            {t('application.parcel.desc2')}
             </Text>
             <Flex direction="column" gap="10px">
-              <FormLabel>Parcel ID</FormLabel>
+              <FormLabel>{t('application.parcel.title')}</FormLabel>
               <Flex gap="10px" direction={{base:"column", md: "row"}}>
                 <FormControl width={{base: "100%", md:"70%"}}>
                   <Input
                   maxLength={7}
                   defaultValue={parcelId}
                   onChange={(e) => setParcelId(e.target.value)}
-                  placeholder="What is the Parcel ID? (7-Digit Parcel ID)" />
+                  placeholder={t('application.parcel.placeholder')} />
                 </FormControl>
                 <Button 
                 width={{base: "100%", md:"30%"}}
@@ -140,7 +141,7 @@ const handleSave = () => {
                   variant="outline"
                   colorScheme="admin"
                 >
-                  Select from the map
+                  {t('application.parcel.select-from-map')}
                 </Button>
               </Flex>
             </Flex>
@@ -154,10 +155,10 @@ const handleSave = () => {
                 >
                   <VStack spacing="10px" alignItems="left">
                     <Text variant="title" size="lg">
-                      Parcel Information
+                    {t('application.parcel.parcel-info.title')}
                     </Text>
                     <Text>
-                      Please enter the Parcel ID to see the parcel information.
+                    {t('application.parcel.parcel-info.placeholder')}
                     </Text>
                   </VStack>
                 </Flex>
@@ -165,11 +166,11 @@ const handleSave = () => {
                 <>
                   <ListCard>
                     <Text variant="title" size="lg">
-                      Parcel Information
+                    {t('application.parcel.parcel-info.title')}
                     </Text>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text>Parcel ID Number:</Text>
+                        <Text>{t('application.parcel.parcel-info.parcel-number')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
                         <Text>{parcelId}</Text>
@@ -177,16 +178,16 @@ const handleSave = () => {
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text>Coordinates</Text>
+                        <Text>{t('application.parcel.parcel-info.coordinates')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
-                        <Text>40° 7' 24″ North</Text>
-                        <Text>82° 54' 48″ West</Text>
+                        <Text>{t('application.parcel.parcel-info.coordinates.crd1')}</Text>
+                        <Text>{t('application.parcel.parcel-info.coordinates.crd2')}</Text>
                       </dd>
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text>The Total Area (sq.m):</Text>
+                        <Text>{t('application.parcel.parcel-info.total-area')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
                         <Text>2784</Text>
@@ -194,7 +195,7 @@ const handleSave = () => {
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text>Floor Area Ratio (FAR)</Text>
+                        <Text>{t('application.parcel.parcel-info.floor-area-ratio')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
                         <Text>1.5</Text>
@@ -202,20 +203,20 @@ const handleSave = () => {
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text>Land-use Function:</Text>
+                        <Text>{t('application.parcel.parcel-info.land-use-function.title')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
-                        <Text>Commercial + Residential</Text>
+                        <Text>{t('application.parcel.parcel-info.land-use-function.use')}</Text>
                       </dd>
                     </HStack>
                     <HStack w="100%">
                       <dl style={{ width: "50%" }}>
-                        <Text>Restrictions:</Text>
+                        <Text>{t('application.parcel.parcel-info.restrictions.title')}</Text>
                       </dl>
                       <dd style={{ width: "50%" }}>
-                        <Text>Building Height</Text>
-                        <Text>Regulations Report</Text>
-                        <Text>2025 Master Plan of Digital Island</Text>
+                        <Text>{t('application.parcel.parcel-info.restrictions.restr1')}</Text>
+                        <Text>{t('application.parcel.parcel-info.restrictions.restr2')}</Text>
+                        <Text>{t('application.parcel.parcel-info.restrictions.restr3')}</Text>
                       </dd>
                     </HStack>
                   </ListCard>
@@ -231,10 +232,10 @@ const handleSave = () => {
                   md: `"b a"`
               }}>
               <Button gridArea="a" width="100%" colorScheme={(parcelId.length == 7)?"admin":"disabled"} disabled={(parcelId.length != 7)} onClick={() => (parcelId.length == 7)?handleContinue():""}>
-                Continue
+                {t('button.continue')}
               </Button>
               <Button gridArea="b" width="100%" onClick={() => handleSave()} variant="outline" colorScheme="admin">
-                Save for later
+              {t('button.save-for-later')}
               </Button>
             </Grid>
           </GridItem>

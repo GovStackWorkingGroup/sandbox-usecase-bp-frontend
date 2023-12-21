@@ -7,6 +7,7 @@ import {
   Link,
   Text
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { colors } from "../../../../../chakra-overrides/colors";
 import Breadcrumbs, {
@@ -15,11 +16,12 @@ import Breadcrumbs, {
 
 export default function Approved() {
   const { id } = useParams();
+  const { t } = useTranslation();
 
   const breadcrumbs: BreadcrumbPaths = [
-    ["Housing", null],
-    ["Construction Permit", "/housing/construction-permit"],
-    ["My Applications", `/housing/construction-permit/my-applications`],
+    [t('topics.housing.title'), null],
+    [t('popular-services.construction-permit'), "/housing/construction-permit"],
+    [t('button.my-applications'), `/housing/construction-permit/my-applications`],
     [
       `#${id}`,
       `/housing/construction-permit/my-applications/review/${id}`,
@@ -37,13 +39,11 @@ export default function Approved() {
         flexGrow={1}
       >
         <Heading as="h1" size="md" variant="display">
-          Congratulations! <br />
-          Your Construction Permit is Approved.
+        {t('construction-permit.approved.congratulations')} <br />
+        {t('construction-permit.approved.approved-permit')}
         </Heading>
         <Text>
-          Your construction permit application has been successfully reviewed
-          and approved. This means you have been granted permission to proceed
-          with your construction project as outlined in your application.
+        {t('construction-permit.approved.description')}
         </Text>
         <Button
           variant="link"
@@ -51,25 +51,23 @@ export default function Approved() {
           justifyContent="start"
           leftIcon={<DownloadIcon />}
         >
-          Download your construction permit (.pdf)
+          {t('construction-permit.approved.download-permit')}
         </Button>
         <Text>
-          In case of any modifications or changes to the approved plans, please
-          seek necessary approvals.
-          <br />
-          <br />
-          You can find your construction permit via{" "}
+        {t('construction-permit.approved.desc1')}.<br /><br />
+        {t('construction-permit.approved.desc2')}{" "}
           <Link
             as={RouterLink}
             to="/login"
             style={{ color: colors.theme.primary }}
           >
-            my applications page
+           {t('button.my-applications')}
           </Link>
           .<br />
           <br />
-          For any inquiries or assistance, please reach out to our{" "}
-          <span style={{ color: colors.theme.primary }}>support</span> team.
+          {t('construction-permit.approved.desc3')}{" "}
+          <span style={{ color: colors.theme.primary }}>{t('construction-permit.approved.support')} </span>
+          {t('construction-permit.approved.team')}.
         </Text>
         <Flex marginTop="auto" direction={{base: "column", md: "row"}}>
           <Grid
@@ -81,10 +79,10 @@ export default function Approved() {
               md: `"b a"`
           }}>
             <Button gridArea="a" as={RouterLink} to="./../feedback" colorScheme="admin" variant="solid" w="100%">
-              Continue
+              {t('button.continue')}
             </Button>
             <Button gridArea="b" colorScheme="admin" variant="outline" w="100%">
-              Download Construction Permit
+              {t('button.download-permit')}
             </Button>
           </Grid>
         </Flex>

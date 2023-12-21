@@ -17,11 +17,13 @@ import {
   VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useAuthentication } from "../../utilities/useAuthentication";
 
 export default function Login() {
   const {login} = useAuthentication();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const referrer = new URLSearchParams(window.location.search).get("referrer");
   const [username, setUsername] = useState<string>("user1");
@@ -42,23 +44,23 @@ export default function Login() {
       margin="0 auto"
     >
       <Heading as="h1" variant="headline">
-        Log In to e-Gov Portal
+        {t('login.title')}
       </Heading>
       <Flex direction="column" gap="10px">
-        <Text size="md">Secure authentication for e-gov services</Text>
+        <Text size="md">{t('login.description')}</Text>
         <Flex direction="column" gap="10px">
           <FormControl>
-            <FormLabel>ID Number</FormLabel>
+            <FormLabel>{t('login.id')}</FormLabel>
             <InputGroup>
               <InputLeftElement>
                 <UserIcon />
               </InputLeftElement>
-              <Input defaultValue="user1" onChange={(e) => setUsername(e.target.value)} type="text" placeholder="ID Number" />
+              <Input defaultValue="user1" onChange={(e) => setUsername(e.target.value)} type="text" placeholder={t('login.id')}/>
             </InputGroup>
           </FormControl>
 
           <FormControl>
-            <FormLabel>e-Gov Password</FormLabel>
+            <FormLabel>{t('login.password')}</FormLabel>
             <InputGroup>
               <InputLeftElement>
                 <LockIcon />
@@ -67,7 +69,7 @@ export default function Login() {
                 defaultValue="password"
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder={t('login.password')}
               />
               <InputRightElement
                 cursor="pointer"
@@ -78,7 +80,7 @@ export default function Login() {
             </InputGroup>
             <Link mt="4px" float="right">
               <Text variant="label" size="sm">
-                Forgot Password?
+              {t('login.forgotten-password')}
               </Text>
             </Link>
           </FormControl>
@@ -87,10 +89,10 @@ export default function Login() {
           <VStack w="100%">
             <Button
               onClick={() => login(username, password, referrer)} colorScheme="admin" variant="solid" w="100%">
-              Log in
+              {t('button.login')}
             </Button>
             <Button onClick={() => navigate(-1)} colorScheme="admin" variant="outline" w="100%">
-              Cancel
+            {t('button.cancel')}
             </Button>
           </VStack>
         </Flex>

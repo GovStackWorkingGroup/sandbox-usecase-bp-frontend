@@ -14,6 +14,7 @@ import {
   UnorderedList
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
@@ -24,6 +25,7 @@ import StepStatus from "../construction-permit/application/overview/components/S
 
 export default function FileUpload() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const rpc = useContext(RPCContext);
   const navigate = useNavigate();
   const [identificationDone, setIdentificationDone] = useState(false);
@@ -134,7 +136,7 @@ export default function FileUpload() {
         if (applications) {
           application.action = "inReview";
           application.status = Status.IN_REVIEW;
-          rpc.setData(
+          rpc.forceSetData(
             "applications",
             JSON.stringify([
               ...applications.filter((appl) => appl.id != application.id),
@@ -149,7 +151,7 @@ export default function FileUpload() {
       else if (application.parcelID.length < 1) navigate(`../${id}/parcel`);
       else navigate(`../${id}`);
     } else {
-      alert("Upload all required documents");
+      alert(t('application.documents.upload.all-documents-uploaded'));
     }
   }
 
@@ -180,7 +182,7 @@ export default function FileUpload() {
         display="flex">
         <Flex>
           <Text variant="title" size="md" mt="5px">
-            Application Overview{" "}
+            {t('application.overview.title')}{" "}
             <span style={{ color: colors.secondary[600] }}>#{id}</span>
           </Text>
         </Flex>
@@ -210,9 +212,9 @@ export default function FileUpload() {
       </GridItem>
       <GridItem area="documents">
         <Flex direction="column" gap="20px" flexGrow={1}>
-          <Heading variant="headline">Upload Documents</Heading>
+          <Heading variant="headline">{t('application.documents.upload.title')}</Heading>
           <Text >
-            Please upload the following documents:
+          {t('application.documents.upload.desc1')}
             </Text>
               <>
                 <UnorderedList px="10px">
@@ -226,7 +228,9 @@ export default function FileUpload() {
                 </UnorderedList>
               </>
             <Text>
-            Uploaded documents should be <Link as={RouterLink} to="" style={{color: colors.theme.primary}}>digitally signed</Link> collectively by each person provided during the identification.
+            {t('application.documents.upload.desc2')}
+            <Link as={RouterLink} to="" style={{color: colors.theme.primary}}>{t('application.documents.upload.digitally-signed')} </Link>
+            {t('application.documents.upload.desc3')}
           </Text>
         </Flex><br />
         <Flex>
@@ -248,7 +252,7 @@ export default function FileUpload() {
             onClick={() => mockUpload()}>
             {/* onClick={() => document.getElementById("fileUpload")?.click()}> */}
             <UploadIcon stroke="grey" height="2rem" width="2rem" />
-            <Text color="grey" size="lg" alignSelf="center">Select a file to upload</Text>
+            <Text color="grey" size="lg" alignSelf="center">{t('application.documents.upload.select-file')}</Text>
           </Flex>
         </Flex><br />
         <Flex
@@ -257,7 +261,7 @@ export default function FileUpload() {
           background={colors.theme.light}
           direction="column">
           <Text fontWeight="semibold">
-            Uploaded Documents
+          {t('application.documents.upload.uploaded-documents')}
           </Text><br />
           {
             (documents.length > 0)?(documents.map((document, index) =>
@@ -268,7 +272,7 @@ export default function FileUpload() {
                     (document.progress < 100)?(
                       <>
                         <Flex direction="row" gap="15px" flexGrow={1}>
-                          <Text px="10px" color="lightgray">(Uploading ...)</Text>
+                          <Text px="10px" color="lightgray">({t('application.documents.upload.uploading')})</Text>
                           <CircularProgress
                             marginStart="auto"
                             size="1.3rem"
@@ -288,7 +292,7 @@ export default function FileUpload() {
                 </Flex>
               </React.Fragment>
             )):(
-              <Text>There are no documents</Text>
+              <Text>{t('application.documents.upload.no-documents')}</Text>
             )
           }
         </Flex>
@@ -303,10 +307,10 @@ export default function FileUpload() {
             }}
           >
             <Button gridArea="a" width="100%" onClick={() => handleUpload()} colorScheme="admin" variant="solid" w="100%">
-            {(application.action == "documentsRequired")?("Save"):("Continue")}
+            {(application.action == "documentsRequired")?(t('button.save')):(t('button.continue'))}
             </Button>
             <Button gridArea="b" width="100%" onClick={() =>  handleSave()} colorScheme="admin" variant="outline" w="100%">
-            {(application.action == "documentsRequired")?("Back"):("Save for later")}
+            {(application.action == "documentsRequired")?(t('button.back')):(t('button.save-for-later'))}
             </Button>
           </Grid>
         </Flex>

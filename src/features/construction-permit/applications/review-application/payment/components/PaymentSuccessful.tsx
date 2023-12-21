@@ -6,10 +6,12 @@ import {
   Heading,
   Text
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../../../chakra-overrides/colors";
 
 export default function PaymentSuccessful() {
+  const { t } = useTranslation();
   return (
     <>
       <Flex
@@ -23,21 +25,20 @@ export default function PaymentSuccessful() {
         flexGrow={1}
       >
         <Heading as="h1" size="md" variant="display">
-          Your Payment was Successful!
+          {t('application.payment.successful.title')}
         </Heading>
         <Text>
-          You will receive notifications regarding the final outcome of your
-          application.
+          {t('application.payment.successful.desc1')}
           <br />
           <br />
-          Please allow{" "}
+          {t('application.payment.successful.allow')}{" "}
           <span style={{ fontWeight: "bold", color: colors.theme.primary }}>
-            3 to 10 working days
+            {t('application.payment.successful.desc2')}
           </span>{" "}
-          for the application review process to be completed.
+          {t('application.payment.successful.desc2')}
           <br />
           <br />
-          Thank you for your patience.
+          {t('application.payment.successful.thank-you')}
         </Text>
         <Button
           variant="link"
@@ -45,7 +46,7 @@ export default function PaymentSuccessful() {
           justifyContent="start"
           leftIcon={<DownloadIcon />}
         >
-          Download Invoice
+          {t('button.download-invoice')}
         </Button>
 
         <Flex padding="10px" marginTop="auto" w="100%" direction={{base: "column", md: "row"}}>
@@ -58,10 +59,10 @@ export default function PaymentSuccessful() {
               md: `"b a"`
           }}>
             <Button gridArea="a" as={RouterLink} to="/" colorScheme="admin"  variant="solid" w="100%">
-              Home
+              {t('button.home')}
             </Button>
             <Button gridArea="b" colorScheme="admin" variant="outline" w="100%">
-              Download Invoice
+              {t('button.download-invoice')}
             </Button>
           </Grid>
         </Flex>

@@ -11,6 +11,7 @@ import {
   UnorderedList
 } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { Link as RouterLink, useLocation } from "react-router-dom";
 import { colors } from "../../chakra-overrides/colors";
@@ -24,9 +25,10 @@ import { RPCContext } from "../../rpc/rpc";
 import { useAuthentication } from "../../utilities/useAuthentication";
 
 export default function ConstructionPermit() {
+  const { t } = useTranslation();
   const breadcrumbs: BreadcrumbPaths = [
-    ["Housing", null],
-    ["Construction Permit", "/housing/construction-permit"],
+    [t('topics.housing.title'), null],
+    [t('popular-services.construction-permit'), "/housing/construction-permit"],
   ];
 
   const { isAuthenticated } = useAuthentication();
@@ -51,37 +53,30 @@ export default function ConstructionPermit() {
         sm: `"breadcrumbs" "heading" "construction-permit" "apply-section"`,
         md: `"breadcrumbs breadcrumbs"
         "construction-permit apply-section"
-        "construction-permit apply-section"`,
+        "construction-permit -"`,
       }}
     >
     <GridItem area="breadcrumbs">
       <Breadcrumbs path={breadcrumbs} />
     </GridItem>
     <GridItem area=" construction-permit" gap="20px">
-    <Heading variant="headline">Construction Permit</Heading><br />
+    <Heading variant="headline">{t('popular-services.construction-permit')}</Heading><br />
       <Text>
-        In compliance with building codes, Digital Island's Construction
-        Permit Service provides a streamlined process for obtaining permits
-        for your construction, renovation, or demolition projects. Submit
-        applications securely online, ensuring a seamless experience backed by
-        our commitment to regulatory adherence.
+        {t('construction-permit.description')}
       </Text><br />
       <Accordion>
-        <AccordionItem title="Required Documents">
+        <AccordionItem title={t('construction-permit.tabs.required-documents.title')}>
           <>
             <Text>
-              To initiate the application process for your construction
-              permit, please ensure you have the following required documents
-              ready for submission:
+              {t('construction-permit.tabs.required-documents.description')}:
             </Text>
             <UnorderedList>
               <ListItem>
-                <Text>Parcel ID number</Text>
+                <Text>{t('application.parcel.parcel-info.parcel-number')}</Text>
               </ListItem>
               <ListItem>
                 <Text>
-                  Identification of the property owner, principal contractor
-                  and lead architect/engineer
+                {t('construction-permit.tabs.required-documents.item1')}
                 </Text>
               </ListItem>
               <ListItem>
@@ -105,110 +100,105 @@ export default function ConstructionPermit() {
             </UnorderedList>
           </>
         </AccordionItem>
-        <AccordionItem title="Required Fees">
+        <AccordionItem title={t('construction-permit.tabs.required-fees.title')}>
           <>
             <Text>
-              Upon successful scrutiny of your application, the system will
-              automatically calculate the required permit fee based on the
-              specifics of your construction project.
+            {t('construction-permit.tabs.required-fees.desc1')}
             </Text>
             <Text>
-              <strong>Estimated Fee: €120.20 - €1,301.50</strong>
+              <strong>{t('application.accordion.required-fee.desc2')}</strong>
             </Text>
-            <Link href="#">How payment fee is calculated?</Link>
+            <Link href="#">{t('construction-permit.tabs.required-fees.payment-fee')}</Link>
           </>
         </AccordionItem>
-        <AccordionItem title="Alternative Access and Support">
+        <AccordionItem title={t('construction-permit.tabs.alternative-access-support.title')}>
           <>
             <Text>
-              If it is not possible to use the e-Gov service or submit the
-              documents in a digital medium, the application can be done via
-              the city planning department.
+            {t('construction-permit.tabs.alternative-access-support.desc1')}
             </Text>
             <Text>
-              Additionally, please feel free to use the provided contact
-              information for any questions or inquiries you may have.
+            {t('construction-permit.tabs.alternative-access-support.desc2')}
             </Text>
 
-            <Text>Service Providers:</Text>
+            <Text>{t('construction-permit.tabs.alternative-access-support.service-providers.title')}:</Text>
             <Text>
-              <strong>City Planning Department</strong>
+              <strong>{t('construction-permit.tabs.alternative-access-support.service-providers.city-planning-dept')}</strong>
             </Text>
             <UnorderedList>
               <ListItem>
-                <Text>Address: 456 Park Avenue, Metropolisville</Text>
+                <Text>{t('construction-permit.tabs.alternative-access-support.service-providers.address')}: 456 Park Avenue, Metropolisville</Text>
               </ListItem>
               <ListItem>
-                <Text>Phone: (555) 987-6543</Text>
+                <Text>{t('application.identification.contact-information.phone')}: (555) 987-6543</Text>
               </ListItem>
               <ListItem>
-                <Text>E-mail: planningdept@metropolisville.gov</Text>
+                <Text>{t('application.identification.contact-information.email')}: planningdept@metropolisville.gov</Text>
               </ListItem>
               <ListItem>
-                <Text>Website URL: www.metropolisville.gov/planning</Text>
+                <Text>{t('construction-permit.tabs.alternative-access-support.service-providers.website')}: www.metropolisville.gov/planning</Text>
               </ListItem>
               <ListItem>
                 <Text>
-                  Service Area: East Metropolisville, West Metropolisville,
+                {t('construction-permit.tabs.alternative-access-support.service-providers.service-area')}: East Metropolisville, West Metropolisville,
                   and Green Meadows
                 </Text>
               </ListItem>
             </UnorderedList>
             <Text>
-              <strong>City Planning Department</strong>
+              <strong>{t('construction-permit.tabs.alternative-access-support.service-providers.city-planning-dept')}</strong>
             </Text>
             <UnorderedList>
               <ListItem>
-                <Text>Address: 456 Park Avenue, Metropolisville</Text>
+                <Text>{t('construction-permit.tabs.alternative-access-support.service-providers.address')}: 456 Park Avenue, Metropolisville</Text>
               </ListItem>
               <ListItem>
-                <Text>Phone: (555) 987-6543</Text>
+                <Text>{t('application.identification.contact-information.phone')}: (555) 987-6543</Text>
               </ListItem>
               <ListItem>
-                <Text>E-mail: planningdept@metropolisville.gov</Text>
+                <Text>{t('application.identification.contact-information.email')}: planningdept@metropolisville.gov</Text>
               </ListItem>
               <ListItem>
-                <Text>Website URL: www.metropolisville.gov/planning</Text>
+                <Text>{t('construction-permit.tabs.alternative-access-support.service-providers.website')}: www.metropolisville.gov/planning</Text>
               </ListItem>
               <ListItem>
                 <Text>
-                  Service Area: East Metropolisville, West Metropolisville,
+                {t('construction-permit.tabs.alternative-access-support.service-providers.service-area')}: East Metropolisville, West Metropolisville,
                   and Green Meadows
                 </Text>
               </ListItem>
             </UnorderedList>
             <Text>
-              <strong>City Planning Department</strong>
+              <strong>{t('construction-permit.tabs.alternative-access-support.service-providers.city-planning-dept')}</strong>
             </Text>
             <UnorderedList>
               <ListItem>
-                <Text>Address: 456 Park Avenue, Metropolisville</Text>
+                <Text>{t('construction-permit.tabs.alternative-access-support.service-providers.address')}: 456 Park Avenue, Metropolisville</Text>
               </ListItem>
               <ListItem>
-                <Text>Phone: (555) 987-6543</Text>
+                <Text>{t('application.identification.contact-information.phone')}: (555) 987-6543</Text>
               </ListItem>
               <ListItem>
-                <Text>E-mail: planningdept@metropolisville.gov</Text>
+                <Text>{t('application.identification.contact-information.email')}: planningdept@metropolisville.gov</Text>
               </ListItem>
               <ListItem>
-                <Text>Website URL: www.metropolisville.gov/planning</Text>
+                <Text>{t('construction-permit.tabs.alternative-access-support.service-providers.website')}: www.metropolisville.gov/planning</Text>
               </ListItem>
               <ListItem>
                 <Text>
-                  Service Area: East Metropolisville, West Metropolisville,
+                {t('construction-permit.tabs.alternative-access-support.service-providers.service-area')}: East Metropolisville, West Metropolisville,
                   and Green Meadows
                 </Text>
               </ListItem>
             </UnorderedList>
           </>
         </AccordionItem>
-        <AccordionItem title="Similar Services">
+        <AccordionItem title={t('construction-permit.tabs.similar-services.title')}>
           <></>
         </AccordionItem>
       </Accordion>
       </GridItem>
-        <GridItem area="apply-section">
           <Flex
+            gridArea="apply-section"
             background={colors.secondary[50]}
             mr={{base: "-20px", md: "20px", lg: "20px"}}
             ml={{base: "-20px", md: "20px", lg: "20px"}}
@@ -217,13 +207,14 @@ export default function ConstructionPermit() {
             direction="column"
             borderRadius={{md: "20px"}}
             width={{md: "300px"}}
+            height="auto"
           >
             <Protected
               authorized={
                 <>
                   <Box>
                     <Heading variant="title" size="sm" as="h3">
-                      Apply Online
+                    {t('construction-permit.apply-online')}
                     </Heading>
                   </Box>
                   <Button
@@ -233,7 +224,7 @@ export default function ConstructionPermit() {
                     }`}
                     colorScheme="admin"
                   >
-                    Create Application
+                    {t('button.create-application')}
                   </Button>
                   <Button
                     variant="outline"
@@ -241,7 +232,7 @@ export default function ConstructionPermit() {
                     to="my-applications"
                     colorScheme="admin"
                   >
-                    My Applications
+                    {t('button.my-applications')}
                   </Button>
                 </>
               }
@@ -249,18 +240,17 @@ export default function ConstructionPermit() {
                 <>
                   <Box>
                     <Heading variant="title" size="sm" as="h3">
-                      Apply Online
+                      {t('construction-permit.apply-online')}
                     </Heading>
-                    <Text size="sm">Log in to access the service.</Text>
+                    <Text size="sm">{t('construction-permit.login-to-access-service')}</Text>
                   </Box>
                   <Button as={RouterLink} to={`/login?referrer=${path}`} colorScheme="admin">
-                    Log In
+                    {t('button.login')}
                   </Button>
                 </>
               }
             ></Protected>
           </Flex>
-        </GridItem>
     </Grid>
   </Flex>
   );

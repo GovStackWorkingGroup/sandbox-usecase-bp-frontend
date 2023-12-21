@@ -16,10 +16,10 @@ export default function Hero() {
       paddingX="20px"
     >
       <Heading as="h1" size="lg" variant="display">
-        {t('heroTitle')}
+        {t('hero.title')}
       </Heading>
       <Heading size="sm" variant="title">
-        {t('heroDescription')}
+        {t('hero.Description')}
       </Heading>
       <Search colorScheme="admin" />
     </Flex>

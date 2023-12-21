@@ -1,5 +1,6 @@
 import { FormControl, FormLabel, Input, Text } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
+import { useTranslation } from "react-i18next";
 import { ROLE } from "./Identification";
 
 export default function RoleForm({
@@ -16,10 +17,43 @@ export default function RoleForm({
   setId: Dispatch<SetStateAction<string>>;
 }) {
 
+  const { t } = useTranslation();
+  function RoleFormData(role: ROLE) {
+    switch (role) {
+      case ROLE.PROPERTY_OWNER:
+        return {
+          role: t('application.identification.roles.property-owner.role'),
+          description: t('application.identification.roles.property-owner.description'),
+          name: t('application.identification.roles.property-owner.name'),
+          id: t('application.identification.roles.property-owner.id')
+        }
+      case ROLE.LEAD_ARCHITECT_OR_ENGINEER:
+        return {
+          role: t('application.identification.roles.lead-architect-engineer.role'),
+          description: t('application.identification.roles.lead-architect-engineer.description'),
+          name: t('application.identification.roles.lead-architect-engineer.name'),
+          id: t('application.identification.roles.lead-architect-engineer.id')
+        }
+      case ROLE.PRINCIPAL_CONTRACTOR:
+        return {
+          role: t('application.identification.roles.principal-contractor.role'),
+          description: t('application.identification.roles.principal-contractor.description'),
+          name: t('application.identification.roles.principal-contractor.name'),
+          id: t('application.identification.roles.principal-contractor.id')
+        }
+      case ROLE.OTHER:
+        return {
+          role: t('application.identification.roles.other.role'),
+          description: t('application.identification.roles.other.description'),
+          name: t('application.identification.roles.other.name'),
+          id: t('application.identification.roles.other.id')
+        }
+      }
+    }
   return (
     <>
       <Text fontWeight='bold'>{RoleFormData(role)?.role}</Text>
-      <Text>Please provide the {RoleFormData(role)?.description} following information.</Text>
+      <Text>{t(`Please provide the ${RoleFormData(role)?.description} following information.`)}</Text>
       <FormControl>
         <FormLabel>{RoleFormData(role)?.name}</FormLabel>
         <Input value={name ?? ""} onChange={(e) => setName(e.target.value)} />
@@ -30,37 +64,4 @@ export default function RoleForm({
       </FormControl>
     </>
   );
-}
-
-export function RoleFormData(role: ROLE) {
-  switch (role) {
-    case ROLE.PROPERTY_OWNER:
-      return {
-        role: "Property Owner",
-        description: "property owner's",
-        name: "Property Owner's Name",
-        id: "Property Owner's ID"
-      }
-    case ROLE.LEAD_ARCHITECT_OR_ENGINEER:
-      return {
-        role: "Lead Architect / Engineer",
-        description: "lead architect's or engineer's",
-        name: "Architect/Engineer’s Full Name",
-        id: "Architect/Engineer’s ID"
-      }
-    case ROLE.PRINCIPAL_CONTRACTOR:
-      return {
-        role: "Principal Contractor",
-        description: "principal contractor's",
-        name: "Contractor's Name",
-        id: "Contractor’s ID"
-      }
-    case ROLE.OTHER:
-      return {
-        role: "Other",
-        description: "other person's",
-        name: "Name",
-        id: "ID"
-      }
-  }
 }

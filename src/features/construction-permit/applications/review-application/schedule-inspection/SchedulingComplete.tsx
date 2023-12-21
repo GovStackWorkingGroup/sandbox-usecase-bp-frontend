@@ -7,6 +7,7 @@ import {
   Heading,
   Text
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Link as RouterLink } from "react-router-dom";
 
 interface scheduleProps {
@@ -20,22 +21,22 @@ export default function SchedulingComplete(
     slot
   }:scheduleProps
   ) {
+    const { t } = useTranslation();
   return (
     <>
       <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
         <Heading size="md" variant="title">
-          Thank You for Scheduling Your Site Inspection
+          {t('application.inspection.schedule.title')}
         </Heading>
         <Text>
-          Your appointment has been successfully scheduled. Here are the
-          details:
+          {t('application.inspection.schedule.appointment-details')}
         </Text>
         <Box>
           <Text>
-            Date: <strong>{new Date(date).toLocaleString("en", { day: "2-digit"}) + "/" + (new Date(date).getMonth()+1) + "/" + new Date(date).getFullYear()}</strong>
+            {t('actions.inspection.upcoming.slot.date')}: <strong>{new Date(date).toLocaleString("en", { day: "2-digit"}) + "/" + (new Date(date).getMonth()+1) + "/" + new Date(date).getFullYear()}</strong>
           </Text>
           <Text>
-            Time: <strong>{slot == 1?"9:00 - 12:00":"13:00 - 16:00"}</strong>
+            {t('actions.inspection.upcoming.slot.time')}: <strong>{slot == 1?"9:00 - 12:00":"13:00 - 16:00"}</strong>
           </Text>
         </Box>
         <Button
@@ -44,12 +45,10 @@ export default function SchedulingComplete(
           variant="ghost"
           leftIcon={<PlusSquareIcon />}
         >
-          Add to calendar
+          {t('button.add-to-calendar')}
         </Button>
         <Text>
-          We appreciate your attention to this matter. If you require further
-          assistance or have any inquiries, please reach out to our support
-          team.
+          {t('application.inspection.schedule.description')}
         </Text>
         <Flex mt="auto" direction={{base: "column", md: "row"}}>
           <Grid
@@ -61,7 +60,7 @@ export default function SchedulingComplete(
               md: `"b a"`
             }}>
             <Button gridArea="a" colorScheme="admin" as={RouterLink} to="/">
-              Home
+              {t('button.home')}
             </Button>
             <Button
             gridArea="b"
@@ -70,7 +69,7 @@ export default function SchedulingComplete(
               colorScheme="admin"
               variant="outline"
             >
-              My Applications
+              {t('button.my-applications')}
             </Button>
           </Grid>
         </Flex>

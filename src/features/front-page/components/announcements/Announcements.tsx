@@ -9,35 +9,38 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { colors } from "../../../../chakra-overrides/colors";
 
-const announcements = [
-  {
-    title: "Emergency Contact Numbers Updated",
-    date: "15.05.2023",
-  },
-  {
-    title: "New Tax Filing Deadline: August 15",
-    date: "11.05.2023",
-  },
-  {
-    title: "Online Utility Bill Payments Active",
-    date: "05.05.2023",
-  },
-  {
-    title: "Community Cleanup Event: Join Us",
-    date: "02.05.2023",
-  },
-  {
-    title: "Elderly Care Survey - Participate Now",
-    date: "26.04.2023",
-  },
-];
-
 export default function Announcements() {
+  const { t } = useTranslation();
+
+  const announcements = [
+    {
+      title: t('announcements.ann1'),
+      date: "15.05.2023",
+    },
+    {
+      title: t('announcements.ann2'),
+      date: "11.05.2023",
+    },
+    {
+      title: t('announcements.ann3'),
+      date: "05.05.2023",
+    },
+    {
+      title: t('announcements.ann4'),
+      date: "02.05.2023",
+    },
+    {
+      title: t('announcements.ann5'),
+      date: "26.04.2023",
+    },
+  ];
+
   return (
     <Flex padding="10px 0" gap="10px" direction="column">
-      <Heading variant="headline">Announcements</Heading>
+      <Heading variant="headline">{t('announcements.title')}</Heading>
       <List
         color={colors.theme.dark}
         display="flex"
@@ -59,7 +62,7 @@ export default function Announcements() {
         ))}
       </List>
       <Link textDecor="underline">
-        <Text size="xxs">Previous announcements</Text>
+        <Text size="xxs">{t('announcements.previous')}</Text>
       </Link>
     </Flex>
   );

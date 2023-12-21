@@ -13,6 +13,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { Link as RouterLink } from "react-router-dom";
 import { colors } from "../../../../chakra-overrides/colors";
@@ -25,15 +26,15 @@ import ApplicationStatus, {
 import { RPCContext } from "../../../../rpc/rpc";
 import { Application } from "../../../../rpc/types";
 
-const breadcrumbs: BreadcrumbPaths = [
-  ["Construction Permit", "/housing/construction-permit"],
-  [`My Applications`, `/housing/construction-permit/my-applications`],
-];
-
 export default function ApplicationList() {
+  const { t } = useTranslation();
   const rpc = useContext(RPCContext);
 
   const { data: data } = useQuery(`applications`, rpc.getApplications);
+  const breadcrumbs: BreadcrumbPaths = [
+    [t('popular-services.construction-permit'), "/housing/construction-permit"],
+    [t('button.my-applications'), `/housing/construction-permit/my-applications`],
+  ];
 
   if (data) {
     const completed = (data.length > 0)?(
@@ -57,21 +58,20 @@ export default function ApplicationList() {
       <>
         <Breadcrumbs path={breadcrumbs} />
         <Flex direction="column" gap="20px" mb="20px" flexGrow="1">
-          <Heading variant="headline">My Applications</Heading>
+          <Heading variant="headline">{t('button.my-applications')}</Heading>
           <Text>
-            Here you can easily check the details and progress of all your
-            submitted construction permit applications.
+           {t('applications-list.description')}
           </Text>
           <Flex direction="column" gap="10px">
             <Text variant="title" size="lg">
-              Ongoing Applications
+            {t('applications-list.ongoing-applications')}
             </Text>
             {data.length > 0?(
               <Table mr="-20px" ml="-24px">
                 <Thead>
                   <Tr>
-                    <Th>Application ID</Th>
-                    <Th>Status</Th>
+                    <Th>{t('application.application-id')}</Th>
+                    <Th>{t('status.title')}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -104,7 +104,7 @@ export default function ApplicationList() {
               </Table>
             ):(
             <Text>
-              There are no ongoing applications.
+              {t('applications-list.no-ongoing-applications')}
             </Text>
             )}
             <Text size="sm" variant="label" fontWeight="500">
@@ -116,20 +116,20 @@ export default function ApplicationList() {
                 color={colors.theme.primary}
                 textDecoration="underline"
               >
-                Start a new application
+                {t('button.create-new')}
               </Link>
             </Text>
           </Flex>
           <Flex direction="column" gap="10px">
             <Text variant="title" size="lg">
-              Completed Applications
+            {t('applications-list.completed-applications')}
             </Text>
             {completed.length > 0?(
             <Table mr="-20px" ml="-24px">
               <Thead>
                 <Tr>
-                  <Th>Application ID</Th>
-                  <Th>Status</Th>
+                  <Th>{t('application.application-id')}</Th>
+                  <Th>{t('status.title')}</Th>
                 </Tr>
               </Thead>
               <Tbody>
@@ -160,12 +160,12 @@ export default function ApplicationList() {
             </Table>
             ):(
               <Text>
-                There are no finalized permit applications at the moment.
+                {t('applications-list.no-completed-applications')}
               </Text>
             )}
           </Flex>
           <Button mt="auto" variant="outline" colorScheme="admin" as={RouterLink} to="../construction-permit">
-            Back
+            {t('button.back')}
           </Button>
         </Flex>
       </>
