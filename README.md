@@ -5,4 +5,4 @@ The Construction permit Use Case is created with the idea of proposing a way for
 
 [Documentation](./docs/main.md)
 
-[Live Demo](http://bp.dev.sandbox-playground.com)
+[Live Demo](http://bp.playground.sandbox-playground.com)

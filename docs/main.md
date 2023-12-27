@@ -12,7 +12,7 @@ The construction permit application can be done by the property owner, lead arch
 
  The citizen will get notified when their application's status changes - a certain action is needed, the inspection date is approaching or when their application was approved/rejected!
 
- [Live Demo](http://bp.dev.sandbox-playground.com)
+ [Live Demo](http://bp.playground.sandbox-playground.com)
 
  ## Technologies used
 
